@@ -16,34 +16,76 @@ import {
   UserPlus,
   Phone,
   CreditCard,
-  MessageSquare
+  Trash2
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu'
+import { toast } from 'sonner'
+import UserModal from '@/components/admin/UserModal'
 
 export default function AdminUsersPage() {
   const t = useTranslations('dashboard')
   const [users, setUsers] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<any>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+
   const isAr = t('welcome') === 'أهلاً بك'
 
   useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const resp = await fetch('/api/admin/users')
-        if (resp.ok) {
-          const data = await resp.json()
-          setUsers(data)
-        }
-      } catch (e) {
-        console.error(e)
-      } finally {
-        setLoading(false)
-      }
-    }
     fetchUsers()
   }, [])
+
+  async function fetchUsers() {
+    try {
+      const resp = await fetch('/api/admin/users')
+      if (resp.ok) {
+        const data = await resp.json()
+        setUsers(data)
+      }
+    } catch (e) {
+      console.error(e)
+      toast.error('Failed to load users')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const openNew = () => {
+    setSelectedUser(null)
+    setIsModalOpen(true)
+  }
+
+  const openEdit = (user: any) => {
+    setSelectedUser(user)
+    setIsModalOpen(true)
+  }
+
+  const deleteUser = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this user?')) return
+    try {
+      const resp = await fetch(`/api/admin/users/${id}`, { method: 'DELETE' })
+      if (resp.ok) {
+        toast.success('User deleted')
+        fetchUsers()
+      }
+    } catch (e) {
+      toast.error('Failed to delete user')
+    }
+  }
+
+  const filteredUsers = users.filter(u => 
+    u.name?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    u.email?.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   if (loading) {
     return (
@@ -68,9 +110,14 @@ export default function AdminUsersPage() {
             <Input 
               placeholder={isAr ? 'البحث عن عميل...' : 'Search clients...'} 
               className="h-14 bg-white/5 border-white/10 rounded-2xl ps-12 rtl:ps-4 rtl:pe-12 text-white placeholder:text-white/20 focus:border-brand-orange/50 transition-all text-lg"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
             />
           </div>
-          <Button className="w-full sm:w-auto h-14 px-8 rounded-2xl gradient-brand font-black text-lg gap-2 shadow-lg shadow-brand-orange/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+          <Button 
+            onClick={openNew}
+            className="w-full sm:w-auto h-14 px-8 rounded-2xl gradient-brand font-black text-lg gap-2 shadow-lg shadow-brand-orange/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          >
             <UserPlus className="w-6 h-6" />
             <span>{isAr ? 'إضافة عميل' : 'Add Client'}</span>
           </Button>
@@ -78,7 +125,8 @@ export default function AdminUsersPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 px-2">
-        {users.length > 0 ? (          users.map((user, i) => (
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map((user, i) => (
             <motion.div
               key={user.id}
               initial={{ opacity: 0, y: 20 }}
@@ -143,9 +191,23 @@ export default function AdminUsersPage() {
                   </div>
                 </div>
 
-                <Button variant="ghost" size="icon" className="absolute top-4 right-4 rtl:right-auto rtl:left-4 text-text-muted hover:text-white rounded-xl hover:bg-white/10">
-                  <MoreVertical className="w-5 h-5" />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Button variant="ghost" size="icon" className="absolute top-4 right-4 rtl:right-auto rtl:left-4 text-text-muted hover:text-white rounded-xl hover:bg-white/10">
+                      <MoreVertical className="w-5 h-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="bg-brand-dark border-white/10 text-white min-w-[150px]">
+                    <DropdownMenuItem onClick={() => openEdit(user)} className="cursor-pointer gap-2">
+                       <Shield className="w-4 h-4 text-brand-orange" />
+                       {isAr ? 'تعديل الصلاحيات' : 'Edit Permissions'}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => deleteUser(user.id)} className="cursor-pointer gap-2 text-red-400 focus:text-red-400">
+                       <Trash2 className="w-4 h-4" />
+                       {isAr ? 'حذف المستخدم' : 'Delete User'}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </Card>
             </motion.div>
           ))
@@ -155,6 +217,14 @@ export default function AdminUsersPage() {
           </div>
         )}
       </div>
+
+      <UserModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={fetchUsers}
+        user={selectedUser}
+      />
     </div>
   )
 }
+

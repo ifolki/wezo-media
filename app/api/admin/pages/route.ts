@@ -9,10 +9,10 @@ export async function GET() {
   }
 
   try {
-    const products = await prisma.digitalProduct.findMany({
+    const pages = await prisma.page.findMany({
       orderBy: { createdAt: 'desc' },
     })
-    return NextResponse.json(products)
+    return NextResponse.json(pages)
   } catch (error) {
     return new NextResponse('Internal Error', { status: 500 })
   }
@@ -26,22 +26,19 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json()
-    const product = await prisma.digitalProduct.create({
+    const page = await prisma.page.create({
       data: {
-        nameAr: body.nameAr,
-        nameEn: body.nameEn,
-        nameFr: body.nameFr,
-        descAr: body.descAr,
-        descEn: body.descEn,
-        descFr: body.descFr,
-        price: parseFloat(body.price),
-        currency: body.currency || 'USD',
-        image: body.image,
-        fileUrl: body.fileUrl,
-        isActive: body.isActive !== undefined ? body.isActive : true,
+        slug: body.slug,
+        titleAr: body.titleAr,
+        titleEn: body.titleEn,
+        titleFr: body.titleFr || '',
+        contentAr: body.contentAr,
+        contentEn: body.contentEn,
+        contentFr: body.contentFr || '',
+        isPublished: body.isPublished ?? false,
       },
     })
-    return NextResponse.json(product)
+    return NextResponse.json(page)
   } catch (error) {
     console.error(error)
     return new NextResponse('Internal Error', { status: 500 })

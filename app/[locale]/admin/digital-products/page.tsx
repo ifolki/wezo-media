@@ -29,6 +29,7 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu'
+import DigitalProductModal from '@/components/admin/DigitalProductModal'
 
 export default function DigitalProductsPage() {
   const t = useTranslations('dashboard')
@@ -37,6 +38,8 @@ export default function DigitalProductsPage() {
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<any>(null)
 
   useEffect(() => {
     fetchProducts()
@@ -87,6 +90,16 @@ export default function DigitalProductsPage() {
     }
   }
 
+  const openEdit = (product: any) => {
+    setSelectedProduct(product)
+    setIsModalOpen(true)
+  }
+
+  const openNew = () => {
+    setSelectedProduct(null)
+    setIsModalOpen(true)
+  }
+
   const filteredProducts = products.filter(p => 
     (isAr ? p.nameAr : p.nameEn).toLowerCase().includes(searchQuery.toLowerCase())
   )
@@ -111,7 +124,10 @@ export default function DigitalProductsPage() {
             {isAr ? 'إدارة وبيع الملفات الرقمية والخدمات الجاهزة' : 'Manage and sell digital files and assets'}
           </p>
         </div>
-        <Button className="gradient-brand h-14 px-8 rounded-2xl font-black text-lg shadow-lg shadow-brand-orange/20 hover:scale-[1.02] active:scale-[0.98] transition-all gap-2">
+        <Button 
+          onClick={openNew}
+          className="gradient-brand h-14 px-8 rounded-2xl font-black text-lg shadow-lg shadow-brand-orange/20 hover:scale-[1.02] active:scale-[0.98] transition-all gap-2"
+        >
           <Plus className="w-6 h-6" />
           {isAr ? 'منتج جديد' : 'New Product'}
         </Button>
@@ -176,7 +192,10 @@ export default function DigitalProductsPage() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="glass-card border-white/10 text-white min-w-[160px] p-2">
-                        <DropdownMenuItem className="focus:bg-white/10 rounded-lg py-3 cursor-pointer gap-2 font-bold transition-all">
+                        <DropdownMenuItem 
+                          onClick={() => openEdit(product)}
+                          className="focus:bg-white/10 rounded-lg py-3 cursor-pointer gap-2 font-bold transition-all"
+                        >
                           <Edit2 className="w-4 h-4 text-brand-orange" />
                           {isAr ? 'تعديل المنتج' : 'Edit Product'}
                         </DropdownMenuItem>
@@ -235,6 +254,13 @@ export default function DigitalProductsPage() {
           </div>
         )}
       </div>
+
+      <DigitalProductModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={fetchProducts}
+        product={selectedProduct}
+      />
     </div>
   )
 }

@@ -1,32 +1,33 @@
-'use client'
-
 import { useLocale } from 'next-intl'
 import { useRouter, usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Languages } from 'lucide-react'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 export default function LanguageSwitcher() {
   const locale = useLocale()
   const router = useRouter()
   const pathname = usePathname()
 
-  const toggleLocale = () => {
-    const nextLocale = locale === 'ar' ? 'en' : 'ar'
-    // Extract the part of the pathname after the current locale
+  const switchLocale = (nextLocale: string) => {
     const segments = pathname.split('/')
     segments[1] = nextLocale
     router.push(segments.join('/'))
   }
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={toggleLocale}
-      className="text-text-primary hover:text-brand-orange transition-colors gap-2"
-    >
-      <Languages className="w-4 h-4" />
-      <span>{locale === 'ar' ? 'English' : 'العربية'}</span>
-    </Button>
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <Button variant="ghost" size="sm" className="text-text-primary hover:text-brand-orange transition-colors gap-2 uppercase font-bold">
+          <Languages className="w-4 h-4" />
+          <span>{locale.toUpperCase()}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="bg-brand-card border-white/10 text-white min-w-[120px]">
+        <DropdownMenuItem onClick={() => switchLocale('ar')} className="focus:bg-brand-orange/20 cursor-pointer text-sm font-bold">العربية</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => switchLocale('en')} className="focus:bg-brand-orange/20 cursor-pointer text-sm font-bold">English</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => switchLocale('fr')} className="focus:bg-brand-orange/20 cursor-pointer text-sm font-bold">Français</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

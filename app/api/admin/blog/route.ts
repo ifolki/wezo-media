@@ -27,18 +27,30 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const { titleAr, titleEn, contentAr, contentEn, slug, excerpt, coverImage, tags } = body
+    const { 
+      titleAr, titleEn, titleFr, 
+      contentAr, contentEn, contentFr, 
+      slug, 
+      excerptAr, excerptEn, excerptFr, 
+      coverImage, tags, isPublished 
+    } = body
 
     const post = await prisma.blogPost.create({
       data: {
         titleAr,
         titleEn,
+        titleFr,
         contentAr,
         contentEn,
+        contentFr,
         slug,
-        excerpt,
+        excerptAr,
+        excerptEn,
+        excerptFr,
         coverImage,
-        tags
+        tags: tags || [],
+        isPublished: isPublished || false,
+        publishedAt: isPublished ? new Date() : null
       }
     })
 

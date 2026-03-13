@@ -17,29 +17,56 @@ import {
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { toast } from 'sonner'
+import BlogPostModal from '@/components/admin/BlogPostModal'
 
 export default function AdminBlogPage() {
   const t = useTranslations('dashboard')
   const [posts, setPosts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedPost, setSelectedPost] = useState<any>(null)
   const isAr = t('welcome') === 'أهلاً بك'
 
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const resp = await fetch('/api/admin/blog')
-        if (resp.ok) {
-          const data = await resp.json()
-          setPosts(data)
-        }
-      } catch (e) {
-        console.error(e)
-      } finally {
-        setLoading(false)
+  const fetchPosts = async () => {
+    try {
+      const resp = await fetch('/api/admin/blog')
+      if (resp.ok) {
+        const data = await resp.json()
+        setPosts(data)
       }
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
     }
+  }
+  useEffect(() => {
     fetchPosts()
   }, [])
+
+  const handleDelete = async (id: string) => {
+    if (!window.confirm('Delete this article?')) return
+    try {
+      const resp = await fetch(`/api/admin/blog/${id}`, { method: 'DELETE' })
+      if (resp.ok) {
+        toast.success('Post deleted')
+        fetchPosts()
+      }
+    } catch (e) {
+      toast.error('Failed to delete')
+    }
+  }
+
+  const openEdit = (post: any) => {
+    setSelectedPost(post)
+    setIsModalOpen(true)
+  }
+
+  const openNew = () => {
+    setSelectedPost(null)
+    setIsModalOpen(true)
+  }
 
   if (loading) {
     return (
@@ -58,7 +85,10 @@ export default function AdminBlogPage() {
             {isAr ? 'إدارة محتوى المدونة، الأخبار، والمقالات' : 'Manage blog content, news, and articles'}
           </p>
         </div>
-        <Button className="h-14 px-8 rounded-2xl gradient-brand font-black text-lg gap-2 shadow-lg shadow-brand-orange/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+        <Button 
+          onClick={openNew}
+          className="h-14 px-8 rounded-2xl gradient-brand font-black text-lg gap-2 shadow-lg shadow-brand-orange/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+        >
           <Plus className="w-6 h-6" />
           {isAr ? 'مقال جديد' : 'New Article'}
         </Button>
@@ -100,11 +130,11 @@ export default function AdminBlogPage() {
                         /{post.slug}
                       </div>
                     </div>
-                    <h3 className="text-2xl font-black text-white mb-3 group-hover:text-brand-orange transition-colors leading-tight">
+                    <h3 className="text-2xl font-black text-white mb-3 group-hover:text-brand-orange transition-colors leading-tight line-clamp-2">
                       {isAr ? post.titleAr : post.titleEn}
                     </h3>
-                    <p className="text-text-muted text-sm line-clamp-2 leading-relaxed">
-                      {isAr ? post.excerpt : (post.excerptEn || post.excerpt)}
+                    <p className="text-text-muted text-sm line-clamp-2 leading-relaxed font-bold">
+                      {isAr ? post.excerptAr : post.excerptEn}
                     </p>
                   </div>
 
@@ -114,14 +144,24 @@ export default function AdminBlogPage() {
                          <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] uppercase tracking-widest text-text-muted font-black">#{tag}</span>
                        ))}
                     </div>
-                    <div className="flex gap-3 w-full sm:w-auto mt-4 sm:mt-0">
-                      <Button variant="ghost" size="icon" className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:text-brand-orange transition-all">
-                        <Edit className="w-5 h-5" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="w-12 h-12 rounded-xl bg-red-500/5 border border-red-500/10 text-red-500/50 hover:bg-red-500 hover:text-white transition-all">
-                        <Trash2 className="w-5 h-5" />
-                      </Button>
-                    </div>
+                      <div className="flex gap-3 w-full sm:w-auto mt-4 sm:mt-0">
+                        <Button 
+                          onClick={() => openEdit(post)}
+                          variant="ghost" 
+                          size="icon" 
+                          className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:text-brand-orange transition-all"
+                        >
+                          <Edit className="w-5 h-5" />
+                        </Button>
+                        <Button 
+                          onClick={() => handleDelete(post.id)}
+                          variant="ghost" 
+                          size="icon" 
+                          className="w-12 h-12 rounded-xl bg-red-500/5 border border-red-500/10 text-red-500/50 hover:bg-red-500 hover:text-white transition-all"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                        </Button>
+                      </div>
                   </div>
                 </div>
               </Card>
@@ -136,6 +176,13 @@ export default function AdminBlogPage() {
           </div>
         )}
       </div>
+
+      <BlogPostModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={fetchPosts}
+        post={selectedPost}
+      />
     </div>
   )
 }

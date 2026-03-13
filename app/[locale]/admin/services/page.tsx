@@ -19,8 +19,8 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
 import { Badge } from '@/components/ui/badge'
-import { Link } from '@/navigation'
 import { toast } from 'sonner'
+import ServiceModal from '@/components/admin/ServiceModal'
 
 export default function AdminServicesPage() {
   const t = useTranslations('dashboard')
@@ -28,6 +28,8 @@ export default function AdminServicesPage() {
   const isAr = locale === 'ar'
   const [services, setServices] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedService, setSelectedService] = useState<any>(null)
 
   useEffect(() => {
     fetchServices()
@@ -63,6 +65,29 @@ export default function AdminServicesPage() {
     }
   }
 
+  const handleDelete = async (id: string) => {
+    if (!window.confirm('Are you sure?')) return
+    try {
+      const resp = await fetch(`/api/admin/services/${id}`, { method: 'DELETE' })
+      if (resp.ok) {
+        toast.success('Service deleted')
+        fetchServices()
+      }
+    } catch (e) {
+      toast.error('Failed to delete')
+    }
+  }
+
+  const openEdit = (service: any) => {
+    setSelectedService(service)
+    setIsModalOpen(true)
+  }
+
+  const openNew = () => {
+    setSelectedService(null)
+    setIsModalOpen(true)
+  }
+
   if (loading) {
     return (
       <div className="h-[60vh] flex items-center justify-center">
@@ -78,12 +103,13 @@ export default function AdminServicesPage() {
           <h1 className="text-3xl font-black text-white">{t('admin.services')}</h1>
           <p className="text-text-muted mt-2">{isAr ? 'إدارة الخدمات المعروضة على المنصة.' : 'Manage available services on the platform.'}</p>
         </div>
-        <Link href="/admin/services/new">
-          <Button className="h-14 px-8 rounded-2xl gradient-brand font-black text-lg gap-2 shadow-lg shadow-brand-orange/20 hover:scale-105 active:scale-95 transition-all">
-            <Plus className="w-6 h-6" />
-            {isAr ? 'إضافة خدمة' : 'Add Service'}
-          </Button>
-        </Link>
+        <Button 
+          onClick={openNew}
+          className="h-14 px-8 rounded-2xl gradient-brand font-black text-lg gap-2 shadow-lg shadow-brand-orange/20 hover:scale-105 active:scale-95 transition-all"
+        >
+          <Plus className="w-6 h-6" />
+          {isAr ? 'إضافة خدمة' : 'Add Service'}
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 gap-6 px-2">
@@ -132,12 +158,16 @@ export default function AdminServicesPage() {
                   </div>
                   
                   <div className="flex gap-3">
-                    <Link href={`/admin/services/${service.id}`}>
-                      <Button variant="ghost" size="icon" className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:text-brand-orange transition-all">
-                        <Settings className="w-6 h-6" />
-                      </Button>
-                    </Link>
                     <Button 
+                      onClick={() => openEdit(service)}
+                      variant="ghost" 
+                      size="icon" 
+                      className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:text-brand-orange transition-all"
+                    >
+                      <Settings className="w-6 h-6" />
+                    </Button>
+                    <Button 
+                      onClick={() => handleDelete(service.id)}
                       variant="ghost" 
                       size="icon" 
                       className="w-14 h-14 rounded-2xl bg-red-500/5 border border-red-500/10 text-red-500/50 hover:bg-red-500 hover:text-white transition-all"
@@ -158,12 +188,22 @@ export default function AdminServicesPage() {
               <p className="text-2xl font-black text-white">{isAr ? 'لا توجد خدمات حالياً' : 'No services found'}</p>
               <p className="text-text-muted">{isAr ? 'ابدأ بإضافة أول خدمة لشركتك.' : 'Start by adding your first company service.'}</p>
             </div>
-            <Link href="/admin/services/new">
-               <Button className="gradient-brand h-14 px-8 rounded-2xl font-black">{isAr ? 'إضافة خدمة' : 'Add Service'}</Button>
-            </Link>
+            <Button 
+              onClick={openNew}
+              className="gradient-brand h-14 px-8 rounded-2xl font-black"
+            >
+              {isAr ? 'إضافة خدمة' : 'Add Service'}
+            </Button>
           </div>
         )}
       </div>
+
+      <ServiceModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={fetchServices}
+        service={selectedService}
+      />
     </div>
   )
 }

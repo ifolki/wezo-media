@@ -135,7 +135,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
-                    <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">الاسم / Name</Label>
+                    <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">{t('name')}</Label>
                     <Input 
                       className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl text-white" 
                       placeholder="..." 
@@ -144,7 +144,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                     />
                   </div>
                   <div className="space-y-3">
-                    <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">الإيميل / Email</Label>
+                    <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">{t('email')}</Label>
                     <Input 
                       className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl text-white" 
                       type="email" 
@@ -155,7 +155,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">الهاتف / Phone</Label>
+                  <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">{t('phone')}</Label>
                   <Input 
                     className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl text-white" 
                     placeholder="..." 
@@ -168,7 +168,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                   disabled={!formData.name || !formData.email || !formData.phone}
                   className="w-full h-16 rounded-2xl gradient-brand font-black text-lg gap-3 shadow-2xl hover:scale-[1.02] transition-all disabled:opacity-50"
                 >
-                   {t('home') === 'Home' ? 'Next Step' : 'الخطوة التالية'}
+                   {t('next_step')}
                   <ChevronRight className="w-6 h-6 rtl:rotate-180" />
                 </Button>
               </motion.div>
@@ -183,7 +183,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                 className="space-y-6 text-start"
               >
                 <div className="space-y-3">
-                  <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">الخدمة / Service</Label>
+                  <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">{t('service')}</Label>
                   <Select onValueChange={(val) => setFormData({...formData, serviceId: val as string})}>
                     <SelectTrigger className="h-14 bg-brand-dark/50 border-white/5 rounded-2xl text-white">
                       <SelectValue placeholder="..." />
@@ -198,7 +198,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                   </Select>
                 </div>
                 <div className="space-y-3">
-                  <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">التفاصيل / Details</Label>
+                  <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">{t('details')}</Label>
                   <Textarea 
                     className="bg-brand-dark/50 border-white/5 rounded-2xl min-h-[150px] p-4 text-white" 
                     placeholder="..." 
@@ -209,7 +209,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={prevStep} className="flex-1 h-16 rounded-2xl border-white/10 text-white font-bold gap-2">
                     <ChevronLeft className="w-5 h-5 rtl:rotate-180" />
-                    {t('home') === 'Home' ? 'Back' : 'السابق'}
+                    {t('back')}
                   </Button>
                   <Button 
                     onClick={handleSubmit} 
@@ -218,7 +218,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                   >
                     {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : (
                       <>
-                        {t('home') === 'Home' ? 'Send Request' : 'إرسال الطلب'}
+                        {t('send_request')}
                         <Send className="w-5 h-5" />
                       </>
                     )}
@@ -238,15 +238,13 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                   <CheckCircle2 className="w-12 h-12 text-white" />
                 </div>
                 <div className="space-y-4">
-                  <h3 className="text-3xl font-black text-white">{t('home') === 'Home' ? 'Success!' : 'تم بنجاح!'}</h3>
+                  <h3 className="text-3xl font-black text-white">{t('success_title')}</h3>
                   <p className="text-text-muted text-lg max-w-xs mx-auto">
-                    {t('home') === 'Home' 
-                      ? 'Thank you for choosing WEZO MEDIA. We will contact you very soon.' 
-                      : 'شكراً لاختيارك WEZO MEDIA. سنتواصل معك قريباً جداً.'}
+                    {t('success_desc')}
                   </p>
                 </div>
                 <Button onClick={reset} className="w-full h-16 rounded-2xl gradient-brand font-black text-lg shadow-2xl">
-                  {t('home') === 'Home' ? 'Close' : 'إغلاق'}
+                  {t('close')}
                 </Button>
               </motion.div>
             )}

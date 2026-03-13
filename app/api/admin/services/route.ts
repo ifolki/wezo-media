@@ -27,16 +27,18 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const { nameAr, nameEn, slug, category, descAr, descEn } = body
+    const { nameAr, nameEn, nameFr, slug, category, descAr, descEn, descFr } = body
 
     const service = await prisma.service.create({
       data: {
         nameAr,
         nameEn,
+        nameFr,
         slug,
         category,
         descAr,
-        descEn
+        descEn,
+        descFr
       }
     })
 

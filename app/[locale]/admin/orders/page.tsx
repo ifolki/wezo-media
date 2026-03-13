@@ -23,35 +23,32 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Link } from '@/navigation'
 
+import { toast } from 'sonner'
+import ProjectModal from '@/components/admin/ProjectModal'
+
 export default function AdminOrdersPage() {
   const t = useTranslations('dashboard')
   const [projects, setProjects] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const isAr = t('welcome') === 'أهلاً بك'
 
   useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const resp = await fetch('/api/admin/projects')
-        if (resp.ok) {
-          const data = await resp.json()
-          setProjects(data)
-        }
-      } catch (e) {
-        console.error(e)
-      } finally {
-        setLoading(false)
-      }
-    }
     fetchProjects()
   }, [])
 
-  if (loading) {
-    return (
-      <div className="h-[60vh] flex items-center justify-center">
-        <Loader2 className="w-12 h-12 text-brand-orange animate-spin" />
-      </div>
-    )
+  async function fetchProjects() {
+    try {
+      const resp = await fetch('/api/admin/projects')
+      if (resp.ok) {
+        const data = await resp.json()
+        setProjects(data)
+      }
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -63,7 +60,14 @@ export default function AdminOrdersPage() {
             {isAr ? 'إدارة ومتابعة طلبات ومشاريع العملاء' : 'Manage and track client orders and projects'}
           </p>
         </div>
-        <div className="flex items-center gap-4 w-full md:w-auto">
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+          <Button 
+            onClick={() => setIsModalOpen(true)}
+            className="w-full sm:w-auto h-14 px-8 rounded-2xl gradient-brand font-black text-lg gap-2 shadow-lg shadow-brand-orange/20"
+          >
+            <FolderKanban className="w-6 h-6" />
+            <span>{isAr ? 'مشروع جديد' : 'New Project'}</span>
+          </Button>
           <div className="relative flex-grow md:w-80 group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted group-focus-within:text-brand-orange transition-colors rtl:left-auto rtl:right-4" />
             <Input 
@@ -71,10 +75,6 @@ export default function AdminOrdersPage() {
               className="h-14 bg-white/5 border-white/10 rounded-2xl ps-12 rtl:ps-4 rtl:pe-12 text-white placeholder:text-white/20 focus:border-brand-orange/50 transition-all text-lg"
             />
           </div>
-          <Button variant="outline" className="h-14 px-6 rounded-2xl border-white/10 bg-white/5 text-white font-bold gap-2">
-            <Filter className="w-5 h-5 text-brand-pink" />
-            <span className="hidden sm:inline">{isAr ? 'تصفية' : 'Filter'}</span>
-          </Button>
         </div>
       </div>
 
@@ -144,6 +144,11 @@ export default function AdminOrdersPage() {
           </div>
         )}
       </div>
+      <ProjectModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={fetchProjects}
+      />
     </div>
   )
 }

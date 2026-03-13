@@ -32,6 +32,13 @@ const syne = Syne({
 export const metadata: Metadata = {
   title: "Wezo Media | Digital Success Partner",
   description: "Music production, digital marketing, and web development services.",
+  alternates: {
+    languages: {
+      'en': '/en',
+      'ar': '/ar',
+      'fr': '/fr',
+    },
+  },
 };
 
 export default async function RootLayout({

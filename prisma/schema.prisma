@@ -87,8 +87,10 @@ model Service {
   slug        String   @unique
   nameAr      String
   nameEn      String
+  nameFr      String @default("")
   descAr      String
   descEn      String
+  descFr      String @default("")
   category    ServiceCategory
   icon        String?
   image       String?
@@ -114,6 +116,7 @@ model Package {
   id          String   @id @default(cuid())
   nameAr      String
   nameEn      String
+  nameFr      String @default("")
   price       Float
   currency    String   @default("USD")
   features    Json     // Reverted to Json for PostgreSQL
@@ -126,8 +129,10 @@ model WorkStep {
   id          String   @id @default(cuid())
   titleAr     String
   titleEn     String
+  titleFr     String @default("")
   descAr      String
   descEn      String
+  descFr      String @default("")
   order       Int
   serviceId   String
   service     Service  @relation(fields: [serviceId], references: [id])
@@ -203,14 +208,34 @@ model BlogPost {
   slug        String   @unique
   titleAr     String
   titleEn     String
+  titleFr     String @default("")
   contentAr   String
   contentEn   String
-  excerpt     String?
+  contentFr   String @default("")
+  excerptAr   String?
+  excerptEn   String?
+  excerptFr   String?
   coverImage  String?
   isPublished Boolean  @default(false)
   publishedAt DateTime?
   createdAt   DateTime @default(now())
   tags        String[]
+}
+
+// ==================== الصفحات الثابتة ====================
+
+model Page {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleAr     String
+  titleEn     String
+  titleFr     String   @default("")
+  contentAr   String   @db.Text
+  contentEn   String   @db.Text
+  contentFr   String   @default("") @db.Text
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 // ==================== التحديثات ====================
@@ -256,8 +281,10 @@ model DigitalProduct {
   id          String   @id @default(cuid())
   nameAr      String
   nameEn      String
+  nameFr      String @default("")
   descAr      String
   descEn      String
+  descFr      String @default("")
   price       Float
   currency    String   @default("USD")
   image       String?

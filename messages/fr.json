@@ -1,0 +1,174 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "artists": "Services Artistes",
+    "portfolio": "Portfolio",
+    "blog": "Blog",
+    "contact": "Contact",
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "dashboard": "Tableau de bord"
+  },
+  "hero": {
+    "badge": "Votre Partenaire en Réussite Numérique ✨",
+    "titlePrefix": "Nous Créons du Contenu",
+    "titleGradient": "Qui Fait Bouger le Monde",
+    "subtitle": "Production musicale, marketing numérique et solutions web haut de gamme. Tout ce dont vous avez besoin pour propulser votre présence numérique.",
+    "ctaPrimary": "Demander un Service",
+    "ctaSecondary": "Découvrir Notre Travail"
+  },
+  "stats": {
+    "projects": "Projets Réalisés",
+    "clients": "Clients Satisfaits",
+    "satisfaction": "Taux de Satisfaction",
+    "experience": "Années d'Exp."
+  },
+  "services": {
+    "title": "Services Créatifs",
+    "subtitle": "Des solutions intégrées conçues pour vous démarquer dans l'espace numérique avec une qualité premium.",
+    "learnMore": "En Savoir Plus",
+    "categories": {
+      "audio": "Production Audio",
+      "video": "Production Vidéo",
+      "marketing": "Marketing Numérique",
+      "web": "Développement Web",
+      "distribution": "Distribution Musicale",
+      "artist": "Services Artistes"
+    }
+  },
+  "process": {
+    "title": "Notre Processus",
+    "subtitle": "Votre parcours de la vision à la réalité, guidé par des étapes de production professionnelles.",
+    "steps": {
+      "step1": { "title": "Concept et Plan", "desc": "Nous commençons par comprendre votre vision et la transformer en un plan d'action solide." },
+      "step2": { "title": "Production", "desc": "Mise en place de toutes les exigences et début de l'exécution avec des normes élevées." },
+      "step3": { "title": "Révision et Amélioration", "desc": "Nous vous présentons la première version pour recueillir vos retours et garantir un résultat parfait." },
+      "step4": { "title": "Lancement et Croissance", "desc": "Livraison du projet final tout en offrant un soutien continu pour un succès durable." }
+    }
+  },
+  "portfolio": {
+    "title": "Notre Travail",
+    "subtitle": "Jetez un œil à nos dernières créations et aux histoires de succès de nos clients.",
+    "viewAll": "Voir Tous les Projets"
+  },
+  "team": {
+    "title": "Équipe Créative",
+    "subtitle": "Une équipe d'experts et de créatifs dévoués à votre succès.",
+    "founder": "Fondateur et Directeur Créatif",
+    "prodManager": "Directrice de Production Artistique",
+    "marketing": "Expert en Marketing Numérique",
+    "web": "Développeuse Web Senior"
+  },
+  "testimonials": {
+    "title": "Ce Qu'ils Disent de",
+    "brand": "WEZO MEDIA",
+    "subtitle": "Nous sommes fiers de la confiance de nos clients et partenaires dans le monde entier.",
+    "satisfied": "Clients Satisfaits",
+    "rating": "Évaluation du Service"
+  },
+  "cta": {
+    "title": "Prêt à Démarrer Votre Prochain Projet ?",
+    "desc": "Rejoignez des centaines d'entreprises et d'artistes qui ont fait confiance à Wezo Media pour leur succès numérique.",
+    "button": "Demander un Service Maintenant"
+  },
+  "dashboard": {
+    "welcome": "Bienvenue",
+    "overview": "Aperçu",
+    "my_projects": "Mes Projets",
+    "messages": "Messages",
+    "payments": "Paiements",
+    "settings": "Paramètres",
+    "new_request": "Nouvelle Demande",
+    "status": {
+      "pending": "En Attente",
+      "in_progress": "En Cours",
+      "review": "En Révision",
+      "completed": "Terminé",
+      "cancelled": "Annulé"
+    },
+    "admin": {
+      "overview": "Aperçu Global",
+      "services": "Gestion des Services",
+      "packages": "Forfaits et Prix",
+      "orders": "Projets et Commandes",
+      "users": "Clients",
+      "messages": "Messages",
+      "blog": "Gestion du Blog",
+      "pages": "Gestion des Pages",
+      "finances": "Finances",
+      "digital_products": "Produits Numériques",
+      "media": "Médiathèque",
+      "seo": "Paramètres SEO",
+      "settings": "Paramètres du Site"
+    },
+    "next_step": "Étape Suivante",
+    "back": "Retour",
+    "send_request": "Envoyer la Demande",
+    "success_title": "Succès!",
+    "success_desc": "Merci d'avoir choisi WEZO MEDIA. Nous vous contacterons très bientôt.",
+    "close": "Fermer",
+    "details": "Détails",
+    "phone": "Téléphone",
+    "email": "Email",
+    "name": "Nom Complet",
+    "service": "Service"
+  },
+  "payments": {
+    "pay_now": "Payer Maintenant",
+    "invoice": "Facture",
+    "amount": "Montant",
+    "status": "Statut",
+    "method": "Méthode de Paiement"
+  },
+  "auth": {
+    "login_title": "Connexion",
+    "login_subtitle": "Heureux de vous revoir chez Wezo Media",
+    "register_title": "Créer un Compte",
+    "register_subtitle": "Commencez votre voyage créatif avec nous aujourd'hui",
+    "email": "Adresse Email",
+    "password": "Mot de Passe",
+    "name": "Nom Complet",
+    "phone": "Numéro de Téléphone",
+    "login_button": "Se Connecter",
+    "register_button": "Créer le Compte",
+    "google_button": "Continuer avec Google",
+    "no_account": "Vous n'avez pas de compte ?",
+    "have_account": "Vous avez déjà un compte ?",
+    "forgot_password": "Mot de passe oublié ?",
+    "error_invalid": "Email ou mot de passe incorrect",
+    "error_user_exists": "Cet email est déjà utilisé",
+    "error_generic": "Une erreur s'est produite, veuillez réessayer plus tard"
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "subtitle": "Nous sommes là pour répondre à vos questions et aider votre entreprise à se développer",
+    "info_title": "Informations de Contact",
+    "info_desc": "N'hésitez pas à nous contacter via l'un des canaux suivants. Notre équipe est prête à répondre dès que possible.",
+    "email_label": "Email",
+    "phone_label": "Numéro de Téléphone",
+    "address_label": "Adresse",
+    "follow_us": "Suivez-nous sur",
+    "form_title": "Envoyez-nous un Message",
+    "form_desc": "Remplissez le formulaire ci-dessous et nous vous répondrons dans les 24 heures.",
+    "subject": "Sujet",
+    "message": "Message",
+    "send_button": "Envoyer le Message",
+    "placeholders": {
+      "name": "Écrivez votre nom ici",
+      "email": "exemple@email.com",
+      "subject": "Sur quoi souhaitez-vous vous renseigner ?",
+      "message": "Écrivez les détails de votre demande ici..."
+    }
+  },
+  "blog": {
+    "title": "Notre Blog",
+    "subtitle": "Dernières nouvelles de l'industrie, conseils de production et histoires de réussite du hub créatif Wezo Media.",
+    "badge": "Infos & Actualités",
+    "read_more": "Lire la suite",
+    "no_posts": "Aucun article trouvé pour le moment.",
+    "back": "Retour au Blog",
+    "related": "Articles Similaires",
+    "view_all": "Voir Tout"
+  }
+}

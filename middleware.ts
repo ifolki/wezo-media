@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth"
 import createMiddleware from "next-intl/middleware"
 
 const intlMiddleware = createMiddleware({
-  locales: ["ar", "en"],
+  locales: ["ar", "en", "fr"],
   defaultLocale: "ar",
   localeDetection: true,
 })
@@ -12,7 +12,7 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth;
   console.log('Middleware:', nextUrl.pathname, 'isLoggedIn:', isLoggedIn, 'Role:', req.auth?.user?.role)
   
-  const locales = ["ar", "en"];
+  const locales = ["ar", "en", "fr"];
   const segments = nextUrl.pathname.split('/');
   const firstSegment = segments[1];
   const hasLocalePrefix = locales.includes(firstSegment);

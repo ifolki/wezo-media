@@ -8,7 +8,8 @@
     "contact": "Contact Us",
     "login": "Login",
     "register": "Register",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "talk_button": "Let's Talk"
   },
   "hero": {
     "badge": "Your Partner in Digital Success ✨",
@@ -101,7 +102,18 @@
       "media": "Media Library",
       "seo": "SEO Settings",
       "settings": "Site Settings"
-    }
+    },
+    "next_step": "Next Step",
+    "back": "Back",
+    "send_request": "Send Request",
+    "success_title": "Success!",
+    "success_desc": "Thank you for choosing WEZO MEDIA. We will contact you very soon.",
+    "close": "Close",
+    "details": "Details",
+    "phone": "Phone",
+    "email": "Email",
+    "name": "Full Name",
+    "service": "Service"
   },
   "payments": {
     "pay_now": "Pay Now",
@@ -128,5 +140,36 @@
     "error_invalid": "Invalid email or password",
     "error_user_exists": "This email is already in use",
     "error_generic": "Something went wrong, please try again later"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We are here to answer your questions and help your business grow",
+    "info_title": "Contact Information",
+    "info_desc": "Feel free to reach us through any of the following channels. Our team is ready to respond as soon as possible.",
+    "email_label": "Email",
+    "phone_label": "Phone Number",
+    "address_label": "Address",
+    "follow_us": "Follow us on",
+    "form_title": "Send us a Message",
+    "form_desc": "Fill out the form below and we will get back to you within 24 hours.",
+    "subject": "Subject",
+    "message": "Message",
+    "send_button": "Send Message",
+    "placeholders": {
+      "name": "Write your name here",
+      "email": "example@email.com",
+      "subject": "What do you want to inquire about?",
+      "message": "Write the details of your inquiry here..."
+    }
+  },
+  "blog": {
+    "title": "Our Blog",
+    "subtitle": "Latest industry news, production tips, and success stories from the Wezo Media creative hub.",
+    "badge": "Insights & News",
+    "read_more": "Read More",
+    "no_posts": "No articles found yet.",
+    "back": "Back to Blog",
+    "related": "Related Articles",
+    "view_all": "View All"
   }
 }

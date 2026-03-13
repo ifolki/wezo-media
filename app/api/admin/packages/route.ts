@@ -31,6 +31,7 @@ export async function POST(req: Request) {
       data: {
         nameAr: body.nameAr,
         nameEn: body.nameEn,
+        nameFr: body.nameFr || '',
         price: parseFloat(body.price),
         currency: body.currency || 'USD',
         features: body.features || [],

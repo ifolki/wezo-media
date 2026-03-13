@@ -20,12 +20,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { toast } from 'sonner'
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
-} from '@/components/ui/dropdown-menu'
+import PackageModal from '@/components/admin/PackageModal'
 
 export default function PackagesPage() {
   const t = useTranslations('dashboard')
@@ -33,6 +28,8 @@ export default function PackagesPage() {
   const isAr = locale === 'ar'
   const [packages, setPackages] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedPkg, setSelectedPkg] = useState<any>(null)
 
   useEffect(() => {
     fetchPackages()
@@ -49,6 +46,29 @@ export default function PackagesPage() {
       toast.error('Failed to load packages')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleEdit = (pkg: any) => {
+    setSelectedPkg(pkg)
+    setIsModalOpen(true)
+  }
+
+  const handleNew = () => {
+    setSelectedPkg(null)
+    setIsModalOpen(true)
+  }
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this package?')) return
+    try {
+      const resp = await fetch(`/api/admin/packages/${id}`, { method: 'DELETE' })
+      if (resp.ok) {
+        toast.success('Package deleted')
+        fetchPackages()
+      }
+    } catch (e) {
+      toast.error('Failed to delete package')
     }
   }
 
@@ -69,7 +89,10 @@ export default function PackagesPage() {
             {isAr ? 'إدارة باقات التسعير والميزات لكل خدمة' : 'Manage pricing packages and features for each service'}
           </p>
         </div>
-        <Button className="gradient-brand h-14 px-8 rounded-2xl font-black text-lg gap-2 shadow-lg shadow-brand-orange/20">
+        <Button 
+          onClick={handleNew}
+          className="gradient-brand h-14 px-8 rounded-2xl font-black text-lg gap-2 shadow-lg shadow-brand-orange/20"
+        >
           <Plus className="w-6 h-6" />
           {isAr ? 'باقة جديدة' : 'New Package'}
         </Button>
@@ -123,10 +146,20 @@ export default function PackagesPage() {
                 </div>
 
                 <div className="flex gap-3">
-                  <Button variant="ghost" size="icon" className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 text-white hover:bg-white/10">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => handleEdit(pkg)}
+                    className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 text-white hover:bg-white/10"
+                  >
                     <Edit2 className="w-6 h-6" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="w-14 h-14 rounded-2xl bg-red-500/5 border border-red-500/10 text-red-500/50 hover:bg-red-500 hover:text-white transition-all">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => handleDelete(pkg.id)}
+                    className="w-14 h-14 rounded-2xl bg-red-500/5 border border-red-500/10 text-red-500/50 hover:bg-red-500 hover:text-white transition-all"
+                  >
                     <Trash2 className="w-6 h-6" />
                   </Button>
                 </div>
@@ -142,6 +175,13 @@ export default function PackagesPage() {
           </div>
         )}
       </div>
+
+      <PackageModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={fetchPackages}
+        pkg={selectedPkg}
+      />
     </div>
   )
 }
