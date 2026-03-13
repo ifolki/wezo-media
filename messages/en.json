@@ -1,0 +1,116 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "artists": "Artists Services",
+    "portfolio": "Portfolio",
+    "blog": "Blog",
+    "contact": "Contact Us",
+    "login": "Login",
+    "register": "Register",
+    "dashboard": "Dashboard"
+  },
+  "hero": {
+    "badge": "Your Partner in Digital Success ✨",
+    "titlePrefix": "We Create Content That",
+    "titleGradient": "Moves The World",
+    "subtitle": "Music production, digital marketing, and high-end web solutions. Everything you need to scale your digital presence in one creative hub.",
+    "ctaPrimary": "Request a Service",
+    "ctaSecondary": "Discover Our Work"
+  },
+  "stats": {
+    "projects": "Projects Done",
+    "clients": "Happy Clients",
+    "satisfaction": "Client Satisfaction",
+    "experience": "Years of Exp."
+  },
+  "services": {
+    "title": "Creative Services",
+    "subtitle": "Integrated solutions designed to make you stand out in the digital landscape with premium quality.",
+    "learnMore": "Learn More",
+    "categories": {
+      "audio": "Audio Production",
+      "video": "Video Production",
+      "marketing": "Digital Marketing",
+      "web": "Web Development",
+      "distribution": "Music Distribution",
+      "artist": "Artist Services"
+    }
+  },
+  "process": {
+    "title": "Our Process",
+    "subtitle": "Your journey from vision to reality, guided by our professional production workflow.",
+    "steps": {
+      "step1": { "title": "Concept & Plan", "desc": "We start by understanding your vision and turning it into a solid action plan." },
+      "step2": { "title": "Production", "desc": "Setting up all requirements and beginning the actual execution with high standards." },
+      "step3": { "title": "Review & Polish", "desc": "We present the initial draft for your feedback to ensure perfect final results." },
+      "step4": { "title": "Launch & Grow", "desc": "Delivering the final project while providing continuous support for ongoing success." }
+    }
+  },
+  "portfolio": {
+    "title": "Featured Work",
+    "subtitle": "Take a look at some of our latest creations and client success stories.",
+    "viewAll": "View All Projects"
+  },
+  "team": {
+    "title": "Creative Team",
+    "subtitle": "A team of experts and creatives dedicated to your success.",
+    "founder": "Founder & Creative Director",
+    "prodManager": "Artistic Production Manager",
+    "marketing": "Digital Marketing Expert",
+    "web": "Senior Web Developer"
+  },
+  "testimonials": {
+    "title": "What They Say About",
+    "brand": "WEZO MEDIA",
+    "subtitle": "We take pride in the trust of our clients and partners around the world.",
+    "satisfied": "Happy Clients",
+    "rating": "Service Rating"
+  },
+  "cta": {
+    "title": "Ready to Start Your Next Project?",
+    "desc": "Join hundreds of companies and artists who trusted Wezo Media to achieve their digital success.",
+    "button": "Request Your Service Now"
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "my_projects": "My Projects",
+    "messages": "Messages",
+    "payments": "Payments",
+    "settings": "Settings",
+    "new_request": "Request New Service",
+    "status": {
+      "pending": "Pending",
+      "in_progress": "In Progress",
+      "review": "Review",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "payments": {
+    "pay_now": "Pay Now",
+    "invoice": "Invoice",
+    "amount": "Amount",
+    "status": "Status",
+    "method": "Payment Method"
+  },
+  "auth": {
+    "login_title": "Login",
+    "login_subtitle": "Welcome back to Wezo Media",
+    "register_title": "Create New Account",
+    "register_subtitle": "Start your creative journey with us today",
+    "email": "Email Address",
+    "password": "Password",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "login_button": "Login",
+    "register_button": "Create Account",
+    "google_button": "Continue with Google",
+    "no_account": "Don't have an account?",
+    "have_account": "Already have an account?",
+    "forgot_password": "Forgot password?",
+    "error_invalid": "Invalid email or password",
+    "error_user_exists": "This email is already in use",
+    "error_generic": "Something went wrong, please try again later"
+  }
+}

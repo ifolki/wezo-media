@@ -1,0 +1,251 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // Reverted to postgresql for Supabase
+  url      = env("DATABASE_URL")
+}
+
+// ==================== المستخدمون ====================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  password      String?
+  phone         String?
+  avatar        String?
+  role          Role      @default(CLIENT)
+  locale        String    @default("ar")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  projects      Project[]
+  messages      Message[]
+  payments      Payment[]
+  accounts      Account[]
+  sessions      Session[]
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+  SUPER_ADMIN
+}
+
+// ==================== المشاريع ====================
+
+model Project {
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  status      ProjectStatus @default(PENDING)
+  priority    Priority      @default(MEDIUM)
+  startDate   DateTime?
+  dueDate     DateTime?
+  budget      Float?
+  isPaid      Boolean       @default(false)
+  paymentEnabled Boolean    @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  clientId    String
+  client      User          @relation(fields: [clientId], references: [id])
+  serviceId   String?
+  service     Service?      @relation(fields: [serviceId], references: [id])
+
+  files       File[]
+  messages    Message[]
+  payments    Payment[]
+  updates     ProjectUpdate[]
+}
+
+enum ProjectStatus {
+  PENDING
+  IN_PROGRESS
+  REVIEW
+  COMPLETED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// ==================== الخدمات ====================
+
+model Service {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  nameAr      String
+  nameEn      String
+  descAr      String
+  descEn      String
+  category    ServiceCategory
+  icon        String?
+  image       String?
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  projects    Project[]
+  packages    Package[]
+  workSteps   WorkStep[]
+}
+
+enum ServiceCategory {
+  AUDIO_PRODUCTION
+  VIDEO_PRODUCTION
+  DIGITAL_MARKETING
+  WEB_DEVELOPMENT
+  MUSIC_DISTRIBUTION
+  ARTIST_SERVICES
+}
+
+model Package {
+  id          String   @id @default(cuid())
+  nameAr      String
+  nameEn      String
+  price       Float
+  currency    String   @default("USD")
+  features    Json     // Reverted to Json for PostgreSQL
+  isPopular   Boolean  @default(false)
+  serviceId   String
+  service     Service  @relation(fields: [serviceId], references: [id])
+}
+
+model WorkStep {
+  id          String   @id @default(cuid())
+  titleAr     String
+  titleEn     String
+  descAr      String
+  descEn      String
+  order       Int
+  serviceId   String
+  service     Service  @relation(fields: [serviceId], references: [id])
+}
+
+// ==================== الرسائل ====================
+
+model Message {
+  id          String   @id @default(cuid())
+  content     String
+  isRead      Boolean  @default(false)
+  isAdmin     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+  senderId    String
+  sender      User     @relation(fields: [senderId], references: [id])
+}
+
+// ==================== الملفات ====================
+
+model File {
+  id          String   @id @default(cuid())
+  name        String
+  url         String
+  size        Int
+  type        String
+  createdAt   DateTime @default(now())
+
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+}
+
+// ==================== المدفوعات ====================
+
+model Payment {
+  id            String        @id @default(cuid())
+  amount        Float
+  currency      String        @default("USD")
+  status        PaymentStatus @default(PENDING)
+  method        PaymentMethod?
+  stripeId      String?
+  paypalId      String?
+  invoiceUrl    String?
+  paidAt        DateTime?
+  createdAt     DateTime      @default(now())
+
+  projectId     String
+  project       Project       @relation(fields: [projectId], references: [id])
+  clientId      String
+  client        User          @relation(fields: [clientId], references: [id])
+}
+
+enum PaymentStatus {
+  PENDING
+  AWAITING_PAYMENT
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CARD
+  PAYPAL
+  BANK_TRANSFER
+}
+
+// ==================== المدونة ====================
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleAr     String
+  titleEn     String
+  contentAr   String
+  contentEn   String
+  excerpt     String?
+  coverImage  String?
+  isPublished Boolean  @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  tags        String[]
+}
+
+// ==================== التحديثات ====================
+
+model ProjectUpdate {
+  id          String   @id @default(cuid())
+  content     String
+  createdAt   DateTime @default(now())
+
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+}
+
+// ==================== Auth (NextAuth) ====================
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
