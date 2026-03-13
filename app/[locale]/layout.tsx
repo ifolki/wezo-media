@@ -4,6 +4,7 @@ import "./../globals.css";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Providers } from "@/components/shared/Providers";
+import { Toaster } from "@/components/ui/sonner";
 
 const tajawal = Tajawal({ 
   subsets: ["arabic"],
@@ -49,6 +50,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <Providers>
             {children}
+            <Toaster position="top-center" richColors />
           </Providers>
         </NextIntlClientProvider>
       </body>

@@ -1,7 +1,7 @@
-'use client'
-
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
+import { useSession } from 'next-auth/react'
+import { toast } from 'sonner'
 import { 
   Dialog, 
   DialogContent, 
@@ -20,14 +20,34 @@ import {
   SelectValue 
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
-import { Rocket, CheckCircle2, ChevronRight, ChevronLeft, Send } from 'lucide-react'
+import { Rocket, CheckCircle2, ChevronRight, ChevronLeft, Send, Loader2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function RequestServiceModal({ children }: { children?: React.ReactNode }) {
+  const { data: session } = useSession()
   const [step, setStep] = useState(1)
   const [open, setOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const t = useTranslations('dashboard')
   const s = useTranslations('services')
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    serviceId: '',
+    description: '',
+  })
+
+  useEffect(() => {
+    if (session?.user && open) {
+      setFormData(prev => ({
+        ...prev,
+        name: session.user?.name || '',
+        email: session.user?.email || '',
+      }))
+    }
+  }, [session, open])
 
   const nextStep = () => setStep(s => s + 1)
   const prevStep = () => setStep(s => s - 1)
@@ -35,6 +55,34 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
   const reset = () => {
     setStep(1)
     setOpen(false)
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      serviceId: '',
+      description: '',
+    })
+  }
+
+  const handleSubmit = async () => {
+    setIsLoading(true)
+    try {
+      const resp = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+
+      if (!resp.ok) {
+        throw new Error('Failed to submit request')
+      }
+
+      nextStep()
+    } catch (error) {
+      toast.error(t('error_generic'))
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -53,7 +101,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
       <DialogContent className="bg-brand-card border-white/5 sm:max-w-[600px] overflow-hidden p-0 rounded-[2.5rem]">
         <div className="p-8 space-y-8">
           <DialogHeader>
-            <DialogTitle className="text-3xl font-black text-white flex items-center gap-4">
+            <DialogTitle className="text-3xl font-black text-white flex items-center gap-4 text-start">
               <div className="w-12 h-12 rounded-2xl gradient-brand flex items-center justify-center shadow-lg shadow-brand-orange/20">
                 <Rocket className="text-white w-6 h-6" />
               </div>
@@ -83,24 +131,44 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="space-y-6"
+                className="space-y-6 text-start"
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
                     <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">الاسم / Name</Label>
-                    <Input className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl" placeholder="..." />
+                    <Input 
+                      className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl text-white" 
+                      placeholder="..." 
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    />
                   </div>
                   <div className="space-y-3">
                     <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">الإيميل / Email</Label>
-                    <Input className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl" type="email" placeholder="..." />
+                    <Input 
+                      className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl text-white" 
+                      type="email" 
+                      placeholder="..." 
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    />
                   </div>
                 </div>
                 <div className="space-y-3">
                   <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">الهاتف / Phone</Label>
-                  <Input className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl" placeholder="..." />
+                  <Input 
+                    className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl text-white" 
+                    placeholder="..." 
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  />
                 </div>
-                <Button onClick={nextStep} className="w-full h-16 rounded-2xl gradient-brand font-black text-lg gap-3 shadow-2xl hover:scale-[1.02] transition-all">
-                   الخطوة التالية
+                <Button 
+                  onClick={nextStep} 
+                  disabled={!formData.name || !formData.email || !formData.phone}
+                  className="w-full h-16 rounded-2xl gradient-brand font-black text-lg gap-3 shadow-2xl hover:scale-[1.02] transition-all disabled:opacity-50"
+                >
+                   {t('home') === 'Home' ? 'Next Step' : 'الخطوة التالية'}
                   <ChevronRight className="w-6 h-6 rtl:rotate-180" />
                 </Button>
               </motion.div>
@@ -112,11 +180,11 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="space-y-6"
+                className="space-y-6 text-start"
               >
                 <div className="space-y-3">
                   <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">الخدمة / Service</Label>
-                  <Select>
+                  <Select onValueChange={(val) => setFormData({...formData, serviceId: val})}>
                     <SelectTrigger className="h-14 bg-brand-dark/50 border-white/5 rounded-2xl text-white">
                       <SelectValue placeholder="..." />
                     </SelectTrigger>
@@ -125,21 +193,35 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                       <SelectItem value="video">{s('categories.video')}</SelectItem>
                       <SelectItem value="marketing">{s('categories.marketing')}</SelectItem>
                       <SelectItem value="web">{s('categories.web')}</SelectItem>
+                      <SelectItem value="artist">{s('categories.artist')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-3">
                   <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">التفاصيل / Details</Label>
-                  <Textarea className="bg-brand-dark/50 border-white/5 rounded-2xl min-h-[150px] p-4 text-white" placeholder="..." />
+                  <Textarea 
+                    className="bg-brand-dark/50 border-white/5 rounded-2xl min-h-[150px] p-4 text-white" 
+                    placeholder="..." 
+                    value={formData.description}
+                    onChange={(e) => setFormData({...formData, description: e.target.value})}
+                  />
                 </div>
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={prevStep} className="flex-1 h-16 rounded-2xl border-white/10 text-white font-bold gap-2">
                     <ChevronLeft className="w-5 h-5 rtl:rotate-180" />
-                    السابق
+                    {t('home') === 'Home' ? 'Back' : 'السابق'}
                   </Button>
-                  <Button onClick={nextStep} className="flex-[2] h-16 rounded-2xl gradient-brand font-black text-lg gap-3 shadow-2xl">
-                    إرسال الطلب
-                    <Send className="w-5 h-5" />
+                  <Button 
+                    onClick={handleSubmit} 
+                    disabled={isLoading || !formData.serviceId || !formData.description}
+                    className="flex-[2] h-16 rounded-2xl gradient-brand font-black text-lg gap-3 shadow-2xl disabled:opacity-50"
+                  >
+                    {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : (
+                      <>
+                        {t('home') === 'Home' ? 'Send Request' : 'إرسال الطلب'}
+                        <Send className="w-5 h-5" />
+                      </>
+                    )}
                   </Button>
                 </div>
               </motion.div>
@@ -156,9 +238,11 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                   <CheckCircle2 className="w-12 h-12 text-white" />
                 </div>
                 <div className="space-y-4">
-                  <h3 className="text-3xl font-black text-white">تم بنجاح!</h3>
+                  <h3 className="text-3xl font-black text-white">{t('home') === 'Home' ? 'Success!' : 'تم بنجاح!'}</h3>
                   <p className="text-text-muted text-lg max-w-xs mx-auto">
-                    شكراً لاختيارك WEZO MEDIA. سنتواصل معك قريباً جداً.
+                    {t('home') === 'Home' 
+                      ? 'Thank you for choosing WEZO MEDIA. We will contact you very soon.' 
+                      : 'شكراً لاختيارك WEZO MEDIA. سنتواصل معك قريباً جداً.'}
                   </p>
                 </div>
                 <Button onClick={reset} className="w-full h-16 rounded-2xl gradient-brand font-black text-lg shadow-2xl">

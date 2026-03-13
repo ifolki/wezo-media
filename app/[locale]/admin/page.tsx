@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { 
@@ -7,27 +8,57 @@ import {
   Clock, 
   CheckCircle2, 
   AlertCircle,
-  ArrowRight
+  ArrowRight,
+  Users,
+  DollarSign,
+  Package,
+  Loader2
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/navigation'
-import { Users, DollarSign, Package, Newspaper } from 'lucide-react'
 
 export default function AdminOverview() {
   const t = useTranslations('dashboard')
+  const [data, setData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const resp = await fetch('/api/admin/stats')
+        if (resp.ok) {
+          const json = await resp.json()
+          setData(json)
+        }
+      } catch (e) {
+        console.error(e)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchStats()
+  }, [])
 
   const stats = [
-    { label: t('admin.users'), value: '0', icon: Users, color: '#FF6B2B' },
-    { label: t('admin.orders'), value: '0', icon: FolderKanban, color: '#FF2D78' },
-    { label: t('admin.finances'), value: '0', icon: DollarSign, color: '#4ADE80' },
-    { label: t('admin.packages'), value: '0', icon: Package, color: '#60A5FA' },
+    { label: t('admin.users'), value: data?.users || 0, icon: Users, color: '#FF6B2B' },
+    { label: t('admin.orders'), value: data?.projects || 0, icon: FolderKanban, color: '#FF2D78' },
+    { label: t('admin.finances'), value: `$${data?.revenue || 0}`, icon: DollarSign, color: '#4ADE80' },
+    { label: t('admin.packages'), value: data?.pending || 0, icon: AlertCircle, color: '#60A5FA' },
   ]
 
   const isAr = t('welcome') === 'أهلاً بك'
 
+  if (loading) {
+    return (
+      <div className="h-[60vh] flex items-center justify-center">
+        <Loader2 className="w-12 h-12 text-brand-orange animate-spin" />
+      </div>
+    )
+  }
+
   return (
-    <div className="space-y-10 pb-10">
+    <div className="space-y-10 pb-10 text-start">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, i) => (
@@ -60,7 +91,6 @@ export default function AdminOverview() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* Recent Projects */}
         <div className="lg:col-span-2 space-y-6">
           <div className="flex items-center justify-between px-2">
             <h2 className="text-2xl font-black text-white">{t('admin.orders')}</h2>
@@ -80,9 +110,8 @@ export default function AdminOverview() {
                 </div>
                 <div className="space-y-2">
                    <p className="text-xl font-bold text-white">{isAr ? 'لا توجد مشاريع حالياً' : 'No projects yet'}</p>
-                   <p className="text-text-muted">{isAr ? 'ابدأ رحلتك معنا بطلب أول خدمة لك الآن.' : 'Start your journey with us by requesting your first service.'}</p>
                 </div>
-                 <Link href="/admin/orders">
+                <Link href="/admin/orders">
                     <Button className="gradient-brand h-14 px-8 rounded-2xl font-black text-lg">
                        {isAr ? 'إدارة الطلبات' : 'Manage Orders'}
                     </Button>
@@ -95,14 +124,16 @@ export default function AdminOverview() {
         <div className="space-y-8">
            <Card className="glass-card border-brand-orange/20 overflow-hidden text-start">
               <CardHeader className="gradient-brand text-white p-8">
-                 <CardTitle className="text-xl font-black">{isAr ? 'تحتاج مساعدة؟' : 'Need Help?'}</CardTitle>
-                 <p className="text-white/80 text-sm font-medium mt-2">
-                   {isAr ? 'مدير حسابك متاح للرد على أي استفسار.' : 'Your account manager is available to answer any questions.'}
-                 </p>
+                 <CardTitle className="text-xl font-black">{isAr ? 'إجراءات سريعة' : 'Quick Actions'}</CardTitle>
               </CardHeader>
-              <CardContent className="p-8 space-y-6">
-                 <Button className="w-full h-14 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold">
-                    {isAr ? 'تواصل معنا' : 'Contact Us'}
+              <CardContent className="p-8 space-y-4">
+                 <Button className="w-full h-14 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold justify-start px-6 gap-4">
+                    <Users className="w-5 h-5 text-brand-orange" />
+                    {isAr ? 'إضافة مستخدم' : 'Add User'}
+                 </Button>
+                 <Button className="w-full h-14 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold justify-start px-6 gap-4">
+                    <Package className="w-5 h-5 text-brand-orange" />
+                    {isAr ? 'إضافة خدمة' : 'Add Service'}
                  </Button>
               </CardContent>
            </Card>
