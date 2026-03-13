@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { Rocket, Mail, Lock, User, Phone } from 'lucide-react'
+import { Rocket, Mail, Lock, User, Phone, Loader2 } from 'lucide-react'
 import { Link } from '@/navigation'
 import { toast } from 'sonner'
 
@@ -145,10 +145,16 @@ export default function RegisterPage() {
               </div>
 
               <Button
+                type="submit"
                 disabled={isLoading}
                 className="col-span-1 md:col-span-2 h-14 gradient-brand text-lg font-black rounded-2xl shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 mt-4"
               >
-                {isLoading ? <div className="w-6 h-6 border-b-2 border-white rounded-full animate-spin" /> : t('register_button')}
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="w-6 h-6 animate-spin" />
+                    <span>{isAr ? 'جاري إنشاء الحساب...' : 'Creating Account...'}</span>
+                  </div>
+                ) : t('register_button')}
               </Button>
             </form>
 

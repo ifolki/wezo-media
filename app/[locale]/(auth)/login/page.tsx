@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { Rocket, Mail, Lock } from 'lucide-react'
+import { Rocket, Mail, Lock, Loader2 } from 'lucide-react'
 import { Link } from '@/navigation'
 import { toast } from 'sonner'
 
@@ -107,10 +107,16 @@ export default function LoginPage() {
               </div>
 
               <Button
+                type="submit"
                 disabled={isLoading}
                 className="w-full h-14 gradient-brand text-lg font-black rounded-2xl shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
               >
-                {isLoading ? <div className="w-6 h-6 border-b-2 border-white rounded-full animate-spin" /> : t('login_button')}
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="w-6 h-6 animate-spin" />
+                    <span>{isAr ? 'جاري التحميل...' : 'Loading...'}</span>
+                  </div>
+                ) : t('login_button')}
               </Button>
             </form>
 
