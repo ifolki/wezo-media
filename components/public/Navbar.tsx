@@ -43,18 +43,12 @@ export default function Navbar() {
     >
       <div className="container-custom flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-4 group">
-          <div className="w-14 h-14 gradient-brand rounded-2xl flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all duration-500 rotate-6 group-hover:rotate-0">
-            <Rocket className="text-white w-8 h-8" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-3xl font-black gradient-text tracking-tighter leading-none italic uppercase">
-              WEZO
-            </span>
-            <span className="text-[10px] font-black text-brand-orange tracking-[0.4em] leading-none mt-1 uppercase">
-              Creative Hub
-            </span>
-          </div>
+        <Link href="/" className="flex items-center group">
+          <img 
+            src="/assets/logo/logo-normal.png" 
+            alt="Wezo Media" 
+            className="h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300" 
+          />
         </Link>
 
         {/* Desktop Navigation */}

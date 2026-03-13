@@ -85,6 +85,14 @@
       "review": "مراجعة",
       "completed": "مكتمل",
       "cancelled": "ملغي"
+    },
+    "admin": {
+      "users": "المستخدمون",
+      "teams": "فرق العمل",
+      "orders": "الطلبات",
+      "finances": "المالية",
+      "packages": "الباقات",
+      "blog": "المدونة"
     }
   },
   "payments": {

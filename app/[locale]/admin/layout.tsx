@@ -14,25 +14,28 @@ import {
   Menu, 
   X,
   PlusCircle,
-  Bell
+  Bell,
+  User,
+  Users
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { signOut, useSession } from 'next-auth/react'
 import RequestServiceModal from '@/components/shared/RequestServiceModal'
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const t = useTranslations('dashboard')
   const pathname = usePathname()
   const { data: session } = useSession()
 
   const navItems = [
-    { href: '/dashboard', label: t('welcome'), icon: LayoutDashboard },
-    { href: '/dashboard/projects', label: t('my_projects'), icon: FolderKanban },
-    { href: '/dashboard/messages', label: t('messages'), icon: MessageSquare },
-    { href: '/dashboard/payments', label: t('payments'), icon: CreditCard },
-    { href: '/dashboard/settings', label: t('settings'), icon: Settings },
+    { href: '/admin', label: t('welcome'), icon: LayoutDashboard },
+    { href: '/admin/users', label: t('admin.users'), icon: User },
+    { href: '/admin/orders', label: t('admin.orders'), icon: FolderKanban },
+    { href: '/admin/finances', label: t('admin.finances'), icon: CreditCard },
+    { href: '/admin/packages', label: t('admin.packages'), icon: Settings },
+    { href: '/admin/blog', label: t('admin.blog'), icon: MessageSquare },
   ]
 
   return (
@@ -107,20 +110,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </nav>
 
           <div className="px-4 mt-auto pt-8 space-y-4">
-            <RequestServiceModal>
-               <Button className="w-full h-14 rounded-2xl bg-white/5 border border-brand-orange/30 text-brand-orange font-black text-lg hover:bg-brand-orange hover:text-white transition-all gap-2">
-                  <PlusCircle className="w-5 h-5" />
-                  {t('new_request')}
-               </Button>
-            </RequestServiceModal>
-            
             <Button 
-              variant="ghost" 
-              onClick={() => signOut({ callbackUrl: '/' })}
-              className="w-full h-14 rounded-2xl text-text-muted hover:text-red-400 hover:bg-red-400/5 font-bold text-lg gap-4"
+               className="w-full h-14 rounded-2xl bg-white/5 border border-brand-orange/30 text-brand-orange font-black text-lg hover:bg-brand-orange hover:text-white transition-all gap-2"
+               onClick={() => signOut({ callbackUrl: '/' })}
             >
-              <LogOut className="w-5 h-5" />
-              <span>{t('welcome') === 'أهلاً بك' ? 'تسجيل الخروج' : 'Log Out'}</span>
+               <LogOut className="w-5 h-5" />
+               <span>{t('welcome') === 'أهلاً بك' ? 'تسجيل الخروج' : 'Log Out'}</span>
             </Button>
           </div>
         </motion.aside>

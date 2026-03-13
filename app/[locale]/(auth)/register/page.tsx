@@ -74,8 +74,8 @@ export default function RegisterPage() {
       >
         <Card className="glass-card border-white/10 shadow-2xl overflow-hidden rounded-[2.5rem]">
           <CardHeader className="text-center pt-10 pb-6 space-y-4">
-            <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 mx-auto flex items-center justify-center shadow-lg group">
-              <Rocket className="text-brand-orange w-8 h-8 group-hover:scale-110 transition-transform" />
+            <div className="w-20 h-20 mx-auto flex items-center justify-center">
+              <img src="/assets/logo/logo-3d.png" alt="Wezo Media 3D Logo" className="w-full h-full object-contain hover:scale-110 transition-transform" />
             </div>
             <div className="space-y-2">
               <CardTitle className="text-3xl font-black text-white">{t('register_title')}</CardTitle>

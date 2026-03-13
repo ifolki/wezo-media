@@ -85,6 +85,14 @@
       "review": "Review",
       "completed": "Completed",
       "cancelled": "Cancelled"
+    },
+    "admin": {
+      "users": "Users",
+      "teams": "Teams",
+      "orders": "Orders",
+      "finances": "Finances",
+      "packages": "Packages",
+      "blog": "Blog"
     }
   },
   "payments": {
