@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { 
   FolderKanban, 
   Clock, 
@@ -23,9 +23,10 @@ import { Link } from '@/navigation'
 
 export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
   const t = useTranslations('dashboard')
+  const locale = useLocale()
+  const isAr = locale === 'ar'
   const [project, setProject] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const isAr = t('welcome') === 'أهلاً بك'
 
   useEffect(() => {
     async function fetchProject() {

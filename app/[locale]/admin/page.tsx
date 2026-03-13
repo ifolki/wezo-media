@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { 
   FolderKanban, 
   Clock, 
@@ -47,7 +47,8 @@ export default function AdminOverview() {
     { label: t('admin.packages'), value: data?.pending || 0, icon: AlertCircle, color: '#60A5FA' },
   ]
 
-  const isAr = t('welcome') === 'أهلاً بك'
+  const locale = useLocale()
+  const isAr = locale === 'ar'
 
   if (loading) {
     return (

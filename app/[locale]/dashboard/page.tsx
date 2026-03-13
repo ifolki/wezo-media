@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { 
   FolderKanban, 
   Clock, 
@@ -18,10 +18,10 @@ import RequestServiceModal from '@/components/shared/RequestServiceModal'
 
 export default function DashboardOverview() {
   const t = useTranslations('dashboard')
+  const locale = useLocale()
+  const isAr = locale === 'ar'
   const [data, setData] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
-
-  const isAr = t('welcome') === 'أهلاً بك'
 
   useEffect(() => {
     async function fetchData() {

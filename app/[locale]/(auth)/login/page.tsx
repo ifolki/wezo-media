@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { signIn } from 'next-auth/react'
 import { useRouter } from '@/navigation'
 import { Button } from '@/components/ui/button'
@@ -15,6 +15,8 @@ import { toast } from 'sonner'
 
 export default function LoginPage() {
   const t = useTranslations('auth')
+  const locale = useLocale()
+  const isAr = locale === 'ar'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -117,7 +119,7 @@ export default function LoginPage() {
                 <div className="w-full border-t border-white/10"></div>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-[#16161F] px-4 text-text-muted font-bold tracking-widest">{t('nav.home') === 'الرئيسية' ? 'أو' : 'OR'}</span>
+                <span className="bg-[#16161F] px-4 text-text-muted font-bold tracking-widest">{isAr ? 'أو' : 'OR'}</span>
               </div>
             </div>
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { Link, usePathname } from '@/navigation'
 import { 
   LayoutDashboard, 
@@ -24,6 +24,8 @@ import RequestServiceModal from '@/components/shared/RequestServiceModal'
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const t = useTranslations('dashboard')
+  const locale = useLocale()
+  const isAr = locale === 'ar'
   const pathname = usePathname()
   const { data: session } = useSession()
 
@@ -120,7 +122,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               className="w-full h-14 rounded-2xl text-text-muted hover:text-red-400 hover:bg-red-400/5 font-bold text-lg gap-4"
             >
               <LogOut className="w-5 h-5" />
-              <span>{t('welcome') === 'أهلاً بك' ? 'تسجيل الخروج' : 'Log Out'}</span>
+              <span>{isAr ? 'تسجيل الخروج' : 'Log Out'}</span>
             </Button>
           </div>
         </motion.aside>
