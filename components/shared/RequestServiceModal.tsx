@@ -39,13 +39,15 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {children || (
-          <Button className="gradient-brand border-none hover:opacity-90 font-bold px-6">
-            {t('new_request')}
-          </Button>
-        )}
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          children || (
+            <Button className="gradient-brand border-none hover:opacity-90 font-bold px-6">
+              {t('new_request')}
+            </Button>
+          )
+        }
+      />
       <DialogContent className="bg-brand-card border-white/5 sm:max-w-[600px] overflow-hidden p-0 rounded-[2.5rem]">
         <div className="p-8 space-y-8">
           <DialogHeader>
