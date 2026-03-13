@@ -10,6 +10,7 @@ const intlMiddleware = createMiddleware({
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
+  console.log('Middleware:', nextUrl.pathname, 'isLoggedIn:', isLoggedIn, 'Role:', req.auth?.user?.role)
   
   const locales = ["ar", "en"];
   const segments = nextUrl.pathname.split('/');

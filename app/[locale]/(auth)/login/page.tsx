@@ -24,25 +24,23 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    // For debugging - remove after testing
+    toast.info(isAr ? 'جاري التحقق...' : 'Checking...')
+    console.log('Login form submitted:', email)
     setIsLoading(true)
 
     try {
-      const result = await signIn('credentials', {
+      // We use redirect: true here (default) to let NextAuth handle the routing
+      // This is often more reliable than manual routing if there are session issues
+      await signIn('credentials', {
         email,
         password,
-        redirect: false,
+        callbackUrl: '/dashboard',
       })
-
-      if (result?.error) {
-        toast.error(t('error_invalid'))
-      } else {
-        toast.success(t('login_title')) // Placeholder for success
-        router.push('/dashboard')
-        router.refresh()
-      }
+      console.log('SignIn called')
     } catch (error) {
-      toast.error(t('error_generic'))
-    } finally {
+      console.error('Login error catch:', error)
+      toast.error(isAr ? 'خطأ في الاتصال بالسيرفر' : 'Connection error')
       setIsLoading(false)
     }
   }

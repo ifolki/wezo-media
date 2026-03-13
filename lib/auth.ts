@@ -7,7 +7,7 @@ import { compare } from "bcrypt-ts"
 import { Role } from "@prisma/client"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  // adapter: PrismaAdapter(prisma),
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -20,6 +20,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log('Authorize called with:', credentials?.email)
         if (!credentials?.email || !credentials?.password) return null
 
         const user = await prisma.user.findUnique({
@@ -35,6 +36,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!isPasswordValid) return null
 
+        console.log('User authorized successfully:', user.email)
         return {
           id: user.id,
           name: user.name,
@@ -54,16 +56,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return session
     },
-    async jwt({ token }) {
-      if (!token.sub) return token
-
-      const user = await prisma.user.findUnique({
-        where: { id: token.sub },
-      })
-
-      if (!user) return token
-
-      token.role = user.role
+    async jwt({ token, user }) {
+      console.log('JWT callback called. Token:', !!token, 'User:', !!user)
+      if (user) {
+          token.sub = user.id
+          token.role = (user as any).role
+      }
       return token
     },
   },
