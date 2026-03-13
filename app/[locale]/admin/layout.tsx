@@ -32,7 +32,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { data: session } = useSession()
 
   const navItems = [
-    { href: '/admin', label: t('welcome'), icon: LayoutDashboard },
+    { href: '/admin', label: t('admin.overview'), icon: LayoutDashboard },
     { href: '/admin/users', label: t('admin.users'), icon: User },
     { href: '/admin/orders', label: t('admin.orders'), icon: FolderKanban },
     { href: '/admin/finances', label: t('admin.finances'), icon: CreditCard },

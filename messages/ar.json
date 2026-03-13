@@ -74,6 +74,7 @@
   },
   "dashboard": {
     "welcome": "أهلاً بك",
+    "overview": "الرئيسية",
     "my_projects": "مشاريعي",
     "messages": "الرسائل",
     "payments": "المدفوعات",
@@ -87,6 +88,7 @@
       "cancelled": "ملغي"
     },
     "admin": {
+      "overview": "نظرة عامة",
       "users": "المستخدمون",
       "teams": "فرق العمل",
       "orders": "الطلبات",

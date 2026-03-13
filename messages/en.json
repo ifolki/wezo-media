@@ -74,6 +74,7 @@
   },
   "dashboard": {
     "welcome": "Welcome",
+    "overview": "Dashboard",
     "my_projects": "My Projects",
     "messages": "Messages",
     "payments": "Payments",
@@ -87,6 +88,7 @@
       "cancelled": "Cancelled"
     },
     "admin": {
+      "overview": "Overview",
       "users": "Users",
       "teams": "Teams",
       "orders": "Orders",

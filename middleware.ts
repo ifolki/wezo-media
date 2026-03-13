@@ -37,7 +37,9 @@ export default auth((req) => {
   }
 
   if (isAuthPage && isLoggedIn) {
-    return Response.redirect(new URL(`/${currentLocale}/dashboard`, nextUrl));
+    const role = req.auth?.user?.role;
+    const targetPath = (role === 'ADMIN' || role === 'SUPER_ADMIN') ? '/admin' : '/dashboard';
+    return Response.redirect(new URL(`/${currentLocale}${targetPath}`, nextUrl));
   }
 
   return intlMiddleware(req);

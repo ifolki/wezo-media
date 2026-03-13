@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const { data: session } = useSession()
 
   const navItems = [
-    { href: '/dashboard', label: t('welcome'), icon: LayoutDashboard },
+    { href: '/dashboard', label: t('overview'), icon: LayoutDashboard },
     { href: '/dashboard/projects', label: t('my_projects'), icon: FolderKanban },
     { href: '/dashboard/messages', label: t('messages'), icon: MessageSquare },
     { href: '/dashboard/payments', label: t('payments'), icon: CreditCard },

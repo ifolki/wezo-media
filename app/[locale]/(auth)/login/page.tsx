@@ -30,14 +30,27 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      // We use redirect: true here (default) to let NextAuth handle the routing
-      // This is often more reliable than manual routing if there are session issues
-      await signIn('credentials', {
+      const result = await signIn('credentials', {
         email,
         password,
-        callbackUrl: '/dashboard',
+        redirect: false,
       })
-      console.log('SignIn called')
+      
+      console.log('SignIn result:', result)
+
+      if (result?.error) {
+        toast.error(t('error_invalid'))
+        setIsLoading(false)
+      } else {
+        // Fetch session to get the role
+        const sessionResp = await fetch('/api/auth/session')
+        const session = await sessionResp.json()
+        const role = session?.user?.role
+        
+        const target = (role === 'ADMIN' || role === 'SUPER_ADMIN') ? '/admin' : '/dashboard'
+        router.push(target)
+        router.refresh()
+      }
     } catch (error) {
       console.error('Login error catch:', error)
       toast.error(isAr ? 'خطأ في الاتصال بالسيرفر' : 'Connection error')
