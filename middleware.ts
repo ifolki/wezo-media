@@ -11,24 +11,32 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
   
+  const locales = ["ar", "en"];
+  const segments = nextUrl.pathname.split('/');
+  const firstSegment = segments[1];
+  const hasLocalePrefix = locales.includes(firstSegment);
+  
+  // If it's a root path or missing locale, let next-intl handle the initial redirect
+  if (!hasLocalePrefix && nextUrl.pathname !== '/') {
+    return intlMiddleware(req);
+  }
+
+  const currentLocale = hasLocalePrefix ? firstSegment : "ar";
+  
   const isDashboardPage = nextUrl.pathname.includes('/dashboard');
   const isAdminPage = nextUrl.pathname.includes('/admin');
   const isAuthPage = nextUrl.pathname.includes('/login') || nextUrl.pathname.includes('/register');
 
-  if (isDashboardPage && !isLoggedIn) {
-    const locale = nextUrl.pathname.split('/')[1] || 'ar';
-    return Response.redirect(new URL(`/${locale}/login`, nextUrl));
+  if ((isDashboardPage || isAdminPage) && !isLoggedIn) {
+    return Response.redirect(new URL(`/${currentLocale}/login`, nextUrl));
   }
 
   if (isAdminPage && req.auth?.user?.role !== 'ADMIN' && req.auth?.user?.role !== 'SUPER_ADMIN') {
-    const locale = nextUrl.pathname.split('/')[1] || 'ar';
-    return Response.redirect(new URL(`/${locale}/dashboard`, nextUrl));
+    return Response.redirect(new URL(`/${currentLocale}/dashboard`, nextUrl));
   }
 
-  // If logged in and trying to access auth pages, redirect to dashboard
   if (isAuthPage && isLoggedIn) {
-    const locale = nextUrl.pathname.split('/')[1] || 'ar';
-    return Response.redirect(new URL(`/${locale}/dashboard`, nextUrl));
+    return Response.redirect(new URL(`/${currentLocale}/dashboard`, nextUrl));
   }
 
   return intlMiddleware(req);
