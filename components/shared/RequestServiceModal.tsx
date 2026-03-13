@@ -184,7 +184,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
               >
                 <div className="space-y-3">
                   <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">الخدمة / Service</Label>
-                  <Select onValueChange={(val) => setFormData({...formData, serviceId: val})}>
+                  <Select onValueChange={(val) => setFormData({...formData, serviceId: val as string})}>
                     <SelectTrigger className="h-14 bg-brand-dark/50 border-white/5 rounded-2xl text-white">
                       <SelectValue placeholder="..." />
                     </SelectTrigger>

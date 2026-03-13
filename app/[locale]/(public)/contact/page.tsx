@@ -30,8 +30,8 @@ export default function ContactPage() {
                  <div className="space-y-8">
                     {[
                       { icon: Mail, label: 'البريد الإلكتروني', value: 'info@wezomedia.com' },
-                      { icon: Phone, label: 'رقم الهاتف', value: '+212 600 000 000', dir: 'ltr' },
-                      { icon: MapPin, label: 'العنوان', value: 'الدار البيضاء، المغرب' },
+                      { icon: Phone, label: 'رقم الهاتف', value: '0661094186', dir: 'ltr' },
+                      { icon: MapPin, label: 'العنوان', value: 'BD moustapha el maani N 22 casablanca' },
                     ].map((item, i) => (
                       <div key={i} className="flex gap-6 group">
                          <div className="w-16 h-16 rounded-2xl glass-card flex items-center justify-center shrink-0 border-white/5 group-hover:border-brand-orange transition-all">

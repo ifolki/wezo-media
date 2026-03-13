@@ -38,7 +38,12 @@ export default function AdminOrderDetailPage({ params }: { params: { id: string 
   const [saving, setSaving] = useState(false)
   const isAr = t('welcome') === 'أهلاً بك'
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    status: string;
+    priority: string;
+    budget: number;
+    paymentEnabled: boolean;
+  }>({
     status: '',
     priority: '',
     budget: 0,
@@ -53,10 +58,10 @@ export default function AdminOrderDetailPage({ params }: { params: { id: string 
           const data = await resp.json()
           setProject(data)
           setFormData({
-            status: data.status,
-            priority: data.priority,
+            status: data.status || '',
+            priority: data.priority || '',
             budget: data.budget || 0,
-            paymentEnabled: data.paymentEnabled
+            paymentEnabled: data.paymentEnabled || false
           })
         }
       } catch (e) {
@@ -166,7 +171,7 @@ export default function AdminOrderDetailPage({ params }: { params: { id: string 
               <div className="space-y-6">
                  <div className="space-y-3">
                     <Label className="text-text-muted font-bold text-xs uppercase tracking-widest">{isAr ? 'الحالة' : 'Status'}</Label>
-                    <Select value={formData.status} onValueChange={(val) => setFormData({...formData, status: val})}>
+                    <Select value={formData.status || ''} onValueChange={(val) => setFormData({...formData, status: val || ''})}>
                        <SelectTrigger className="h-12 bg-white/5 border-white/5 rounded-xl text-white">
                           <SelectValue />
                        </SelectTrigger>
@@ -182,7 +187,7 @@ export default function AdminOrderDetailPage({ params }: { params: { id: string 
 
                  <div className="space-y-3">
                     <Label className="text-text-muted font-bold text-xs uppercase tracking-widest">{isAr ? 'الأولوية' : 'Priority'}</Label>
-                    <Select value={formData.priority} onValueChange={(val) => setFormData({...formData, priority: val})}>
+                    <Select value={formData.priority || ''} onValueChange={(val) => setFormData({...formData, priority: val || ''})}>
                        <SelectTrigger className="h-12 bg-white/5 border-white/5 rounded-xl text-white">
                           <SelectValue />
                        </SelectTrigger>

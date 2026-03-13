@@ -29,9 +29,9 @@ export default function Footer() {
             </p>
             <div className="flex gap-4">
               {[Instagram, Twitter, Facebook, Youtube].map((Icon, i) => (
-                <a 
-                  key={i} 
-                  href="#" 
+                <a
+                  key={i}
+                  href="#"
                   className="w-12 h-12 rounded-xl glass-card flex items-center justify-center text-text-primary hover:text-brand-orange hover:border-brand-orange/50 transition-all"
                 >
                   <Icon className="w-5 h-5" />
@@ -81,13 +81,13 @@ export default function Footer() {
                 <div className="w-12 h-12 rounded-xl glass-card flex items-center justify-center group-hover:text-brand-orange transition-colors">
                   <Phone className="w-5 h-5" />
                 </div>
-                <span className="text-lg" dir="ltr">+212 600-000000</span>
+                <span className="text-lg" dir="ltr">0663094186</span>
               </li>
               <li className="flex items-center gap-4 text-text-muted group">
                 <div className="w-12 h-12 rounded-xl glass-card flex items-center justify-center group-hover:text-brand-orange transition-colors">
                   <MapPin className="w-5 h-5" />
                 </div>
-                <span className="text-lg">Casablanca, Morocco</span>
+                <span className="text-lg">BD moustapha el maani N 22</span>
               </li>
             </ul>
           </div>

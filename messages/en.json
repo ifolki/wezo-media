@@ -89,12 +89,18 @@
     },
     "admin": {
       "overview": "Overview",
-      "users": "Users",
-      "teams": "Teams",
-      "orders": "Orders",
+      "services": "Services",
+      "packages": "Packages & Pricing",
+      "orders": "Projects & Orders",
+      "users": "Clients",
+      "messages": "Messages",
+      "blog": "Blog Management",
+      "pages": "Pages Management",
       "finances": "Finances",
-      "packages": "Packages",
-      "blog": "Blog"
+      "digital_products": "Digital Products",
+      "media": "Media Library",
+      "seo": "SEO Settings",
+      "settings": "Site Settings"
     }
   },
   "payments": {

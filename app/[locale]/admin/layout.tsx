@@ -16,7 +16,14 @@ import {
   PlusCircle,
   Bell,
   User,
-  Users
+  Users,
+  Search,
+  Package,
+  FileText,
+  Image as ImageIcon,
+  Globe,
+  ShoppingBag,
+  Briefcase
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -33,11 +40,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const navItems = [
     { href: '/admin', label: t('admin.overview'), icon: LayoutDashboard },
-    { href: '/admin/users', label: t('admin.users'), icon: User },
+    { href: '/admin/services', label: t('admin.services'), icon: Briefcase },
+    { href: '/admin/packages', label: t('admin.packages'), icon: Package },
     { href: '/admin/orders', label: t('admin.orders'), icon: FolderKanban },
+    { href: '/admin/users', label: t('admin.users'), icon: Users },
+    { href: '/admin/messages', label: t('admin.messages'), icon: MessageSquare },
+    { href: '/admin/blog', label: t('admin.blog'), icon: FileText },
+    { href: '/admin/pages', label: t('admin.pages'), icon: Globe },
     { href: '/admin/finances', label: t('admin.finances'), icon: CreditCard },
-    { href: '/admin/packages', label: t('admin.packages'), icon: Settings },
-    { href: '/admin/blog', label: t('admin.blog'), icon: MessageSquare },
+    { href: '/admin/digital-products', label: t('admin.digital_products'), icon: ShoppingBag },
+    { href: '/admin/media', label: t('admin.media'), icon: ImageIcon },
+    { href: '/admin/settings/seo', label: t('admin.seo'), icon: Search },
+    { href: '/admin/settings', label: t('admin.settings'), icon: Settings },
   ]
 
   return (

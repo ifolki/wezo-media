@@ -1,45 +1,46 @@
-
 'use client'
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { 
-  DollarSign, 
+  CreditCard, 
   Search, 
   ArrowUpRight,
   ArrowDownLeft,
   Calendar,
-  User,
   FolderKanban,
-  Loader2,
   FileText,
-  Download,
-  CreditCard,
+  Loader2,
   CheckCircle2,
   XCircle,
   Clock
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
-export default function AdminFinancesPage() {
+export default function ClientPaymentsPage() {
   const t = useTranslations('dashboard')
+  const locale = useLocale()
+  const isAr = locale === 'ar'
   const [payments, setPayments] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const isAr = t('welcome') === 'أهلاً بك'
 
   useEffect(() => {
     async function fetchPayments() {
       try {
-        const resp = await fetch('/api/admin/payments')
+        const resp = await fetch('/api/payments/my')
         if (resp.ok) {
           const data = await resp.json()
           setPayments(data)
+        } else {
+          setPayments([])
         }
       } catch (e) {
         console.error(e)
+        setPayments([])
       } finally {
         setLoading(false)
       }
@@ -55,7 +56,7 @@ export default function AdminFinancesPage() {
     )
   }
 
-  const totalRevenue = payments
+  const totalSpent = payments
     .filter(p => p.status === 'PAID')
     .reduce((sum, p) => sum + p.amount, 0)
 
@@ -63,9 +64,9 @@ export default function AdminFinancesPage() {
     <div className="space-y-8 pb-10 text-start">
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 px-2">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black text-white">{t('admin.finances')}</h1>
+          <h1 className="text-3xl font-black text-white">{isAr ? 'المدفوعات' : 'Payments'}</h1>
           <p className="text-text-muted font-medium">
-            {isAr ? 'إدارة المداخيل، المدفوعات، والفواتير' : 'Manage revenue, payments, and invoices'}
+            {isAr ? 'متابعة سجل فواتيرك ومدفوعات المشاريع' : 'Track your invoice history and project payments'}
           </p>
         </div>
         
@@ -73,21 +74,15 @@ export default function AdminFinancesPage() {
           <Card className="glass-card border-white/5 bg-gradient-to-br from-brand-orange/10 via-white/5 to-transparent pr-12 pl-6 py-4 rounded-3xl w-full sm:w-auto relative overflow-hidden">
             <div className="absolute -right-4 -top-8 w-24 h-24 bg-brand-orange/20 rounded-full blur-2xl" />
             <div className="relative z-10">
-              <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">{isAr ? 'إجمالي المداخيل' : 'Total Revenue'}</p>
+              <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">{isAr ? 'إجمالي المدفوعات' : 'Total Spent'}</p>
               <div className="flex items-end gap-2 mt-1">
-                <p className="text-4xl font-black text-white">${totalRevenue.toLocaleString()}</p>
+                <p className="text-4xl font-black text-white">${totalSpent.toLocaleString()}</p>
                 <div className="flex items-center text-green-400 bg-green-500/10 px-2 py-0.5 rounded text-xs font-bold mb-1">
                   <ArrowUpRight className="w-3 h-3 mr-1" />
-                  <span>+12%</span>
                 </div>
               </div>
             </div>
           </Card>
-
-          <Button className="w-full sm:w-auto h-16 px-8 rounded-3xl gradient-brand font-black text-lg gap-2 shadow-xl shadow-brand-orange/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
-            <Download className="w-6 h-6" />
-            <span>{isAr ? 'تصدير التقرير' : 'Export Report'}</span>
-          </Button>
         </div>
       </div>
 
@@ -97,7 +92,7 @@ export default function AdminFinancesPage() {
           <table className="w-full text-start">
             <thead>
               <tr className="text-text-muted text-[10px] uppercase tracking-widest font-black border-b border-white/5 bg-white/[0.02]">
-                <th className="px-8 py-5 text-start whitespace-nowrap">{isAr ? 'العميل' : 'Client'}</th>
+                <th className="px-8 py-5 text-start whitespace-nowrap">{isAr ? 'رقم الفاتورة' : 'Invoice ID'}</th>
                 <th className="px-8 py-5 text-start whitespace-nowrap">{isAr ? 'المشروع' : 'Project'}</th>
                 <th className="px-8 py-5 text-start whitespace-nowrap">{isAr ? 'المبلغ' : 'Amount'}</th>
                 <th className="px-8 py-5 text-start whitespace-nowrap">{isAr ? 'الحالة' : 'Status'}</th>
@@ -116,19 +111,18 @@ export default function AdminFinancesPage() {
                     className="hover:bg-white/[0.02] transition-colors group"
                   >
                     <td className="px-8 py-6">
-                      <div className="flex items-center gap-4 min-w-[200px]">
+                      <div className="flex items-center gap-4 min-w-[150px]">
                         <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange/10 transition-colors">
-                          <User className="w-5 h-5" />
+                          <FileText className="w-5 h-5" />
                         </div>
                         <div>
-                          <p className="text-white font-bold group-hover:text-brand-orange transition-colors">{payment.client?.name}</p>
-                          <p className="text-text-muted text-xs truncate">{payment.client?.email}</p>
+                          <p className="text-white font-bold group-hover:text-brand-orange transition-colors">#INV-{payment.id.substring(0,6).toUpperCase()}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-8 py-6">
-                      <div className="flex flex-col justify-center min-w-[150px]">
-                        <p className="text-white font-bold leading-tight line-clamp-1 group-hover:text-brand-pink transition-colors">{payment.project?.title}</p>
+                      <div className="flex flex-col justify-center min-w-[200px]">
+                        <p className="text-white font-bold leading-tight line-clamp-1 group-hover:text-brand-pink transition-colors">{payment.project?.title || 'N/A'}</p>
                         <div className="flex items-center gap-1.5 text-text-muted text-xs mt-1">
                           <FolderKanban className="w-3 h-3" />
                           <span>{isAr ? 'مشروع' : 'Project'}</span>
@@ -158,7 +152,7 @@ export default function AdminFinancesPage() {
                     </td>
                     <td className="px-8 py-6 text-end">
                       <Button variant="ghost" size="icon" className="w-12 h-12 rounded-xl text-text-muted hover:text-brand-orange hover:bg-brand-orange/10 transition-all ml-auto rtl:ml-0 rtl:mr-auto">
-                        <FileText className="w-5 h-5" />
+                        <ArrowUpRight className="w-5 h-5 rtl:-scale-x-100" />
                       </Button>
                     </td>
                   </motion.tr>
@@ -170,7 +164,7 @@ export default function AdminFinancesPage() {
                       <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center">
                         <CreditCard className="w-8 h-8 text-text-muted/30" />
                       </div>
-                      <p className="text-lg font-bold">{isAr ? 'لا توجد دفعات.' : 'No payments found.'}</p>
+                      <p className="text-lg font-bold">{isAr ? 'لا توجد دفعات حالياً.' : 'No payments found.'}</p>
                     </div>
                   </td>
                 </tr>

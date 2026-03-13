@@ -250,3 +250,34 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+// ==================== المنتجات الرقمية ====================
+
+model DigitalProduct {
+  id          String   @id @default(cuid())
+  nameAr      String
+  nameEn      String
+  descAr      String
+  descEn      String
+  price       Float
+  currency    String   @default("USD")
+  image       String?
+  fileUrl     String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ==================== الإعدادات ====================
+
+model Settings {
+  id            String   @id @default("site-settings")
+  companyName   String
+  address       String?
+  phone         String?
+  email         String?
+  facebook      String?
+  instagram     String?
+  twitter       String?
+  linkedin      String?
+  updatedAt     DateTime @updatedAt
+}
