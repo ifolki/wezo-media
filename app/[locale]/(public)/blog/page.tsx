@@ -2,7 +2,6 @@ import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
 import { getTranslations } from 'next-intl/server'
 import BlogList from '@/components/public/BlogList'
-import HeaderSection from '@/components/shared/HeaderSection'
 
 interface BlogPageProps {
   params: {

@@ -114,7 +114,7 @@ export default function UserModal({ isOpen, onClose, onSuccess, user }: UserModa
 
           <div className="space-y-2">
             <Label>Role</Label>
-            <Select value={formData.role} onValueChange={val => setFormData({...formData, role: val})}>
+            <Select value={formData.role} onValueChange={(val: string | null) => setFormData({...formData, role: val || 'USER'})}>
               <SelectTrigger className="bg-white/5 border-white/10">
                 <SelectValue />
               </SelectTrigger>

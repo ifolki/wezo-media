@@ -101,7 +101,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess }: ProjectModa
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label>Client</Label>
-              <Select value={formData.clientId} onValueChange={val => setFormData({...formData, clientId: val})}>
+              <Select value={formData.clientId} onValueChange={(val: string | null) => setFormData({...formData, clientId: val || ''})}>
                 <SelectTrigger className="bg-white/5 border-white/10">
                   <SelectValue placeholder="Select client" />
                 </SelectTrigger>
@@ -114,7 +114,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess }: ProjectModa
             </div>
             <div className="space-y-2">
               <Label>Service Category</Label>
-              <Select value={formData.serviceId} onValueChange={val => setFormData({...formData, serviceId: val})}>
+              <Select value={formData.serviceId} onValueChange={(val: string | null) => setFormData({...formData, serviceId: val || ''})}>
                 <SelectTrigger className="bg-white/5 border-white/10">
                   <SelectValue placeholder="Select service" />
                 </SelectTrigger>
@@ -134,7 +134,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess }: ProjectModa
             </div>
             <div className="space-y-2">
               <Label>Status</Label>
-              <Select value={formData.status} onValueChange={val => setFormData({...formData, status: val})}>
+              <Select value={formData.status} onValueChange={(val: string | null) => setFormData({...formData, status: val || 'PENDING'})}>
                 <SelectTrigger className="bg-white/5 border-white/10">
                   <SelectValue />
                 </SelectTrigger>
@@ -148,7 +148,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess }: ProjectModa
             </div>
             <div className="space-y-2">
               <Label>Priority</Label>
-              <Select value={formData.priority} onValueChange={val => setFormData({...formData, priority: val})}>
+              <Select value={formData.priority} onValueChange={(val: string | null) => setFormData({...formData, priority: val || 'MEDIUM'})}>
                 <SelectTrigger className="bg-white/5 border-white/10">
                   <SelectValue />
                 </SelectTrigger>

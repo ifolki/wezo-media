@@ -26,7 +26,16 @@ interface PackageModalProps {
 export default function PackageModal({ isOpen, onClose, onSuccess, pkg }: PackageModalProps) {
   const [loading, setLoading] = useState(false)
   const [services, setServices] = useState<any[]>([])
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    nameAr: string;
+    nameEn: string;
+    nameFr: string;
+    price: string;
+    currency: string;
+    isPopular: boolean;
+    serviceId: string;
+    features: string[];
+  }>({
     nameAr: '',
     nameEn: '',
     nameFr: '',
@@ -34,7 +43,7 @@ export default function PackageModal({ isOpen, onClose, onSuccess, pkg }: Packag
     currency: 'USD',
     isPopular: false,
     serviceId: '',
-    features: [] as string[]
+    features: []
   })
   const [featureInput, setFeatureInput] = useState('')
 
@@ -144,7 +153,7 @@ export default function PackageModal({ isOpen, onClose, onSuccess, pkg }: Packag
             </div>
             <div className="space-y-2">
               <Label>Service</Label>
-              <Select value={formData.serviceId} onValueChange={val => setFormData({...formData, serviceId: val})}>
+              <Select value={formData.serviceId} onValueChange={(val: string | null) => setFormData({...formData, serviceId: val || ''})}>
                 <SelectTrigger className="bg-white/5 border-white/10">
                   <SelectValue placeholder="Select a service" />
                 </SelectTrigger>
@@ -164,7 +173,7 @@ export default function PackageModal({ isOpen, onClose, onSuccess, pkg }: Packag
             </div>
             <div className="space-y-2">
               <Label>Currency</Label>
-              <Select value={formData.currency} onValueChange={val => setFormData({...formData, currency: val})}>
+              <Select value={formData.currency} onValueChange={(val: string | null) => setFormData({...formData, currency: val || ''})}>
                 <SelectTrigger className="bg-white/5 border-white/10">
                   <SelectValue />
                 </SelectTrigger>

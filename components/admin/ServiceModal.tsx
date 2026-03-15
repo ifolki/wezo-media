@@ -195,7 +195,7 @@ export default function ServiceModal({ isOpen, onClose, onSuccess, service }: Se
               <Label>Category</Label>
               <Select 
                 value={formData.category || "AUDIO_PRODUCTION"}
-                onValueChange={v => setFormData({...formData, category: v})}
+                onValueChange={(v: string | null) => setFormData({...formData, category: v || 'AUDIO_PRODUCTION'})}
               >
                 <SelectTrigger className="bg-white/5 border-white/10 text-white">
                   <SelectValue />
