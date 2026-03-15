@@ -98,7 +98,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
           </div>
         }
       />
-      <DialogContent className="bg-brand-card border-white/5 sm:max-w-[600px] overflow-hidden p-0 rounded-[2.5rem]">
+      <DialogContent className="bg-brand-card border-white/10 sm:max-w-[650px] overflow-hidden p-0 rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.8)] z-50">
         <div className="p-8 space-y-8">
           <DialogHeader>
             <DialogTitle className="text-3xl font-black text-white flex items-center gap-4 text-start">
@@ -137,7 +137,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                   <div className="space-y-3">
                     <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">{t('name')}</Label>
                     <Input 
-                      className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl text-white" 
+                      className="h-14 bg-brand-dark border-white/10 focus:border-brand-orange focus:ring-1 focus:ring-brand-orange rounded-2xl text-white placeholder:text-text-muted/50" 
                       placeholder="..." 
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -146,7 +146,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                   <div className="space-y-3">
                     <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">{t('email')}</Label>
                     <Input 
-                      className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl text-white" 
+                      className="h-14 bg-brand-dark border-white/10 focus:border-brand-orange focus:ring-1 focus:ring-brand-orange rounded-2xl text-white placeholder:text-text-muted/50" 
                       type="email" 
                       placeholder="..." 
                       value={formData.email}
@@ -157,7 +157,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                 <div className="space-y-3">
                   <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">{t('phone')}</Label>
                   <Input 
-                    className="h-14 bg-brand-dark/50 border-white/5 focus:border-brand-orange rounded-2xl text-white" 
+                    className="h-14 bg-brand-dark border-white/10 focus:border-brand-orange focus:ring-1 focus:ring-brand-orange rounded-2xl text-white placeholder:text-text-muted/50" 
                     placeholder="..." 
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
@@ -185,7 +185,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                 <div className="space-y-3">
                   <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">{t('service')}</Label>
                   <Select onValueChange={(val) => setFormData({...formData, serviceId: val as string})}>
-                    <SelectTrigger className="h-14 bg-brand-dark/50 border-white/5 rounded-2xl text-white">
+                    <SelectTrigger className="h-14 bg-brand-dark border-white/10 rounded-2xl text-white focus:ring-brand-orange">
                       <SelectValue placeholder="..." />
                     </SelectTrigger>
                     <SelectContent className="bg-brand-card border-white/10 text-white rounded-2xl">
@@ -200,7 +200,7 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
                 <div className="space-y-3">
                   <Label className="text-sm font-bold text-text-muted uppercase tracking-widest px-1">{t('details')}</Label>
                   <Textarea 
-                    className="bg-brand-dark/50 border-white/5 rounded-2xl min-h-[150px] p-4 text-white" 
+                    className="bg-brand-dark border-white/10 rounded-2xl min-h-[150px] p-4 text-white focus:border-brand-orange focus:ring-1 focus:ring-brand-orange" 
                     placeholder="..." 
                     value={formData.description}
                     onChange={(e) => setFormData({...formData, description: e.target.value})}

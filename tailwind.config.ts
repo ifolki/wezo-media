@@ -14,6 +14,7 @@ const config: Config = {
           orange: "#FF6B2B",
           pink: "#FF2D78",
           dark: "#0A0A0F",
+          card: "#16161F",
         },
       },
       fontFamily: {
