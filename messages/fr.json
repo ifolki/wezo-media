@@ -8,6 +8,8 @@
     "contact": "Contact",
     "login": "Connexion",
     "register": "S'inscrire",
+    "logout": "Déconnexion",
+    "account": "Mon Compte",
     "dashboard": "Tableau de bord"
   },
   "hero": {

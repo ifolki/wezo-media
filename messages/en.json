@@ -8,6 +8,8 @@
     "contact": "Contact Us",
     "login": "Login",
     "register": "Register",
+    "logout": "Logout",
+    "account": "Account",
     "dashboard": "Dashboard",
     "talk_button": "Let's Talk"
   },
