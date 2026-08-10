@@ -16,38 +16,40 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // 1. Find or create the user (client)
-    let clientId = session?.user?.id
+    let project;
+    let service = null;
+    
+    try {
+      // 1. Find or create the user (client)
+      let clientId = session?.user?.id
 
-    if (!clientId) {
-      // Check if user exists by email
-      let user = await prisma.user.findUnique({
-        where: { email }
+      if (!clientId) {
+        // Check if user exists by email
+        let user = await prisma.user.findUnique({
+          where: { email }
+        })
+
+        if (!user) {
+          // Create a new client account (lead)
+          user = await prisma.user.create({
+            data: {
+              name,
+              email,
+              phone,
+              role: 'CLIENT',
+              // They don't have a password yet, they can set it later or use Google
+            }
+          })
+        }
+        clientId = user.id
+      }
+
+      // 2. Find the service by slug
+      service = await prisma.service.findUnique({
+        where: { slug: serviceId }
       })
 
-      if (!user) {
-        // Create a new client account (lead)
-        user = await prisma.user.create({
-          data: {
-            name,
-            email,
-            phone,
-            role: 'CLIENT',
-            // They don't have a password yet, they can set it later or use Google
-          }
-        })
-      }
-      clientId = user.id
-    }
-
-    // 2. Find the service by slug
-    const service = await prisma.service.findUnique({
-      where: { slug: serviceId }
-    })
-
-    // 3. Create the project with database offline fallback
-    let project;
-    try {
+      // 3. Create the project
       project = await prisma.project.create({
         data: {
           title: `${service?.nameEn || serviceId} - ${name}`,
