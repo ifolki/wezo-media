@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
+import { fetchLeadsFromNotion } from '@/lib/integrations/notion/leads'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,21 +21,27 @@ export async function GET(req: Request) {
       whereClause.notionSyncStatus = notionStatus
     }
 
-    const leads = await prisma.lead.findMany({
-      where: whereClause,
-      include: {
-        requestedService: {
-          select: {
-            id: true,
-            slug: true,
-            nameAr: true,
-            nameEn: true,
-            nameFr: true
+    let leads = []
+    try {
+      leads = await prisma.lead.findMany({
+        where: whereClause,
+        include: {
+          requestedService: {
+            select: {
+              id: true,
+              slug: true,
+              nameAr: true,
+              nameEn: true,
+              nameFr: true
+            }
           }
-        }
-      },
-      orderBy: { createdAt: 'desc' }
-    })
+        },
+        orderBy: { createdAt: 'desc' }
+      })
+    } catch (dbError) {
+      console.error('Database connection failed while fetching leads, querying Notion fallback:', dbError)
+      leads = await fetchLeadsFromNotion()
+    }
 
     return NextResponse.json(leads)
   } catch (error: any) {

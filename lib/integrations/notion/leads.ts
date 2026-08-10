@@ -571,4 +571,120 @@ export async function syncRawLeadToNotion(leadData: any): Promise<{ success: boo
   }
 }
 
+/**
+ * Fetches leads directly from Notion when the database is offline
+ */
+export async function fetchLeadsFromNotion(): Promise<any[]> {
+  if (!notion || (!databaseId && !dataSourceId)) return []
+
+  try {
+    const parentId = databaseId || dataSourceId
+    const response = await (notion as any).databases.query({
+      database_id: parentId!,
+      sorts: [
+        {
+          timestamp: 'created_time',
+          direction: 'descending'
+        }
+      ],
+      page_size: 50
+    })
+
+    const leads: any[] = []
+
+    for (const page of response.results as any[]) {
+      const props = page.properties
+
+      // Extract title/name
+      let name = 'عميل'
+      const titleProp = props['الاسم / المشروع'] || props['Name']
+      if (titleProp && titleProp.title && titleProp.title.length > 0) {
+        name = titleProp.title[0].text.content
+      }
+
+      // Extract phone
+      let phone = ''
+      const phoneProp = props['الهاتف'] || props['Phone']
+      if (phoneProp && phoneProp.phone_number) {
+        phone = phoneProp.phone_number
+      }
+
+      // Extract whatsapp
+      let whatsapp = ''
+      const whatsappProp = props['واتساب']
+      if (whatsappProp && whatsappProp.phone_number) {
+        whatsapp = whatsappProp.phone_number
+      }
+
+      // Extract email
+      let email = ''
+      const emailProp = props['البريد'] || props['Email']
+      if (emailProp && emailProp.email) {
+        email = emailProp.email
+      }
+
+      // Extract businessName
+      let businessName = ''
+      const bizProp = props['اسم المشروع']
+      if (bizProp && bizProp.rich_text && bizProp.rich_text.length > 0) {
+        businessName = bizProp.rich_text[0].text.content
+      }
+
+      // Extract requested service slug/name
+      let serviceName = ''
+      const serviceProp = props['الخدمة المطلوبة']
+      if (serviceProp && serviceProp.rich_text && serviceProp.rich_text.length > 0) {
+        serviceName = serviceProp.rich_text[0].text.content
+      }
+
+      // Extract status
+      let notionSyncStatus = 'SYNCED'
+      const statusProp = props['الحالة']
+      let status = 'NEW'
+      if (statusProp && statusProp.select && statusProp.select.name) {
+        const notionStatusName = statusProp.select.name
+        if (notionStatusName === 'جديد') status = 'NEW'
+        if (notionStatusName === 'قيد المتابعة') status = 'CONTACTED'
+        if (notionStatusName === 'مكتمل') status = 'CONVERTED'
+        if (notionStatusName === 'ملغى') status = 'ARCHIVED'
+      }
+
+      leads.push({
+        id: page.id,
+        name,
+        phone,
+        whatsapp,
+        email,
+        businessName,
+        industry: 'غير محدد',
+        city: 'غير محدد',
+        objective: 'غير محدد',
+        budgetMin: null,
+        budgetMax: null,
+        message: null,
+        locale: 'ar',
+        notionSyncStatus,
+        notionPageId: page.id,
+        notionSyncedAt: new Date(page.created_time),
+        createdAt: new Date(page.created_time),
+        source: 'Notion Sync',
+        status,
+        requestedService: {
+          id: 'notion-service',
+          slug: 'service',
+          nameAr: serviceName,
+          nameEn: serviceName,
+          nameFr: serviceName
+        }
+      })
+    }
+
+    return leads
+  } catch (error) {
+    console.error('Failed to fetch leads from Notion:', error)
+    return []
+  }
+}
+
+
 
