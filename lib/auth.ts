@@ -35,16 +35,26 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
         }
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email as string },
-        })
+        let user = null
+        try {
+          user = await prisma.user.findUnique({
+            where: { email: credentials.email as string },
+          })
+        } catch (dbError) {
+          console.error('Database connection failed during NextAuth authorize fallback:', dbError)
+        }
 
         if (!user || !user.password) return null
 
-        const isPasswordValid = await compare(
-          credentials.password as string,
-          user.password
-        )
+        let isPasswordValid = false
+        try {
+          isPasswordValid = await compare(
+            credentials.password as string,
+            user.password
+          )
+        } catch {
+          // fallback
+        }
 
         if (!isPasswordValid) return null
 
