@@ -579,6 +579,7 @@ export async function fetchLeadsFromNotion(): Promise<any[]> {
 
   try {
     const parentId = databaseId || dataSourceId
+    console.log('Querying Notion database with ID:', parentId)
     const response = await (notion as any).databases.query({
       database_id: parentId!,
       sorts: [
@@ -589,6 +590,7 @@ export async function fetchLeadsFromNotion(): Promise<any[]> {
       ],
       page_size: 50
     })
+    console.log('Notion query returned response count:', response?.results?.length)
 
     const leads: any[] = []
 
@@ -596,57 +598,57 @@ export async function fetchLeadsFromNotion(): Promise<any[]> {
       const props = page.properties
 
       // Extract title/name
-      let name = 'عميل'
-      const titleProp = props['الاسم / المشروع'] || props['Name']
+      let name = 'عميل غير معروف'
+      const titleProp = props['الاسم / المشروع'] || props['Name'] || props['name'] || props['title'] || props['Title']
       if (titleProp && titleProp.title && titleProp.title.length > 0) {
         name = titleProp.title[0].text.content
       }
 
       // Extract phone
-      let phone = ''
-      const phoneProp = props['الهاتف'] || props['Phone']
+      let phone = 'غير متوفر'
+      const phoneProp = props['الهاتف'] || props['Phone'] || props['phone'] || props['الهاتف (Phone)']
       if (phoneProp && phoneProp.phone_number) {
         phone = phoneProp.phone_number
       }
 
       // Extract whatsapp
       let whatsapp = ''
-      const whatsappProp = props['واتساب']
+      const whatsappProp = props['واتساب'] || props['WhatsApp'] || props['whatsapp']
       if (whatsappProp && whatsappProp.phone_number) {
         whatsapp = whatsappProp.phone_number
       }
 
       // Extract email
-      let email = ''
-      const emailProp = props['البريد'] || props['Email']
+      let email = 'غير متوفر'
+      const emailProp = props['البريد'] || props['Email'] || props['email'] || props['البريد الإلكتروني']
       if (emailProp && emailProp.email) {
         email = emailProp.email
       }
 
       // Extract businessName
-      let businessName = ''
-      const bizProp = props['اسم المشروع']
+      let businessName = 'غير محدد'
+      const bizProp = props['اسم المشروع'] || props['المشروع'] || props['Business Name'] || props['business']
       if (bizProp && bizProp.rich_text && bizProp.rich_text.length > 0) {
         businessName = bizProp.rich_text[0].text.content
       }
 
       // Extract requested service slug/name
-      let serviceName = ''
-      const serviceProp = props['الخدمة المطلوبة']
+      let serviceName = 'غير محدد'
+      const serviceProp = props['الخدمة المطلوبة'] || props['الخدمة'] || props['Service'] || props['service']
       if (serviceProp && serviceProp.rich_text && serviceProp.rich_text.length > 0) {
         serviceName = serviceProp.rich_text[0].text.content
       }
 
       // Extract status
       let notionSyncStatus = 'SYNCED'
-      const statusProp = props['الحالة']
+      const statusProp = props['الحالة'] || props['Status'] || props['status']
       let status = 'NEW'
       if (statusProp && statusProp.select && statusProp.select.name) {
         const notionStatusName = statusProp.select.name
-        if (notionStatusName === 'جديد') status = 'NEW'
-        if (notionStatusName === 'قيد المتابعة') status = 'CONTACTED'
-        if (notionStatusName === 'مكتمل') status = 'CONVERTED'
-        if (notionStatusName === 'ملغى') status = 'ARCHIVED'
+        if (notionStatusName === 'جديد' || notionStatusName === 'New') status = 'NEW'
+        if (notionStatusName === 'قيد المتابعة' || notionStatusName === 'In Progress') status = 'CONTACTED'
+        if (notionStatusName === 'مكتمل' || notionStatusName === 'Completed') status = 'CONVERTED'
+        if (notionStatusName === 'ملغى' || notionStatusName === 'Cancelled') status = 'ARCHIVED'
       }
 
       leads.push({

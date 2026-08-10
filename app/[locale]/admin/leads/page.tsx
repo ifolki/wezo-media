@@ -94,12 +94,18 @@ export default function AdminLeadsPage() {
   // Filtered and searched leads
   const searchedLeads = leads.filter(lead => {
     const term = searchQuery.toLowerCase()
+    const name = lead.name ? String(lead.name).toLowerCase() : ''
+    const businessName = lead.businessName ? String(lead.businessName).toLowerCase() : ''
+    const city = lead.city ? String(lead.city).toLowerCase() : ''
+    const phone = lead.phone ? String(lead.phone) : ''
+    const email = lead.email ? String(lead.email).toLowerCase() : ''
+    
     return (
-      lead.name.toLowerCase().includes(term) ||
-      lead.businessName.toLowerCase().includes(term) ||
-      lead.city.toLowerCase().includes(term) ||
-      lead.phone.includes(term) ||
-      (lead.email && lead.email.toLowerCase().includes(term))
+      name.includes(term) ||
+      businessName.includes(term) ||
+      city.includes(term) ||
+      phone.includes(term) ||
+      email.includes(term)
     )
   })
 
