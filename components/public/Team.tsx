@@ -5,10 +5,11 @@ import { Instagram, Twitter, Linkedin } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 const teamMembers = [
-  { name: 'Amine Wezo', roleKey: 'founder', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Sarah Ahmed', roleKey: 'prodManager', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Karim Omar', roleKey: 'marketing', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Yasmine Ali', roleKey: 'web', img: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Mhammed Bazaou', roleKey: 'projectManager', img: '/assets/team/mhammed-bazaou.jpg' },
+  { name: 'Reda El Amrani', roleKey: 'founder', img: '/assets/team/team-4.jpg' },
+  { name: 'Yasmine Bennani', roleKey: 'prodManager', img: '/assets/team/team-2.jpg' },
+  { name: 'Karim Alami', roleKey: 'marketing', img: '/assets/team/team-1.jpg' },
+  { name: 'Sarah Chraibi', roleKey: 'web', img: '/assets/team/team-3.jpg' },
 ]
 
 export default function Team() {
@@ -37,7 +38,7 @@ export default function Team() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 lg:gap-6 justify-center">
           {teamMembers.map((member, i) => (
             <motion.div
               key={i}
@@ -45,10 +46,10 @@ export default function Team() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
               viewport={{ once: true }}
-              className="group text-center space-y-8"
+              className="group text-center space-y-8 flex flex-col items-center"
             >
-              <div className="relative inline-block">
-                <div className="w-56 h-56 rounded-[3rem] overflow-hidden border-2 border-white/5 shadow-2xl transition-all duration-700 group-hover:scale-105 group-hover:border-brand-orange group-hover:shadow-brand-orange/20">
+              <div className="relative inline-block mx-auto">
+                <div className="w-48 h-48 xl:w-52 xl:h-52 rounded-[3rem] overflow-hidden border-2 border-white/5 shadow-2xl transition-all duration-700 group-hover:scale-105 group-hover:border-brand-orange group-hover:shadow-brand-orange/20">
                   <img 
                     src={member.img} 
                     alt={member.name} 
@@ -63,19 +64,19 @@ export default function Team() {
                     <a 
                       key={idx} 
                       href="#" 
-                      className="w-12 h-12 rounded-2xl gradient-brand flex items-center justify-center shadow-2xl hover:scale-125 transition-all text-white"
+                      className="w-10 h-10 rounded-xl gradient-brand flex items-center justify-center shadow-2xl hover:scale-125 transition-all text-white"
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-4.5 h-4.5" />
                     </a>
                   ))}
                 </div>
               </div>
 
-              <div className="space-y-3 pt-6">
-                <h3 className="text-3xl font-black text-white group-hover:text-brand-orange transition-colors">
+              <div className="space-y-2 pt-4">
+                <h3 className="text-2xl font-black text-white group-hover:text-brand-orange transition-colors line-clamp-1">
                   {member.name}
                 </h3>
-                <p className="text-brand-orange font-bold uppercase tracking-widest text-sm">
+                <p className="text-brand-orange font-bold uppercase tracking-widest text-xs">
                   {t(member.roleKey)}
                 </p>
               </div>
