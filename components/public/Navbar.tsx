@@ -50,7 +50,7 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-500 hidden md:block',
         isScrolled
           ? 'bg-brand-dark/90 backdrop-blur-2xl py-4 shadow-[0_10px_40px_rgba(0,0,0,0.5)] border-b border-white/5'
           : 'bg-transparent py-8'
@@ -87,17 +87,13 @@ export default function Navbar() {
           
           {/* Account Icon */}
           <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <button className="w-14 h-14 rounded-2xl glass-card flex items-center justify-center text-white hover:text-brand-orange transition-all group overflow-hidden border border-white/5 active:scale-95">
-                  {session?.user?.image ? (
-                    <img src={session.user.image} alt={session.user.name || ''} className="w-full h-full object-cover" />
-                  ) : (
-                    <User className="w-6 h-6" />
-                  )}
-                </button>
-              }
-            />
+            <DropdownMenuTrigger className="w-14 h-14 rounded-2xl glass-card flex items-center justify-center text-white hover:text-brand-orange transition-all group overflow-hidden border border-white/5 active:scale-95">
+              {session?.user?.image ? (
+                <img src={session.user.image} alt={session.user.name || ''} className="w-full h-full object-cover" />
+              ) : (
+                <User className="w-6 h-6" />
+              )}
+            </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64 bg-brand-dark/95 backdrop-blur-3xl border-white/10 text-white rounded-3xl p-3 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] z-50 mt-2">
               {session ? (
                 <>

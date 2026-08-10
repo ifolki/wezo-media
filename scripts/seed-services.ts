@@ -1,5 +1,5 @@
 
-import { PrismaClient, ServiceCategory } from '@prisma/client'
+import { PrismaClient, ServiceCategoryEnum } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -13,7 +13,7 @@ async function main() {
       descAr: 'توزيع موسيقي، هندسة صوتية، وإنتاج كامل.',
       descEn: 'Music arrangement, sound engineering, and full production.',
       descFr: 'Arrangement musical, ingénierie sonore et production complète.',
-      category: ServiceCategory.AUDIO_PRODUCTION,
+      category: ServiceCategoryEnum.AUDIO_PRODUCTION,
     },
     {
       slug: 'video',
@@ -23,7 +23,7 @@ async function main() {
       descAr: 'تصوير فيديو كليب، مونتاج، وإخراج.',
       descEn: 'Music video shooting, editing, and directing.',
       descFr: 'Tournage de clips vidéo, montage et réalisation.',
-      category: ServiceCategory.VIDEO_PRODUCTION,
+      category: ServiceCategoryEnum.VIDEO_PRODUCTION,
     },
     {
       slug: 'marketing',
@@ -33,7 +33,7 @@ async function main() {
       descAr: 'إدارة حملات إعلانية وتنشيط السوشيال ميديا.',
       descEn: 'Ad campaign management and social media activation.',
       descFr: 'Gestion de campagnes publicitaires et activation des médias sociaux.',
-      category: ServiceCategory.DIGITAL_MARKETING,
+      category: ServiceCategoryEnum.DIGITAL_MARKETING,
     },
     {
       slug: 'web',
@@ -43,7 +43,7 @@ async function main() {
       descAr: 'بناء منصات ومواقع عصرية.',
       descEn: 'Building modern platforms and websites.',
       descFr: 'Construction de plateformes et de sites web modernes.',
-      category: ServiceCategory.WEB_DEVELOPMENT,
+      category: ServiceCategoryEnum.WEB_DEVELOPMENT,
     },
     {
       slug: 'artist',
@@ -53,7 +53,7 @@ async function main() {
       descAr: 'إدارة وتوزيع أعمال الفنانين.',
       descEn: 'Artist management and distribution.',
       descFr: 'Gestion et distribution des œuvres des artistes.',
-      category: ServiceCategory.ARTIST_SERVICES,
+      category: ServiceCategoryEnum.ARTIST_SERVICES,
     },
   ]
 

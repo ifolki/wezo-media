@@ -1,5 +1,6 @@
 import Hero from '@/components/public/Hero'
 import Stats from '@/components/public/Stats'
+import AgencyStudio from '@/components/public/AgencyStudio'
 import ServicesGrid from '@/components/public/ServicesGrid'
 import WorkProcess from '@/components/public/WorkProcess'
 import Portfolio from '@/components/public/Portfolio'
@@ -12,6 +13,7 @@ export default function Home() {
     <main className="flex flex-col w-full">
       <Hero />
       <Stats />
+      <AgencyStudio />
       <ServicesGrid />
       <WorkProcess />
       <Portfolio />

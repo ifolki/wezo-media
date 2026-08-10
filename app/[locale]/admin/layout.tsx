@@ -23,7 +23,12 @@ import {
   Image as ImageIcon,
   Globe,
   ShoppingBag,
-  Briefcase
+  Briefcase,
+  ClipboardList,
+  Film,
+  Award,
+  Star,
+  HelpCircle
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -40,9 +45,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const navItems = [
     { href: '/admin', label: t('admin.overview'), icon: LayoutDashboard },
+    { href: '/admin/leads', label: t('admin.leads'), icon: ClipboardList },
     { href: '/admin/services', label: t('admin.services'), icon: Briefcase },
     { href: '/admin/packages', label: t('admin.packages'), icon: Package },
     { href: '/admin/orders', label: t('admin.orders'), icon: FolderKanban },
+    { href: '/admin/portfolio', label: t('admin.portfolio'), icon: Film },
+    { href: '/admin/case-studies', label: t('admin.case_studies'), icon: Award },
+    { href: '/admin/testimonials', label: t('admin.testimonials'), icon: Star },
+    { href: '/admin/faq', label: t('admin.faq'), icon: HelpCircle },
     { href: '/admin/users', label: t('admin.users'), icon: Users },
     { href: '/admin/messages', label: t('admin.messages'), icon: MessageSquare },
     { href: '/admin/blog', label: t('admin.blog'), icon: FileText },

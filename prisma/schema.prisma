@@ -30,6 +30,7 @@ model User {
   payments      Payment[]
   accounts      Account[]
   sessions      Session[]
+  leads         Lead[]
 }
 
 enum Role {
@@ -83,27 +84,52 @@ enum Priority {
 // ==================== الخدمات ====================
 
 model Service {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  nameAr      String
-  nameEn      String
-  nameFr      String @default("")
-  descAr      String
-  descEn      String
-  descFr      String @default("")
-  category    ServiceCategory
-  icon        String?
-  image       String?
-  isActive    Boolean  @default(true)
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
+  id                String   @id @default(cuid())
+  slug              String   @unique
+  nameAr            String
+  nameEn            String
+  nameFr            String @default("")
+  descAr            String
+  descEn            String
+  descFr            String @default("")
+  category          ServiceCategoryEnum
+  icon              String?
+  image             String?
+  isActive          Boolean  @default(true)
+  order             Int      @default(0)
+  createdAt         DateTime @default(now())
 
-  projects    Project[]
-  packages    Package[]
-  workSteps   WorkStep[]
+  // New Upgrade Fields
+  startingPrice     Float?
+  duration          String?
+  targetAudienceAr  String?
+  targetAudienceEn  String?
+  targetAudienceFr  String?   @default("")
+  deliverablesAr    String?
+  deliverablesEn    String?
+  deliverablesFr    String?   @default("")
+  isFeatured        Boolean   @default(false)
+  seoTitleAr        String?
+  seoTitleEn        String?
+  seoTitleFr        String?   @default("")
+  seoDescAr         String?
+  seoDescEn         String?
+  seoDescFr         String?   @default("")
+
+  // Relations
+  projects          Project[]
+  packages          Package[]   @relation("DirectServicePackages") // Link packages directly
+  manyPackages      Package[]   // Many-to-many packages relation
+  workSteps         WorkStep[]
+  categoryId        String?
+  categoryInfo      ServiceCategory? @relation(fields: [categoryId], references: [id])
+  leads             Lead[]
+  portfolioItems    PortfolioItem[]
+  faqs              FAQ[]
+  caseStudies       CaseStudy[] // Many-to-many
 }
 
-enum ServiceCategory {
+enum ServiceCategoryEnum {
   AUDIO_PRODUCTION
   VIDEO_PRODUCTION
   DIGITAL_MARKETING
@@ -113,16 +139,40 @@ enum ServiceCategory {
 }
 
 model Package {
-  id          String   @id @default(cuid())
-  nameAr      String
-  nameEn      String
-  nameFr      String @default("")
-  price       Float
-  currency    String   @default("USD")
-  features    Json     // Reverted to Json for PostgreSQL
-  isPopular   Boolean  @default(false)
-  serviceId   String
-  service     Service  @relation(fields: [serviceId], references: [id])
+  id                String   @id @default(cuid())
+  nameAr            String
+  nameEn            String
+  nameFr            String @default("")
+  price             Float
+  currency          String   @default("USD")
+  features          Json     // Reverted to Json for PostgreSQL
+  isPopular         Boolean  @default(false)
+  serviceId         String
+  service           Service  @relation("DirectServicePackages", fields: [serviceId], references: [id])
+
+  // New Upgrade Fields
+  slug              String?   @unique
+  targetAudienceAr  String?
+  targetAudienceEn  String?
+  targetAudienceFr  String?   @default("")
+  outcomeAr         String?
+  outcomeEn         String?
+  outcomeFr         String?   @default("")
+  billingPeriod     String?
+  revisions         Int       @default(3)
+  adsBudgetIncluded Boolean   @default(false)
+  adsBudgetNoteAr   String?
+  adsBudgetNoteEn   String?
+  adsBudgetNoteFr   String?   @default("")
+  ctaLabelAr        String?
+  ctaLabelEn        String?
+  ctaLabelFr        String?   @default("")
+  isActive          Boolean   @default(true)
+  order             Int       @default(0)
+  isFeatured        Boolean   @default(false)
+
+  // Many-to-many relation
+  services          Service[]
 }
 
 model WorkStep {
@@ -307,4 +357,200 @@ model Settings {
   twitter       String?
   linkedin      String?
   updatedAt     DateTime @updatedAt
+}
+
+// ==================== NEW MODELS FOR PREMIUM UPGRADE ====================
+
+model ServiceCategory {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  nameAr        String
+  nameEn        String
+  nameFr        String    @default("")
+  descriptionAr String
+  descriptionEn String
+  descriptionFr String    @default("")
+  icon          String?
+  image         String?
+  order         Int       @default(0)
+  isActive      Boolean   @default(true)
+  services      Service[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Lead {
+  id                 String     @id @default(cuid())
+  name               String
+  phone              String
+  whatsapp           String
+  email              String?
+  businessName       String
+  industry           String
+  city               String
+  websiteUrl         String?
+  objective          String
+  budgetMin          Float?
+  budgetMax          Float?
+  desiredStartDate   DateTime?
+  message            String?
+  source             String?
+  referrer           String?
+  locale             String     @default("ar")
+  utmSource          String?
+  utmMedium          String?
+  utmCampaign        String?
+  utmContent         String?
+  status             LeadStatus @default(NEW)
+  adminNotes         String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  // Notion Sync Tracking Fields
+  notionPageId       String?
+  notionSyncStatus   NotionSyncStatus @default(PENDING)
+  notionSyncedAt     DateTime?
+  notionSyncError    String?
+  notionRetryCount   Int              @default(0)
+
+  // Relations
+  requestedServiceId String?
+  requestedService   Service?   @relation(fields: [requestedServiceId], references: [id])
+  assignedToId       String?
+  assignedTo         User?      @relation(fields: [assignedToId], references: [id])
+}
+
+enum LeadStatus {
+  NEW
+  QUALIFIED
+  CONTACTED
+  PROPOSAL_SENT
+  WON
+  LOST
+  ARCHIVED
+}
+
+model PortfolioItem {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  titleAr         String
+  titleEn         String
+  titleFr         String        @default("")
+  descAr          String
+  descEn          String
+  descFr          String        @default("")
+  clientName      String
+  clientLogo      String?
+  coverImage      String
+  mediaType       PortfolioType @default(VIDEO)
+  youtubeUrl      String?
+  youtubeVideoId  String?
+  uploadedVideoUrl String?
+  externalUrl     String?
+  industry        String
+  isFeatured      Boolean       @default(false)
+  isPublished     Boolean       @default(false)
+  order           Int           @default(0)
+  publishedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  serviceId       String?
+  service         Service?      @relation(fields: [serviceId], references: [id])
+  caseStudyId     String?
+  caseStudy       CaseStudy?    @relation(fields: [caseStudyId], references: [id])
+}
+
+enum PortfolioType {
+  YOUTUBE
+  VIDEO
+  IMAGE
+  WEBSITE
+  BRANDING
+}
+
+model CaseStudy {
+  id            String          @id @default(cuid())
+  slug          String          @unique
+  titleAr       String
+  titleEn       String
+  titleFr       String          @default("")
+  clientName    String
+  industry      String
+  challengeAr   String
+  challengeEn   String
+  challengeFr   String          @default("")
+  objectiveAr   String
+  objectiveEn   String
+  objectiveFr   String          @default("")
+  solutionAr    String
+  solutionEn    String
+  solutionFr    String          @default("")
+  duration      String
+  publicBudget  String?
+  resultsAr     String
+  resultsEn     String
+  resultsFr     String          @default("")
+  coverImage    String
+  gallery       Json?
+  isFeatured    Boolean         @default(false)
+  isPublished   Boolean         @default(false)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  // Relations
+  portfolioItems PortfolioItem[]
+  testimonialId  String?         @unique
+  testimonial    Testimonial?    @relation(fields: [testimonialId], references: [id])
+  services       Service[]
+}
+
+model Testimonial {
+  id               String     @id @default(cuid())
+  clientName       String
+  businessName     String
+  roleAr           String
+  roleEn           String
+  roleFr           String     @default("")
+  quoteAr          String
+  quoteEn          String     
+  quoteFr          String     @default("")
+  avatar           String?
+  logo             String?
+  videoUrl         String?
+  rating           Int        @default(5)
+  consentToPublish Boolean    @default(true)
+  isFeatured       Boolean    @default(false)
+  isPublished      Boolean    @default(false)
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  // Relations
+  caseStudy        CaseStudy?
+}
+
+model FAQ {
+  id          String   @id @default(cuid())
+  questionAr  String
+  questionEn  String
+  questionFr  String   @default("")
+  answerAr    String
+  answerEn    String
+  answerFr    String   @default("")
+  category    String
+  order       Int      @default(0)
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  serviceId   String?
+  service     Service? @relation(fields: [serviceId], references: [id])
+}
+
+enum NotionSyncStatus {
+  PENDING
+  SYNCED
+  FAILED
 }
