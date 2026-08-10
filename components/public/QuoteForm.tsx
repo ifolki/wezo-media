@@ -135,7 +135,14 @@ export default function QuoteForm({ services }: QuoteFormProps) {
         toast.success(isAr ? 'تم إرسال طلبك بنجاح!' : 'Your request has been sent successfully!')
       } else {
         const errorData = await res.json()
-        toast.error(errorData.error || 'Something went wrong')
+        if (errorData.details) {
+          const detailMsgs = Object.entries(errorData.details)
+            .map(([field, err]: [string, any]) => `${field}: ${err._errors.join(', ')}`)
+            .join(' | ')
+          toast.error(`${errorData.error}: ${detailMsgs}`)
+        } else {
+          toast.error(errorData.error || 'Something went wrong')
+        }
       }
     } catch (err) {
       toast.error(isAr ? 'عذراً، حدث خطأ أثناء الإرسال.' : 'An error occurred during submission.')

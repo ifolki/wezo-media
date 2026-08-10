@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { z } from 'zod'
-import { syncLeadToNotion } from '@/lib/integrations/notion/leads'
+import { syncLeadToNotion, syncRawLeadToNotion } from '@/lib/integrations/notion/leads'
 
 // Simple IP-based Rate Limiter Store in Memory
 const RATE_LIMIT_WINDOW_MS = 60 * 1000 // 1 minute
@@ -28,11 +28,11 @@ const leadInputSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   phone: z.string().min(5, 'Phone number is too short'),
   whatsapp: z.string().min(5, 'WhatsApp number is too short'),
-  email: z.string().email('Invalid email').optional().or(z.literal('')),
+  email: z.string().optional().or(z.literal('')),
   businessName: z.string().min(1, 'Business name is required'),
   industry: z.string().min(1, 'Industry is required'),
   city: z.string().min(1, 'City is required'),
-  websiteUrl: z.string().url('Invalid website URL').optional().or(z.literal('')),
+  websiteUrl: z.string().optional().or(z.literal('')),
   objective: z.string().min(2, 'Objective must be specified'),
   budgetMin: z.union([z.string(), z.number()]).optional(),
   budgetMax: z.union([z.string(), z.number()]).optional(),
@@ -118,6 +118,34 @@ export async function POST(req: Request) {
       console.error('Database connection failed while creating lead. Activating fallback:', dbError)
       // Generates a mock object for local developer testing when database is offline
       const mockLeadId = `MOCK-LEAD-${Math.random().toString(36).substring(2, 9).toUpperCase()}`
+      
+      // Fallback: Sync directly to Notion even if database is offline
+      syncRawLeadToNotion({
+        id: mockLeadId,
+        name: data.name,
+        phone: data.phone,
+        whatsapp: data.whatsapp,
+        email: data.email || null,
+        businessName: data.businessName,
+        industry: data.industry,
+        city: data.city,
+        websiteUrl: data.websiteUrl || null,
+        objective: data.objective,
+        budgetMin: budgetMinVal,
+        budgetMax: budgetMaxVal,
+        message: data.message || null,
+        locale: data.locale,
+        requestedServiceId: data.requestedServiceId || null,
+        utmSource: data.utmSource || null,
+        utmMedium: data.utmMedium || null,
+        utmCampaign: data.utmCampaign || null,
+        utmContent: data.utmContent || null,
+        referrer: data.referrer || null,
+        source: data.source || 'Website Form (Offline Fallback)',
+      }).catch(err => {
+        console.error('Failed to sync offline lead to Notion:', err)
+      })
+
       return NextResponse.json({
         success: true,
         mock: true,

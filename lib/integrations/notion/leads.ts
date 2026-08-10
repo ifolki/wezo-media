@@ -399,3 +399,176 @@ async function updateLocalSyncStatus(leadId: string, status: 'FAILED', errorMsg:
     console.error('Failed to update local lead sync status in DB:', dbErr)
   }
 }
+
+/**
+ * Synchronizes a Client Dashboard Project creation request to the Notion Leads database
+ */
+export async function syncProjectToNotion(project: any, client: any, service: any): Promise<{ success: boolean; error?: string }> {
+  if (!notion) {
+    return { success: false, error: 'Notion SDK not initialized (missing NOTION_TOKEN)' }
+  }
+
+  if (!dataSourceId && !databaseId) {
+    return { success: false, error: 'Notion target identifier is missing' }
+  }
+
+  try {
+    const properties: Record<string, any> = {}
+
+    // 1. الاسم / المشروع (Title) - Client Name + Project Title
+    properties['الاسم / المشروع'] = {
+      title: [
+        {
+          text: {
+            content: `${client.name || 'عميل'} - ${project.title || 'طلب خدمة'}`
+          }
+        }
+      ]
+    }
+
+    // 2. الحالة (Select) - جديد
+    properties['الحالة'] = {
+      select: {
+        name: 'جديد'
+      }
+    }
+
+    // 3. الأولوية (Select) - متوسطة
+    properties['الأولوية'] = {
+      select: {
+        name: 'متوسطة'
+      }
+    }
+
+    // 4. الهاتف (Phone)
+    if (client.phone) {
+      properties['الهاتف'] = {
+        phone_number: client.phone
+      }
+      properties['واتساب'] = {
+        phone_number: client.phone
+      }
+    }
+
+    // 5. البريد (Email)
+    if (client.email) {
+      properties['البريد'] = {
+        email: client.email
+      }
+    }
+
+    // 6. اسم المشروع (Rich text)
+    properties['اسم المشروع'] = {
+      rich_text: [
+        {
+          text: {
+            content: project.title || ''
+          }
+        }
+      ]
+    }
+
+    // 7. الخدمة المطلوبة (Rich text)
+    const serviceName = service 
+      ? (service.nameAr || service.nameEn)
+      : 'غير محدد'
+    
+    properties['الخدمة المطلوبة'] = {
+      rich_text: [
+        {
+          text: {
+            content: serviceName
+          }
+        }
+      ]
+    }
+
+    // 8. تفاصيل الطلب (Rich text)
+    properties['تفاصيل الطلب'] = {
+      rich_text: [
+        {
+          text: {
+            content: project.description || ''
+          }
+        }
+      ]
+    }
+
+    // 9. المصدر (Select) - لوحة التحكم
+    properties['المصدر'] = {
+      select: {
+        name: 'لوحة التحكم'
+      }
+    }
+
+    // 10. اللغة (Select) - AR
+    properties['اللغة'] = {
+      select: {
+        name: 'AR'
+      }
+    }
+
+    // Create page in Notion
+    const parentObj = dataSourceId 
+      ? { data_source_id: dataSourceId }
+      : { database_id: databaseId }
+
+    await notion.pages.create({
+      parent: parentObj as any,
+      properties: properties
+    })
+
+    return { success: true }
+  } catch (error: any) {
+    console.error('Notion Sync failed for dashboard project:', project.id, error)
+    return { success: false, error: error?.message || String(error) }
+  }
+}
+
+/**
+ * Synchronizes raw lead data directly to Notion when the PostgreSQL database is offline
+ */
+export async function syncRawLeadToNotion(leadData: any): Promise<{ success: boolean; error?: string }> {
+  if (!notion) {
+    return { success: false, error: 'Notion SDK not initialized (missing NOTION_TOKEN)' }
+  }
+
+  if (!dataSourceId && !databaseId) {
+    return { success: false, error: 'Notion target identifier is missing' }
+  }
+
+  try {
+    // Retrieve requested service from database if possible, else use raw ID
+    let service = null
+    if (leadData.requestedServiceId) {
+      try {
+        service = await prisma.service.findUnique({
+          where: { id: leadData.requestedServiceId }
+        })
+      } catch {
+        // DB is offline, service is null
+      }
+    }
+
+    const properties = mapLeadToNotionProperties({
+      ...leadData,
+      requestedService: service
+    })
+
+    const parentObj = dataSourceId 
+      ? { data_source_id: dataSourceId }
+      : { database_id: databaseId }
+
+    await notion.pages.create({
+      parent: parentObj as any,
+      properties: properties
+    })
+
+    return { success: true }
+  } catch (error: any) {
+    console.error('Notion Sync failed for raw lead:', leadData.id, error)
+    return { success: false, error: error?.message || String(error) }
+  }
+}
+
+

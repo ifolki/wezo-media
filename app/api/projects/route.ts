@@ -2,6 +2,9 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
+import { syncProjectToNotion } from '@/lib/integrations/notion/leads'
+
+export const dynamic = 'force-dynamic'
 
 export async function POST(req: Request) {
   try {
@@ -42,16 +45,46 @@ export async function POST(req: Request) {
       where: { slug: serviceId }
     })
 
-    // 3. Create the project
-    const project = await prisma.project.create({
-      data: {
+    // 3. Create the project with database offline fallback
+    let project;
+    try {
+      project = await prisma.project.create({
+        data: {
+          title: `${service?.nameEn || serviceId} - ${name}`,
+          description,
+          clientId,
+          serviceId: service?.id || null,
+          status: 'PENDING',
+        }
+      })
+
+      // Fetch client details
+      const client = await prisma.user.findUnique({
+        where: { id: clientId }
+      })
+
+      if (client) {
+        syncProjectToNotion(project, client, service).catch(err => {
+          console.error('Failed to sync project request to Notion:', err)
+        })
+      }
+    } catch (dbError) {
+      console.error('Database connection failed during project creation. Activating fallback:', dbError)
+      
+      const mockProjectId = `MOCK-PRJ-${Math.random().toString(36).substring(2, 9).toUpperCase()}`
+      project = {
+        id: mockProjectId,
         title: `${service?.nameEn || serviceId} - ${name}`,
         description,
-        clientId,
-        serviceId: service?.id || null,
         status: 'PENDING',
+        createdAt: new Date()
       }
-    })
+
+      // Fallback: Sync directly to Notion Leads database using raw client info
+      syncProjectToNotion(project, { name, email, phone }, service).catch(err => {
+        console.error('Failed to sync offline project request to Notion:', err)
+      })
+    }
 
     return NextResponse.json(project)
   } catch (error) {
