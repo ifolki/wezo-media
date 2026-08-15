@@ -32,6 +32,12 @@ export async function GET() {
     })
   } catch (error) {
     console.error('Admin stats error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({
+      users: 0,
+      projects: 0,
+      revenue: 0,
+      pending: 0,
+      dbOffline: true
+    })
   }
 }

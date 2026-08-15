@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link, usePathname } from '@/navigation'
@@ -28,7 +28,8 @@ import {
   Film,
   Award,
   Star,
-  HelpCircle
+  HelpCircle,
+  AlertCircle
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -37,11 +38,29 @@ import RequestServiceModal from '@/components/shared/RequestServiceModal'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isDbOnline, setIsDbOnline] = useState<boolean | null>(null)
   const t = useTranslations('dashboard')
   const locale = useLocale()
   const isAr = locale === 'ar'
   const pathname = usePathname()
   const { data: session } = useSession()
+
+  useEffect(() => {
+    async function checkDb() {
+      try {
+        const resp = await fetch('/api/admin/db-status')
+        if (resp.ok) {
+          const data = await resp.json()
+          setIsDbOnline(data.online)
+        } else {
+          setIsDbOnline(false)
+        }
+      } catch {
+        setIsDbOnline(false)
+      }
+    }
+    checkDb()
+  }, [])
 
   const navItems = [
     { href: '/admin', label: t('admin.overview'), icon: LayoutDashboard },
@@ -233,7 +252,32 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
          </header>
 
          {/* Screen Content */}
-         <div className="flex-grow p-4 md:p-12 custom-scrollbar overflow-y-auto">
+         <div className="flex-grow p-4 md:p-12 custom-scrollbar overflow-y-auto space-y-6">
+            {isDbOnline === false && (
+              <div className="bg-red-500/10 border-2 border-red-500/20 p-6 rounded-3xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-[0_0_50px_rgba(239,68,68,0.1)] text-start">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-red-500/20 text-red-400 flex items-center justify-center shrink-0">
+                    <AlertCircle className="w-6 h-6 animate-pulse" />
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="text-white font-black text-lg">
+                      {isAr ? 'قاعدة بيانات Supabase متوقفة مؤقتاً! (Offline)' : 'Supabase Database is Paused! (Offline)'}
+                    </h4>
+                    <p className="text-text-muted text-sm leading-relaxed font-bold">
+                      {isAr 
+                        ? 'قاعدة البيانات متوقفة فـ حسابك على Supabase. قمنا بتفعيل وضع الطوارئ التلقائي ومزامنة الطلبات مباشرة مع Notion لكي لا تفقد أي طلب. لتفعيل لوحة التحكم بالكامل، يرجى استئناف تشغيل قاعدة البيانات (Resume) فـ حسابك على Supabase.'
+                        : 'Your database is currently paused on Supabase. We have activated direct Notion sync bypass. To resume full dashboard statistics and controls, please click Resume on your Supabase dashboard.'}
+                    </p>
+                  </div>
+                </div>
+                <Button 
+                  onClick={() => window.open('https://supabase.com', '_blank')}
+                  className="gradient-brand text-white font-black rounded-2xl px-6 h-12 shadow-lg shrink-0 w-full md:w-auto hover:scale-[1.02] active:scale-95 transition-all animate-pulse"
+                >
+                  {isAr ? 'تشغيل قاعدة البيانات 🚀' : 'Resume Database 🚀'}
+                </Button>
+              </div>
+            )}
             {children}
          </div>
       </main>
