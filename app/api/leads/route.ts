@@ -115,47 +115,15 @@ export async function POST(req: Request) {
         }
       })
     } catch (dbError) {
-      console.error('Database connection failed while creating lead. Activating fallback:', dbError)
-      // Generates a mock object for local developer testing when database is offline
-      const mockLeadId = `MOCK-LEAD-${Math.random().toString(36).substring(2, 9).toUpperCase()}`
-      
-      // Fallback: Sync directly to Notion even if database is offline
-      syncRawLeadToNotion({
-        id: mockLeadId,
-        name: data.name,
-        phone: data.phone,
-        whatsapp: data.whatsapp,
-        email: data.email || null,
-        businessName: data.businessName,
-        industry: data.industry,
-        city: data.city,
-        websiteUrl: data.websiteUrl || null,
-        objective: data.objective,
-        budgetMin: budgetMinVal,
-        budgetMax: budgetMaxVal,
-        message: data.message || null,
-        locale: data.locale,
-        requestedServiceId: data.requestedServiceId || null,
-        utmSource: data.utmSource || null,
-        utmMedium: data.utmMedium || null,
-        utmCampaign: data.utmCampaign || null,
-        utmContent: data.utmContent || null,
-        referrer: data.referrer || null,
-        source: data.source || 'Website Form (Offline Fallback)',
-      }).catch(err => {
-        console.error('Failed to sync offline lead to Notion:', err)
-      })
-
-      return NextResponse.json({
-        success: true,
-        mock: true,
-        lead: {
-          id: mockLeadId,
-          name: data.name,
-          businessName: data.businessName,
-          requestedServiceId: data.requestedServiceId
-        }
-      })
+      console.error('Database connection failed while creating lead:', dbError)
+      return NextResponse.json(
+        {
+          success: false,
+          code: 'DATABASE_UNAVAILABLE',
+          message: 'Service temporarily unavailable. Please try again shortly.'
+        },
+        { status: 503 }
+      )
     }
 
     // 5. Try to sync to Notion (non-blocking for client success page response)

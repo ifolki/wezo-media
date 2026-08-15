@@ -21,39 +21,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log('Authorize called with:', credentials?.email)
         if (!credentials?.email || !credentials?.password) return null
 
-        // Hardcoded admin fallback for database-offline scenarios
-        if (credentials.email === 'wezomedia1@gmail.com' && credentials.password === 'mbazaou@4186') {
-          console.log('Hardcoded fallback admin signed in successfully!')
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email as string },
+          })
+
+          if (!user || !user.password) return null
+
+          const isPasswordValid = await compare(
+            credentials.password as string,
+            user.password
+          )
+
+          if (!isPasswordValid) return null
+
           return {
-            id: 'hardcoded-admin-id',
-            name: 'Mhammed Bazaou',
-            email: 'wezomedia1@gmail.com',
-            role: 'SUPER_ADMIN' as Role
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
           }
-        }
-
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email as string },
-        })
-
-        if (!user || !user.password) return null
-
-        const isPasswordValid = await compare(
-          credentials.password as string,
-          user.password
-        )
-
-        if (!isPasswordValid) return null
-
-        console.log('User authorized successfully:', user.email)
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
+        } catch (dbError) {
+          console.error('Database connection failed during authorize check:', dbError)
+          return null // Secure failure when database is offline
         }
       },
     }),

@@ -71,21 +71,15 @@ export async function POST(req: Request) {
         })
       }
     } catch (dbError) {
-      console.error('Database connection failed during project creation. Activating fallback:', dbError)
-      
-      const mockProjectId = `MOCK-PRJ-${Math.random().toString(36).substring(2, 9).toUpperCase()}`
-      project = {
-        id: mockProjectId,
-        title: `${service?.nameEn || serviceId} - ${name}`,
-        description,
-        status: 'PENDING',
-        createdAt: new Date()
-      }
-
-      // Fallback: Sync directly to Notion Leads database using raw client info
-      syncProjectToNotion(project, { name, email, phone }, service).catch(err => {
-        console.error('Failed to sync offline project request to Notion:', err)
-      })
+      console.error('Database connection failed during project creation:', dbError)
+      return NextResponse.json(
+        {
+          success: false,
+          code: 'DATABASE_UNAVAILABLE',
+          message: 'Service temporarily unavailable. Please try again shortly.'
+        },
+        { status: 503 }
+      )
     }
 
     return NextResponse.json(project)

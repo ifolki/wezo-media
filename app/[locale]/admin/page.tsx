@@ -40,15 +40,15 @@ export default function AdminOverview() {
     fetchStats()
   }, [])
 
-  const stats = [
-    { label: t('admin.users'), value: data?.users || 0, icon: Users, color: '#FF6B2B' },
-    { label: t('admin.orders'), value: data?.projects || 0, icon: FolderKanban, color: '#FF2D78' },
-    { label: t('admin.finances'), value: `$${data?.revenue || 0}`, icon: DollarSign, color: '#4ADE80' },
-    { label: t('admin.packages'), value: data?.pending || 0, icon: AlertCircle, color: '#60A5FA' },
-  ]
-
   const locale = useLocale()
   const isAr = locale === 'ar'
+
+  const stats = [
+    { label: t('admin.users'), value: (!data || data.dbOffline) ? (isAr ? 'غير متوفر' : 'Unavailable') : (data.users ?? 0), icon: Users, color: '#FF6B2B' },
+    { label: t('admin.orders'), value: (!data || data.dbOffline) ? (isAr ? 'غير متوفر' : 'Unavailable') : (data.projects ?? 0), icon: FolderKanban, color: '#FF2D78' },
+    { label: t('admin.finances'), value: (!data || data.dbOffline) ? (isAr ? 'غير متوفر' : 'Unavailable') : `$${data.revenue ?? 0}`, icon: DollarSign, color: '#4ADE80' },
+    { label: t('admin.packages'), value: (!data || data.dbOffline) ? (isAr ? 'غير متوفر' : 'Unavailable') : (data.pending ?? 0), icon: AlertCircle, color: '#60A5FA' },
+  ]
 
   if (loading) {
     return (

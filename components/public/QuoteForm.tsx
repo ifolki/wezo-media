@@ -4,12 +4,13 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslations, useLocale } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { Check, ArrowRight, ArrowLeft, Send, Sparkles, Film, Music, Globe, Megaphone, User } from 'lucide-react'
+import { Check, ArrowRight, ArrowLeft, Send, Sparkles, Film, Music, Globe, Megaphone, User, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
+import { siteConfig } from '@/lib/config/site'
 
 interface Service {
   id: string
@@ -36,6 +37,7 @@ export default function QuoteForm({ services }: QuoteFormProps) {
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [createdLead, setCreatedLead] = useState<any>(null)
+  const [dbOffline, setDbOffline] = useState(false)
 
   // Form State
   const [formData, setFormData] = useState({
@@ -135,7 +137,9 @@ export default function QuoteForm({ services }: QuoteFormProps) {
         toast.success(isAr ? 'تم إرسال طلبك بنجاح!' : 'Your request has been sent successfully!')
       } else {
         const errorData = await res.json()
-        if (errorData.details) {
+        if (res.status === 503 || errorData.code === 'DATABASE_UNAVAILABLE') {
+          setDbOffline(true)
+        } else if (errorData.details) {
           const detailMsgs = Object.entries(errorData.details)
             .map(([field, err]: [string, any]) => `${field}: ${err._errors.join(', ')}`)
             .join(' | ')
@@ -153,6 +157,64 @@ export default function QuoteForm({ services }: QuoteFormProps) {
 
   // Navigation indicator width
   const progressPercent = (step / 4) * 100
+
+  if (dbOffline) {
+    const selectedService = services.find(s => s.id === formData.requestedServiceId)
+    const serviceName = selectedService 
+      ? (locale === 'ar' ? selectedService.nameAr : locale === 'fr' ? selectedService.nameFr : selectedService.nameEn)
+      : ''
+
+    let messageText = ''
+    if (locale === 'ar') {
+      messageText = `السلام عليكم WEZO MEDIA، أريد الاستفسار عن عرض سعر لمشروعي.\nالمشروع: ${formData.businessName}\nالخدمة: ${serviceName}\nتفاصيل: ${formData.objective}`
+    } else if (locale === 'fr') {
+      messageText = `Bonjour WEZO MEDIA, je souhaite demander un devis.\nProjet : ${formData.businessName}\nService : ${serviceName}\nDétails : ${formData.objective}`
+    } else {
+      messageText = `Hello WEZO MEDIA, I would like to request a quote.\nProject: ${formData.businessName}\nService: ${serviceName}\nDetails: ${formData.objective}`
+    }
+
+    const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(messageText)}`
+
+    return (
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="max-w-xl mx-auto glass-card p-12 rounded-[2.5rem] border-red-500/20 shadow-2xl text-center space-y-8 text-start"
+      >
+        <div className="w-20 h-20 rounded-full bg-red-500/10 text-red-500 mx-auto flex items-center justify-center border border-red-500/20">
+          <AlertCircle className="w-10 h-10 animate-pulse" />
+        </div>
+        <div className="space-y-4 text-center">
+          <h2 className="text-2xl font-black text-white">
+            {locale === 'ar' ? 'تعذر إرسال الطلب حالياً' : 'Request could not be sent'}
+          </h2>
+          <p className="text-text-muted leading-relaxed font-bold">
+            {locale === 'ar' 
+              ? 'تعذر إرسال الطلب حالياً. يمكنك المحاولة لاحقاً أو التواصل معنا مباشرة عبر WhatsApp.'
+              : 'We are experiencing temporary technical difficulties. Please try again later or contact us directly via WhatsApp.'}
+          </p>
+        </div>
+        <div className="flex flex-col gap-4">
+          <Button 
+            onClick={() => window.open(whatsappUrl, '_blank')} 
+            className="w-full h-14 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.2)] transition-all"
+          >
+            {locale === 'ar' ? 'تواصل معنا مباشرة عبر واتساب 💬' : 'Contact us directly via WhatsApp 💬'}
+          </Button>
+          <Button 
+            onClick={() => {
+              setDbOffline(false)
+              setStep(1)
+            }} 
+            variant="outline"
+            className="w-full h-14 border-white/10 hover:bg-white/5 text-white rounded-2xl font-bold text-lg"
+          >
+            {locale === 'ar' ? 'العودة للمحاولة' : 'Back to Form'}
+          </Button>
+        </div>
+      </motion.div>
+    )
+  }
 
   if (submitted) {
     const selectedService = services.find(s => s.id === formData.requestedServiceId)
@@ -172,7 +234,7 @@ export default function QuoteForm({ services }: QuoteFormProps) {
       messageText = `Hello WEZO MEDIA, I have just sent a quote request.\nReference: ${leadRef}\nProject: ${formData.businessName}\nService: ${serviceName}`
     }
 
-    const whatsappUrl = `https://wa.me/212665875449?text=${encodeURIComponent(messageText)}`
+    const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(messageText)}`
     
     const whatsappButtonText = locale === 'ar' 
       ? 'تواصل معنا عبر واتساب 💬' 

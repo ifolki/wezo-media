@@ -22,15 +22,21 @@ export default function DashboardOverview() {
   const isAr = locale === 'ar'
   const [data, setData] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [dbOffline, setDbOffline] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
       try {
         const resp = await fetch('/api/projects/my')
-        const json = await resp.json()
-        setData(json)
+        if (resp.ok) {
+          const json = await resp.json()
+          setData(json)
+        } else {
+          setDbOffline(true)
+        }
       } catch (e) {
         console.error(e)
+        setDbOffline(true)
       } finally {
         setIsLoading(false)
       }
@@ -49,6 +55,26 @@ export default function DashboardOverview() {
     return (
       <div className="h-[60vh] flex items-center justify-center">
         <Loader2 className="w-12 h-12 text-brand-orange animate-spin" />
+      </div>
+    )
+  }
+
+  if (dbOffline) {
+    return (
+      <div className="rounded-[2.5rem] border-2 border-dashed border-red-500/20 bg-red-500/5 p-20 text-center space-y-6 text-start">
+         <div className="w-20 h-20 rounded-3xl bg-red-500/10 mx-auto flex items-center justify-center text-red-500 border border-red-500/10">
+            <AlertCircle className="w-10 h-10 animate-pulse" />
+         </div>
+         <div className="space-y-2 text-center">
+            <p className="text-xl font-bold text-white">
+              {isAr ? 'قاعدة البيانات غير متوفرة حالياً' : 'Database temporarily unavailable'}
+            </p>
+            <p className="text-text-muted max-w-md mx-auto">
+              {isAr 
+                ? 'تعذر تحميل بيانات مشاريعك بسبب مشكلة تقنية مؤقتة في الاتصال. يرجى إعادة المحاولة لاحقاً.' 
+                : 'Unable to retrieve your projects data due to a temporary database connection issue. Please check back shortly.'}
+            </p>
+         </div>
       </div>
     )
   }
