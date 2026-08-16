@@ -79,6 +79,25 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
       }
     }
 
+    // Server-side SolutionService validation if updating services list
+    if (attachedServices !== undefined && attachedServices.length > 0) {
+      const serviceIds = attachedServices.map((s: any) => s.serviceId)
+      const uniqueServiceIds = new Set(serviceIds)
+      if (uniqueServiceIds.size !== serviceIds.length) {
+        return NextResponse.json({ error: 'Cannot attach the same service twice.' }, { status: 400 })
+      }
+
+      // Verify that all attached services exist in database
+      for (const s of attachedServices) {
+        const serviceExists = await prisma.service.findUnique({
+          where: { id: s.serviceId }
+        })
+        if (!serviceExists) {
+          return NextResponse.json({ error: `Service with ID ${s.serviceId} does not exist.` }, { status: 400 })
+        }
+      }
+    }
+
     // 2. Perform update inside a Prisma Transaction
     const updatedSolution = await prisma.$transaction(async (tx) => {
       // If attachedServices is provided, clear existing mappings first

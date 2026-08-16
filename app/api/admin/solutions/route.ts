@@ -74,6 +74,25 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Slug already exists. Choose a unique slug.' }, { status: 400 })
     }
 
+    // Server-side SolutionService validation
+    if (attachedServices && attachedServices.length > 0) {
+      const serviceIds = attachedServices.map((s: any) => s.serviceId)
+      const uniqueServiceIds = new Set(serviceIds)
+      if (uniqueServiceIds.size !== serviceIds.length) {
+        return NextResponse.json({ error: 'Cannot attach the same service twice.' }, { status: 400 })
+      }
+
+      // Verify that all attached services exist in database
+      for (const s of attachedServices) {
+        const serviceExists = await prisma.service.findUnique({
+          where: { id: s.serviceId }
+        })
+        if (!serviceExists) {
+          return NextResponse.json({ error: `Service with ID ${s.serviceId} does not exist.` }, { status: 400 })
+        }
+      }
+    }
+
     const solution = await prisma.solution.create({
       data: {
         slug: cleanSlug,
