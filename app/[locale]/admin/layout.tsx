@@ -29,7 +29,8 @@ import {
   Award,
   Star,
   HelpCircle,
-  AlertCircle
+  AlertCircle,
+  Target
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -67,6 +68,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: '/admin/leads', label: t('admin.leads'), icon: ClipboardList },
     { href: '/admin/services', label: t('admin.services'), icon: Briefcase },
     { href: '/admin/packages', label: t('admin.packages'), icon: Package },
+    { href: '/admin/solutions', label: isAr ? 'إدارة الحلول' : 'Solutions', icon: Target },
     { href: '/admin/orders', label: t('admin.orders'), icon: FolderKanban },
     { href: '/admin/portfolio', label: t('admin.portfolio'), icon: Film },
     { href: '/admin/case-studies', label: t('admin.case_studies'), icon: Award },

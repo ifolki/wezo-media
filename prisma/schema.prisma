@@ -127,6 +127,7 @@ model Service {
   portfolioItems    PortfolioItem[]
   faqs              FAQ[]
   caseStudies       CaseStudy[] // Many-to-many
+  solutions         SolutionService[]
 }
 
 enum ServiceCategoryEnum {
@@ -553,4 +554,40 @@ enum NotionSyncStatus {
   PENDING
   SYNCED
   FAILED
+}
+
+model Solution {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  nameAr        String
+  nameEn        String
+  nameFr        String   @default("")
+  descriptionAr String
+  descriptionEn String
+  descriptionFr String   @default("")
+  icon          String?
+  image         String?
+  isActive      Boolean  @default(true)
+  isFeatured    Boolean  @default(false)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  services SolutionService[]
+}
+
+model SolutionService {
+  id         String   @id @default(cuid())
+  solutionId String
+  serviceId  String
+
+  order      Int      @default(0)
+  isPrimary  Boolean  @default(false)
+
+  solution   Solution @relation(fields: [solutionId], references: [id], onDelete: Cascade)
+  service    Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([solutionId, serviceId])
+  @@index([solutionId])
+  @@index([serviceId])
 }

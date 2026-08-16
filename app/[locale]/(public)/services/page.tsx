@@ -1,92 +1,155 @@
-'use client'
-
-import { motion } from 'framer-motion'
-import { useTranslations } from 'next-intl'
+import prisma from "@/lib/prisma"
+import { getTranslations } from 'next-intl/server'
 import { Link } from '@/navigation'
-import { Music, Video, Megaphone, Globe, Disc, Users, Search } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Music, Video, Megaphone, Globe, Disc, Users, AlertCircle } from 'lucide-react'
 
-const services = [
-  { id: 'audio', icon: Music, color: '#FF6B2B', category: 'production' },
-  { id: 'video', icon: Video, color: '#FF2D78', category: 'production' },
-  { id: 'marketing', icon: Megaphone, color: '#4ADE80', category: 'marketing' },
-  { id: 'web', icon: Globe, color: '#60A5FA', category: 'development' },
-  { id: 'distribution', icon: Disc, color: '#A855F7', category: 'artist' },
-  { id: 'artist', icon: Users, color: '#FACC15', category: 'artist' },
+interface Props {
+  params: {
+    locale: string
+  }
+}
+
+// Fallback data structure for database offline scenarios
+const fallbackCategories = [
+  {
+    id: "cat-adv",
+    slug: "advertising-growth",
+    nameAr: "الإعلانات والنمو",
+    nameEn: "Advertising & Growth",
+    nameFr: "Publicité et Croissance",
+    services: [
+      { id: "marketing-id", slug: "marketing", nameAr: "التسويق الرقمي", nameEn: "Digital Marketing", nameFr: "Marketing Digital", descAr: "إدارة حملات إعلانية وتنشيط السوشيال ميديا.", descEn: "Ad campaign management and social media activation.", descFr: "Gestion de campagnes publicitaires." }
+    ]
+  },
+  {
+    id: "cat-creative",
+    slug: "creative-video",
+    nameAr: "الإبداع والفيديو",
+    nameEn: "Creative & Video",
+    nameFr: "Création et Vidéo",
+    services: [
+      { id: "video-id", slug: "video", nameAr: "الإنتاج المرئي", nameEn: "Video Production", nameFr: "Production Vidéo", descAr: "تصوير فيديو كليب، مونتاج، وإخراج.", descEn: "Music video shooting, editing, and directing.", descFr: "Tournage de clips vidéo." }
+    ]
+  },
+  {
+    id: "cat-web",
+    slug: "websites-ecommerce",
+    nameAr: "المواقع والتجارة الإلكترونية",
+    nameEn: "Websites & E-commerce",
+    nameFr: "Sites Web et E-commerce",
+    services: [
+      { id: "web-id", slug: "web", nameAr: "تطوير المواقع", nameEn: "Web Development", nameFr: "Développement Web", descAr: "بناء منصات ومواقع عصرية.", descEn: "Building modern platforms and websites.", descFr: "Développement de sites." }
+    ]
+  }
 ]
 
-export default function ServicesPage() {
-  const t = useTranslations('services')
-  const n = useTranslations('nav')
+export default async function ServicesPage({ params: { locale } }: Props) {
+  const t = await getTranslations({ locale, namespace: 'services' })
+  const isAr = locale === 'ar'
+  const isFr = locale === 'fr'
+
+  let categories: any[] = []
+  let dbOffline = false
+
+  try {
+    categories = await prisma.serviceCategory.findMany({
+      where: { isActive: true },
+      include: {
+        services: {
+          where: { isActive: true },
+          orderBy: { order: 'asc' }
+        }
+      },
+      orderBy: { order: 'asc' }
+    })
+  } catch (error) {
+    console.error("Database offline fallback in services listing:", error)
+    categories = fallbackCategories
+    dbOffline = true
+  }
+
+  // Get local names safely with fallback
+  const getLocalizedName = (item: any) => {
+    if (isAr) return item.nameAr || item.nameEn || item.nameAr
+    if (isFr) return item.nameFr || item.nameEn || item.nameAr
+    return item.nameEn || item.nameAr
+  }
+
+  const getLocalizedDesc = (item: any) => {
+    if (isAr) return item.descAr || item.descriptionAr || item.descEn || item.descriptionEn
+    if (isFr) return item.descFr || item.descriptionFr || item.descEn || item.descriptionEn
+    return item.descEn || item.descriptionEn || item.descAr || item.descriptionAr
+  }
+
+  // Helper icons
+  const getServiceIcon = (slug: string) => {
+    switch (slug) {
+      case 'video':
+        return <Video className="w-8 h-8 text-brand-orange" />
+      case 'audio':
+        return <Music className="w-8 h-8 text-brand-pink" />
+      case 'web':
+        return <Globe className="w-8 h-8 text-blue-500" />
+      case 'marketing':
+        return <Megaphone className="w-8 h-8 text-emerald-500" />
+      default:
+        return <Users className="w-8 h-8 text-purple-500" />
+    }
+  }
 
   return (
     <main className="min-h-screen pb-20">
       {/* Header */}
-      <section className="py-20 bg-brand-secondary/30">
+      <section className="py-20 bg-brand-secondary/30 relative">
+        {dbOffline && (
+          <div className="absolute top-4 inset-x-0 max-w-md mx-auto z-50">
+            <div className="bg-red-500/10 border border-red-500/20 text-red-400 py-2 px-4 rounded-xl flex items-center justify-center gap-2 text-sm">
+              <AlertCircle className="w-4 h-4" />
+              <span>{isAr ? 'تصفح غير متصل بالخادم' : 'Viewing offline cached version'}</span>
+            </div>
+          </div>
+        )}
         <div className="container mx-auto px-4 text-center space-y-6">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-black text-white"
-          >
+          <h1 className="text-5xl md:text-7xl font-black text-white capitalize">
             {t('title')}
-          </motion.h1>
+          </h1>
           <p className="text-xl text-text-muted max-w-2xl mx-auto">
             {t('subtitle')}
           </p>
         </div>
       </section>
 
-      {/* Filters */}
-      <section className="py-10 sticky top-20 z-30 bg-brand-dark/80 backdrop-blur-lg">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row gap-6 items-center justify-between">
-          <Tabs defaultValue="all" className="w-full md:w-auto">
-            <TabsList className="bg-brand-card border-white/5">
-              <TabsTrigger value="all">كل الخدمات</TabsTrigger>
-              <TabsTrigger value="production">الإنتاج</TabsTrigger>
-              <TabsTrigger value="marketing">التسويق</TabsTrigger>
-              <TabsTrigger value="development">التطوير</TabsTrigger>
-            </TabsList>
-          </Tabs>
-
-          <div className="relative w-full md:w-80">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-            <Input className="pl-10 bg-brand-card border-white/5" placeholder="ابحث عن خدمة..." />
-          </div>
-        </div>
-      </section>
-
-      {/* Grid */}
+      {/* Categories sections */}
       <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, i) => (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <Link href={`/services/${service.id}`}>
-                  <div className="glass-card p-10 rounded-[2.5rem] border-white/5 h-full space-y-6 hover:border-brand-orange/30 transition-all group">
-                    <div className="w-20 h-20 rounded-2xl flex items-center justify-center relative z-10" style={{ backgroundColor: `${service.color}15` }}>
-                      <service.icon className="w-10 h-10" style={{ color: service.color }} />
-                      <div className="absolute inset-0 blur-2xl opacity-20" style={{ backgroundColor: service.color }} />
+        <div className="container mx-auto px-4 space-y-24">
+          {categories.map((category) => (
+            <div key={category.id} className="space-y-8 text-start">
+              <div className="border-l-4 border-brand-orange pl-4 rtl:border-l-0 rtl:border-r-4 rtl:pr-4">
+                <h2 className="text-3xl font-black text-white">{getLocalizedName(category)}</h2>
+                <p className="text-text-muted mt-1">{getLocalizedDesc(category)}</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {category.services?.map((service: any) => (
+                  <Link key={service.id} href={`/services/${service.slug}`}>
+                    <div className="glass-card p-10 rounded-[2.5rem] border-white/5 h-full space-y-6 hover:border-brand-orange/30 transition-all group">
+                      <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-white/5 relative z-10">
+                        {getServiceIcon(service.slug)}
+                      </div>
+                      <div className="space-y-4">
+                        <h3 className="text-2xl font-bold text-white group-hover:text-brand-orange transition-colors">
+                          {getLocalizedName(service)}
+                        </h3>
+                        <p className="text-text-muted leading-relaxed text-sm line-clamp-3">
+                          {getLocalizedDesc(service)}
+                        </p>
+                      </div>
                     </div>
-                    <div className="space-y-4">
-                      <h3 className="text-3xl font-bold text-white group-hover:text-brand-orange transition-colors">
-                        {t(`categories.${service.id}`)}
-                      </h3>
-                      <p className="text-text-muted leading-relaxed">
-                        نقدم حلولاً احترافية في {t(`categories.${service.id}`)} تضمن لك التميز في السوق الرقمي والوصول لطلبك بأفضل جودة.
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </main>

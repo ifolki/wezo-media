@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslations, useLocale } from 'next-intl'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Check, ArrowRight, ArrowLeft, Send, Sparkles, Film, Music, Globe, Megaphone, User, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -31,6 +31,7 @@ export default function QuoteForm({ services }: QuoteFormProps) {
   const t = useTranslations('quote')
   const locale = useLocale()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const isAr = locale === 'ar'
 
   const [step, setStep] = useState(1)
@@ -38,6 +39,18 @@ export default function QuoteForm({ services }: QuoteFormProps) {
   const [submitted, setSubmitted] = useState(false)
   const [createdLead, setCreatedLead] = useState<any>(null)
   const [dbOffline, setDbOffline] = useState(false)
+
+  const preselectedServiceId = searchParams ? searchParams.get('service') : null
+
+  useEffect(() => {
+    if (preselectedServiceId && services && services.length > 0) {
+      const found = services.find(s => s.id === preselectedServiceId || s.slug === preselectedServiceId)
+      if (found) {
+        setFormData(prev => ({ ...prev, requestedServiceId: found.id }))
+        setStep(2)
+      }
+    }
+  }, [preselectedServiceId, services])
 
   // Form State
   const [formData, setFormData] = useState({

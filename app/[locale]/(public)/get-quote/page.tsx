@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma"
 import QuoteForm from "@/components/public/QuoteForm"
 import { getTranslations } from 'next-intl/server'
+import { Suspense } from 'react'
 
 interface Props {
   params: {
@@ -110,7 +111,9 @@ export default async function GetQuotePage({ params: { locale } }: Props) {
 
       {/* Interactive Form Step Section */}
       <section className="px-4 md:px-0">
-        <QuoteForm services={services} />
+        <Suspense fallback={<div className="text-white text-center py-10">Loading...</div>}>
+          <QuoteForm services={services} />
+        </Suspense>
       </section>
     </main>
   )
