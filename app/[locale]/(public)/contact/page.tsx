@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { useTranslations } from 'next-intl'
+import { siteConfig } from '@/lib/config/site'
 
 export default function ContactPage() {
   const t = useTranslations('contact')
@@ -32,8 +33,8 @@ export default function ContactPage() {
                  
                  <div className="space-y-8">
                     {[
-                      { icon: Mail, label: t('email_label'), value: 'info@wezomedia.com' },
-                      { icon: Phone, label: t('phone_label'), value: '0661094186', dir: 'ltr' },
+                      { icon: Mail, label: t('email_label'), value: siteConfig.email },
+                      { icon: Phone, label: t('phone_label'), value: siteConfig.phone, dir: 'ltr' },
                       { icon: MapPin, label: t('address_label'), value: 'BD moustapha el maani N 22 casablanca' },
                     ].map((item, i) => (
                       <div key={i} className="flex gap-6 group">

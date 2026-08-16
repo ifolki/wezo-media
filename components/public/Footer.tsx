@@ -76,7 +76,7 @@ export default function Footer() {
                 <div className="w-12 h-12 rounded-xl glass-card flex items-center justify-center group-hover:text-brand-orange transition-colors">
                   <Mail className="w-5 h-5" />
                 </div>
-                <span className="text-lg">contact@wezomedia.com</span>
+                <span className="text-lg">{siteConfig.email}</span>
               </li>
               <li className="flex items-center gap-4 text-text-muted group">
                 <div className="w-12 h-12 rounded-xl glass-card flex items-center justify-center group-hover:text-brand-orange transition-colors">
