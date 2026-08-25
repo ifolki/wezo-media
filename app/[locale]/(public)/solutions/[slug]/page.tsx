@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { Link } from "@/navigation"
 import { CheckCircle2, AlertCircle, Sparkles, HelpCircle, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { getStaticSolutionDetails } from '@/lib/config/solutions'
 
 interface Props {
   params: {
@@ -11,97 +12,61 @@ interface Props {
   }
 }
 
-// Fallback solutions data if database is offline
-const fallbackSolutions: Record<string, any> = {
-  "get-more-customers": {
-    id: "sol-customers",
-    slug: "get-more-customers",
-    nameAr: "احصل على المزيد من العملاء",
-    nameEn: "Get More Customers",
-    nameFr: "Obtenir Plus de Clients",
-    descriptionAr: "استراتيجيات تسويقية وقنوات نمو متطورة لزيادة مبيعاتك وأرباحك.",
-    descriptionEn: "Advanced marketing strategies and growth channels to scale sales and revenue.",
-    descriptionFr: "Stratégies de marketing avancées pour développer vos ventes.",
-    services: [
-      {
-        id: "s1",
-        isPrimary: true,
-        service: {
-          id: "marketing-id",
-          slug: "marketing",
-          nameAr: "التسويق الرقمي",
-          nameEn: "Digital Marketing",
-          nameFr: "Marketing Digital",
-          descAr: "إدارة حملات إعلانية وتنشيط السوشيال ميديا.",
-          descEn: "Ad campaign management and social media activation."
-        }
-      }
-    ]
-  },
-  "launch-my-business": {
-    id: "sol-launch",
-    slug: "launch-my-business",
-    nameAr: "أطلق مشروعي التجاري",
-    nameEn: "Launch My Business",
-    nameFr: "Lancer Mon Entreprise",
-    descriptionAr: "الحزمة المتكاملة لتأسيس حضور رقمي قوي وإطلاق نشاطك التجاري بنجاح.",
-    descriptionEn: "All-in-one package to establish a strong digital presence and launch your project.",
-    descriptionFr: "Le package complet pour établir une présence digitale forte.",
-    services: [
-      {
-        id: "s2",
-        isPrimary: true,
-        service: {
-          id: "web-id",
-          slug: "web",
-          nameAr: "تطوير المواقع",
-          nameEn: "Web Development",
-          nameFr: "Développement Web",
-          descAr: "بناء منصات ومواقع عصرية.",
-          descEn: "Building modern platforms and websites."
-        }
-      }
-    ]
-  }
-}
-
 export default async function SolutionDetailsPage({ params: { locale, slug } }: Props) {
   const isAr = locale === 'ar'
   const isFr = locale === 'fr'
 
-  let solution = null
-  let dbOffline = false
-
-  try {
-    solution = await prisma.solution.findFirst({
-      where: { slug: slug.toLowerCase().trim() },
-      include: {
-        services: {
-          include: {
-            service: true
-          },
-          orderBy: { order: 'asc' }
-        }
-      }
-    })
-  } catch (error) {
-    console.error("Database query failed for solution details. Fallback active:", error)
-    dbOffline = true
-    solution = fallbackSolutions[slug.toLowerCase().trim()]
-  }
-
-  if (!solution) {
+  const staticSolution = getStaticSolutionDetails(slug)
+  if (!staticSolution) {
     return notFound()
   }
 
+  // Fetch from DB the related services in staticSolution.serviceSlugs to resolve DB properties
+  let dbServices: any[] = []
+  let dbOffline = false
+
+  try {
+    dbServices = await prisma.service.findMany({
+      where: {
+        slug: { in: staticSolution.serviceSlugs },
+        isActive: true
+      }
+    })
+  } catch (error) {
+    console.error("Database query failed for solution services. Fallback active:", error)
+    dbOffline = true
+    // Map offline fallback services
+    dbServices = staticSolution.serviceSlugs.map((sSlug, i) => ({
+      id: `offline-${sSlug}`,
+      slug: sSlug,
+      nameAr: sSlug.split('-').join(' '),
+      nameEn: sSlug.split('-').join(' '),
+      nameFr: sSlug.split('-').join(' '),
+      descAr: 'خدمة متميزة مخصصة لمساعدتك على النمو والتميز الرقمي.',
+      descEn: 'Bespoke service designed to scale your operations.',
+      descFr: 'Prestation sur-mesure.',
+      category: 'DIGITAL_MARKETING'
+    }))
+  }
+
   const getLocalized = (ar: string, en: string, fr?: string) => {
-    if (isAr) return ar || en || ar
-    if (isFr) return fr || en || ar
+    if (isAr) return ar || en
+    if (isFr) return fr || en
     return en || ar
   }
 
-  const solutionTitle = getLocalized(solution.nameAr, solution.nameEn, solution.nameFr)
-  const solutionDesc = getLocalized(solution.descriptionAr, solution.descriptionEn, solution.descriptionFr)
+  const solutionTitle = getLocalized(staticSolution.nameAr, staticSolution.nameEn, staticSolution.nameFr)
+  const solutionDesc = getLocalized(staticSolution.descriptionAr, staticSolution.descriptionEn, staticSolution.descriptionFr)
+
+  // Map database services in order of serviceSlugs array
+  const servicesList = staticSolution.serviceSlugs.map(sSlug => {
+    const service = dbServices.find(s => s.slug === sSlug)
+    if (!service) return null
+    return {
+      service,
+      isPrimary: sSlug === staticSolution.primaryServiceSlug
+    }
+  }).filter(Boolean) as { service: any; isPrimary: boolean }[]
 
   return (
     <main className="min-h-screen pb-20">
@@ -144,15 +109,13 @@ export default async function SolutionDetailsPage({ params: { locale, slug } }: 
           </h2>
 
           <div className="space-y-8 max-w-4xl mx-auto">
-            {solution.services?.map((rel: any, idx: number) => {
+            {servicesList.map((rel, idx) => {
               const service = rel.service
-              if (!service) return null
-
               const sTitle = getLocalized(service.nameAr, service.nameEn, service.nameFr)
               const sDesc = getLocalized(service.descAr, service.descEn, service.descFr)
 
               return (
-                <div key={rel.id} className={`glass-card p-10 rounded-[2.5rem] border border-white/5 relative overflow-hidden flex flex-col md:flex-row gap-8 items-start justify-between ${rel.isPrimary ? 'border-brand-orange/40 glow-orange' : ''}`}>
+                <div key={service.id} className={`glass-card p-10 rounded-[2.5rem] border border-white/5 relative overflow-hidden flex flex-col md:flex-row gap-8 items-start justify-between ${rel.isPrimary ? 'border-brand-orange/40 glow-orange' : ''}`}>
                   {rel.isPrimary && (
                     <span className="absolute top-0 right-10 bg-brand-orange text-white px-4 py-1 rounded-b-xl text-xs font-bold uppercase tracking-wide">
                       {isAr ? 'الخدمة الأساسية' : 'Primary Service'}

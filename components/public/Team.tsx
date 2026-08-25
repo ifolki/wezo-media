@@ -5,7 +5,7 @@ import { Instagram, Twitter, Linkedin } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 const teamMembers = [
-  { name: 'Mhammed Bazaou', roleKey: 'projectManager', img: '/assets/team/mhammed-bazaou.jpg' },
+  { name: 'Mohammed Bazaou', roleKey: 'projectManager', img: '/assets/team/mhammed-bazaou.png' },
   { name: 'Reda El Amrani', roleKey: 'founder', img: '/assets/team/team-4.jpg' },
   { name: 'Yasmine Bennani', roleKey: 'prodManager', img: '/assets/team/team-2.jpg' },
   { name: 'Karim Alami', roleKey: 'marketing', img: '/assets/team/team-1.jpg' },

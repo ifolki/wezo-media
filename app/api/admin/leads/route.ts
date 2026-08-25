@@ -12,19 +12,9 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Parse query params for filtering
-    const { searchParams } = new URL(req.url)
-    const notionStatus = searchParams.get('notionStatus') // PENDING, SYNCED, FAILED
-    
-    const whereClause: any = {}
-    if (notionStatus && notionStatus !== 'ALL') {
-      whereClause.notionSyncStatus = notionStatus
-    }
-
     let leads = []
     try {
       leads = await prisma.lead.findMany({
-        where: whereClause,
         include: {
           requestedService: {
             select: {

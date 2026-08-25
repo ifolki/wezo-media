@@ -19,7 +19,7 @@ export async function GET() {
       prisma.project.count(),
       prisma.payment.aggregate({
         _sum: { amount: true },
-        where: { status: 'PAID' }
+        where: { status: 'SUCCESS' }
       }),
       prisma.project.count({ where: { status: 'PENDING' } })
     ])

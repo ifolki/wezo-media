@@ -39,6 +39,64 @@ export default function AdminLeadsPage() {
   const [retryingId, setRetryingId] = useState<string | null>(null)
   const [selectedLead, setSelectedLead] = useState<any | null>(null)
 
+  const handleExportCSV = () => {
+    if (leads.length === 0) {
+      toast.error(isAr ? 'لا توجد بيانات لتحميلها' : 'No data to export')
+      return
+    }
+
+    const headers = [
+      'ID',
+      'Name',
+      'Phone',
+      'WhatsApp',
+      'Email',
+      'Business Name',
+      'Industry',
+      'City',
+      'Website URL',
+      'Objective',
+      'Budget Min',
+      'Budget Max',
+      'Created At',
+      'Status'
+    ]
+
+    const csvRows = [headers.join(',')]
+
+    leads.forEach(lead => {
+      const values = [
+        lead.id,
+        `"${String(lead.name || '').replace(/"/g, '""')}"`,
+        `"${String(lead.phone || '')}"`,
+        `"${String(lead.whatsapp || '')}"`,
+        `"${String(lead.email || '')}"`,
+        `"${String(lead.businessName || '').replace(/"/g, '""')}"`,
+        `"${String(lead.industry || '').replace(/"/g, '""')}"`,
+        `"${String(lead.city || '').replace(/"/g, '""')}"`,
+        `"${String(lead.websiteUrl || '')}"`,
+        `"${String(lead.objective || '').replace(/"/g, '""')}"`,
+        lead.budgetMin || '',
+        lead.budgetMax || '',
+        lead.createdAt,
+        lead.status
+      ]
+      csvRows.push(values.join(','))
+    })
+
+    const csvContent = '\uFEFF' + csvRows.join('\n')
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.setAttribute('href', url)
+    link.setAttribute('download', `wezo_media_leads_${new Date().toISOString().split('T')[0]}.csv`)
+    link.style.visibility = 'hidden'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    toast.success(isAr ? 'تم تحميل البيانات بنجاح!' : 'Data exported successfully!')
+  }
+
   useEffect(() => {
     fetchLeads()
   }, [filter])
@@ -118,8 +176,8 @@ export default function AdminLeadsPage() {
   return (
     <div className="space-y-8 pb-10 text-start">
       {/* Title */}
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div className="space-y-1 text-start">
           <h1 className="text-3xl font-black text-white font-syne flex items-center gap-3">
             <ClipboardList className="w-8 h-8 text-brand-orange" />
             {isAr ? 'الطلبات الواردة وعروض الأسعار' : 'Leads & Quote Requests'}
@@ -130,6 +188,12 @@ export default function AdminLeadsPage() {
               : 'Monitor, manage, and sync quote inquiries from the website form to Notion.'}
           </p>
         </div>
+        <Button 
+          onClick={handleExportCSV} 
+          className="gradient-brand h-12 px-6 rounded-xl font-bold flex items-center gap-2 self-start sm:self-center"
+        >
+          {isAr ? 'تحميل البيانات (CSV)' : 'Export CSV'}
+        </Button>
       </div>
 
       {/* Notion Status Metrics Grid */}

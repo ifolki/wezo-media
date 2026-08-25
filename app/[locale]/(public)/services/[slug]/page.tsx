@@ -5,51 +5,12 @@ import { Button } from '@/components/ui/button'
 import RequestServiceModal from '@/components/shared/RequestServiceModal'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/navigation'
+import { getStaticServiceDetails } from '@/lib/config/services'
 
 interface Props {
   params: {
     locale: string
     slug: string
-  }
-}
-
-// Fallback details data if database is offline
-const fallbackServices: Record<string, any> = {
-  marketing: {
-    id: "marketing-id",
-    slug: "marketing",
-    nameAr: "التسويق الرقمي",
-    nameEn: "Digital Marketing",
-    nameFr: "Marketing Digital",
-    descAr: "إدارة حملات إعلانية وتنشيط السوشيال ميديا.",
-    descEn: "Ad campaign management and social media activation.",
-    descFr: "Gestion de campagnes publicitaires.",
-    categoryInfo: { nameAr: "الإعلانات والنمو", nameEn: "Advertising & Growth", nameFr: "Publicité et Croissance" },
-    packages: [
-      { id: "p1", nameAr: "الباقة الأساسية", nameEn: "Starter Package", nameFr: "Pack Starter", price: 99, features: ["مراحل محدودة", "تسليم خلال 7 أيام", "دعم عبر الإيميل"] },
-      { id: "p2", nameAr: "الباقة الاحترافية", nameEn: "Professional Package", nameFr: "Pack Professionnel", price: 299, isPopular: true, features: ["عملية كاملة", "تسليم خلال 3 أيام", "دعم هاتف وإيميل"] }
-    ],
-    workSteps: [
-      { id: "w1", titleAr: "التحليل والتخطيط", titleEn: "Audit & Analysis", descAr: "دراسة شاملة لمتطلبات المشروع والمنافسين.", descEn: "Comprehensive review of project requirements." },
-      { id: "w2", titleAr: "إطلاق الحملة", titleEn: "Campaign Launch", descAr: "بناء الإعلانات وتدشين الترويج على المنصات.", descEn: "Building creatives and pushing ads live." }
-    ]
-  },
-  video: {
-    id: "video-id",
-    slug: "video",
-    nameAr: "الإنتاج المرئي",
-    nameEn: "Video Production",
-    nameFr: "Production Vidéo",
-    descAr: "تصوير فيديو كليب، مونتاج، وإخراج.",
-    descEn: "Music video shooting, editing, and directing.",
-    descFr: "Tournage de clips vidéo.",
-    categoryInfo: { nameAr: "الإبداع والفيديو", nameEn: "Creative & Video", nameFr: "Création et Vidéo" },
-    packages: [
-      { id: "v1", nameAr: "إنتاج كامل", nameEn: "Full Production", nameFr: "Production Complète", price: 1500, features: ["تصوير يوم واحد", "مونتاج كامل", "إخراج"] }
-    ],
-    workSteps: [
-      { id: "wv1", titleAr: "السيناريو", titleEn: "Scriptwriting", descAr: "كتابة الأفكار ورسم لوحات المونتاج.", descEn: "Drafting concepts and storyboarding." }
-    ]
   }
 }
 
@@ -62,41 +23,56 @@ export default async function ServiceDetailsPage({ params: { locale, slug } }: P
   let dbOffline = false
 
   try {
-    service = await prisma.service.findFirst({
-      where: { slug: slug.toLowerCase().trim() },
-      include: {
-        categoryInfo: true,
-        packages: {
-          where: { isActive: true },
-          orderBy: { order: 'asc' }
-        },
-        workSteps: {
-          orderBy: { order: 'asc' }
-        }
-      }
+    service = await prisma.service.findUnique({
+      where: { slug: slug.toLowerCase().trim() }
     })
   } catch (error) {
     console.error("Database query failed for service details. Fallback active:", error)
     dbOffline = true
-    service = fallbackServices[slug.toLowerCase().trim()]
   }
 
+  // Resolve service data from database or static fallback config
   if (!service) {
-    return notFound()
+    const staticData = getStaticServiceDetails(slug)
+    service = {
+      id: 'fallback-id',
+      slug: staticData.slug,
+      nameAr: staticData.nameAr,
+      nameEn: staticData.nameEn,
+      nameFr: staticData.nameFr,
+      descAr: staticData.descAr,
+      descEn: staticData.descEn,
+      descFr: staticData.descFr,
+      category: staticData.categoryKey
+    }
   }
+
+  // Load static configurations for Packages and Work Steps
+  const staticDetails = getStaticServiceDetails(slug)
 
   // Localized values helpers with requested -> English -> Arabic fallback
   const getLocalized = (ar: string, en: string, fr?: string) => {
-    if (isAr) return ar || en || ar
-    if (isFr) return fr || en || ar
+    if (isAr) return ar || en
+    if (isFr) return fr || en
     return en || ar
   }
 
   const serviceTitle = getLocalized(service.nameAr, service.nameEn, service.nameFr)
   const serviceDesc = getLocalized(service.descAr, service.descEn, service.descFr)
-  const categoryName = service.categoryInfo 
-    ? getLocalized(service.categoryInfo.nameAr, service.categoryInfo.nameEn, service.categoryInfo.nameFr)
-    : ''
+
+  // Mapping category name statically
+  const getCategoryLabel = (catKey: string) => {
+    switch (catKey) {
+      case 'DIGITAL_MARKETING': return isAr ? 'الإعلانات والنمو' : isFr ? 'Publicité et Croissance' : 'Advertising & Growth'
+      case 'VIDEO_PRODUCTION': return isAr ? 'الإبداع والفيديو' : isFr ? 'Création et Vidéo' : 'Creative & Video'
+      case 'WEB_DEVELOPMENT': return isAr ? 'المواقع والتجارة الإلكترونية' : isFr ? 'Sites Web et E-commerce' : 'Websites & E-commerce'
+      case 'ARTIST_SERVICES': return isAr ? 'الهوية والتصميم والتواصل' : isFr ? 'Branding & Social' : 'Branding & Social'
+      case 'AUDIO_PRODUCTION': return isAr ? 'الإنتاج الصوتي والموسيقي' : isFr ? 'Audio & Music' : 'Audio & Music'
+      default: return isAr ? 'خدمات عامة' : isFr ? 'Prestations' : 'Services'
+    }
+  }
+
+  const categoryName = getCategoryLabel(service.category || staticDetails.categoryKey)
 
   return (
     <main className="min-h-screen pb-20">
@@ -154,11 +130,11 @@ export default async function ServiceDetailsPage({ params: { locale, slug } }: P
                 ))}
               </div>
               <div className="pt-6">
-                <RequestServiceModal>
+                <Link href={`/get-quote?service=${service.slug}`}>
                   <Button size="lg" className="gradient-brand font-black px-10 py-7 text-lg rounded-2xl shadow-xl">
                     {isAr ? 'طلب عرض سعر للخدمة' : 'Request service quote'}
                   </Button>
-                </RequestServiceModal>
+                </Link>
               </div>
             </div>
             
@@ -186,16 +162,16 @@ export default async function ServiceDetailsPage({ params: { locale, slug } }: P
         </div>
       </section>
 
-      {/* Default Service Process Roadmap */}
-      {service.workSteps && service.workSteps.length > 0 && (
+      {/* Static Work Steps Roadmap */}
+      {staticDetails.workSteps && staticDetails.workSteps.length > 0 && (
         <section className="py-24 text-start">
           <div className="container mx-auto px-4">
             <h2 className="text-4xl font-black text-white mb-16 text-center">
               {isAr ? 'خطوات العمل ومراحل التنفيذ' : 'Work Process and Execution Steps'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {service.workSteps.map((step: any, idx: number) => (
-                <div key={step.id} className="glass-card p-10 rounded-[2.5rem] border-white/5 space-y-6 relative overflow-hidden h-full">
+              {staticDetails.workSteps.map((step: any, idx: number) => (
+                <div key={idx} className="glass-card p-10 rounded-[2.5rem] border-white/5 space-y-6 relative overflow-hidden h-full">
                   <div className="absolute top-4 right-4 text-7xl font-black text-white/5 select-none">
                     0{idx + 1}
                   </div>
@@ -217,45 +193,40 @@ export default async function ServiceDetailsPage({ params: { locale, slug } }: P
         </section>
       )}
 
-      {/* Packages / Pricing Grid */}
-      {service.packages && service.packages.length > 0 && (
+      {/* Static Packages Grid */}
+      {staticDetails.packages && staticDetails.packages.length > 0 && (
         <section className="py-24 bg-brand-secondary/30 text-start">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-black text-white mb-16">
-              {isAr ? 'باقات الأسعار المقترحة' : 'Suggested Pricing Packages'}
+              {isAr ? 'باقات العمل المقترحة' : 'Suggested Project Scopes'}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-              {service.packages.map((pack: any) => {
-                const featuresList = Array.isArray(pack.features) 
-                  ? pack.features 
-                  : (typeof pack.features === 'string' ? JSON.parse(pack.features) : []);
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center max-w-4xl mx-auto">
+              {staticDetails.packages.map((pack: any, idx: number) => {
+                const featuresList = getLocalized(pack.featuresAr.join('||'), pack.featuresEn.join('||'), pack.featuresFr.join('||')).split('||');
 
                 return (
-                  <div key={pack.id} className={`glass-card p-10 rounded-[2.5rem] border-white/5 relative text-center flex flex-col ${pack.isPopular ? 'border-brand-orange/40 glow-orange md:-translate-y-4' : ''}`}>
+                  <div key={idx} className={`glass-card p-10 rounded-[2.5rem] border-white/5 relative text-center flex flex-col ${pack.isPopular ? 'border-brand-orange/40 glow-orange md:-translate-y-4' : ''}`}>
                     {pack.isPopular && (
                       <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-orange text-white px-6 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
                         {isAr ? 'الأكثر طلباً' : 'Most Popular'}
                       </span>
                     )}
-                    <h3 className="text-2xl font-bold text-white mb-4">
+                    <h3 className="text-2xl font-bold text-white mb-6">
                       {getLocalized(pack.nameAr, pack.nameEn, pack.nameFr)}
                     </h3>
-                    <div className="text-5xl font-black gradient-text mb-8">
-                      ${pack.price}
-                    </div>
-                    <ul className="space-y-4 mb-10 flex-grow">
-                      {featuresList.map((feature: string, idx: number) => (
-                        <li key={idx} className="text-text-muted flex items-center justify-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-brand-orange shrink-0" />
+                    <ul className="space-y-4 mb-10 flex-grow text-start">
+                      {featuresList.map((feature: string, fIdx: number) => (
+                        <li key={fIdx} className="text-text-muted flex gap-2 items-start">
+                          <CheckCircle2 className="w-5 h-5 text-brand-orange shrink-0 mt-0.5" />
                           <span className="text-sm">{feature}</span>
                         </li>
                       ))}
                     </ul>
-                    <RequestServiceModal>
+                    <Link href={`/get-quote?service=${service.slug}`}>
                       <Button className={`w-full h-14 rounded-2xl font-bold ${pack.isPopular ? 'gradient-brand text-white' : 'border-white/10 hover:bg-white/5 text-white'}`} variant={pack.isPopular ? 'default' : 'outline'}>
-                        {isAr ? 'اختيار هذه الباقة' : 'Choose this package'}
+                        {isAr ? 'طلب عرض سعر للمستوى' : 'Request quote for level'}
                       </Button>
-                    </RequestServiceModal>
+                    </Link>
                   </div>
                 );
               })}

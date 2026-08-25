@@ -1,4 +1,5 @@
 // prisma/schema.prisma
+// Simplified MVP Schema matching live database + Lead table only
 
 generator client {
   provider = "prisma-client-js"
@@ -92,45 +93,21 @@ model Service {
   descAr            String
   descEn            String
   descFr            String @default("")
-  category          ServiceCategoryEnum
+  category          ServiceCategory
   icon              String?
   image             String?
   isActive          Boolean  @default(true)
   order             Int      @default(0)
   createdAt         DateTime @default(now())
 
-  // New Upgrade Fields
-  startingPrice     Float?
-  duration          String?
-  targetAudienceAr  String?
-  targetAudienceEn  String?
-  targetAudienceFr  String?   @default("")
-  deliverablesAr    String?
-  deliverablesEn    String?
-  deliverablesFr    String?   @default("")
-  isFeatured        Boolean   @default(false)
-  seoTitleAr        String?
-  seoTitleEn        String?
-  seoTitleFr        String?   @default("")
-  seoDescAr         String?
-  seoDescEn         String?
-  seoDescFr         String?   @default("")
-
   // Relations
   projects          Project[]
-  packages          Package[]   @relation("DirectServicePackages") // Link packages directly
-  manyPackages      Package[]   // Many-to-many packages relation
+  packages          Package[]
   workSteps         WorkStep[]
-  categoryId        String?
-  categoryInfo      ServiceCategory? @relation(fields: [categoryId], references: [id])
   leads             Lead[]
-  portfolioItems    PortfolioItem[]
-  faqs              FAQ[]
-  caseStudies       CaseStudy[] // Many-to-many
-  solutions         SolutionService[]
 }
 
-enum ServiceCategoryEnum {
+enum ServiceCategory {
   AUDIO_PRODUCTION
   VIDEO_PRODUCTION
   DIGITAL_MARKETING
@@ -149,31 +126,7 @@ model Package {
   features          Json     // Reverted to Json for PostgreSQL
   isPopular         Boolean  @default(false)
   serviceId         String
-  service           Service  @relation("DirectServicePackages", fields: [serviceId], references: [id])
-
-  // New Upgrade Fields
-  slug              String?   @unique
-  targetAudienceAr  String?
-  targetAudienceEn  String?
-  targetAudienceFr  String?   @default("")
-  outcomeAr         String?
-  outcomeEn         String?
-  outcomeFr         String?   @default("")
-  billingPeriod     String?
-  revisions         Int       @default(3)
-  adsBudgetIncluded Boolean   @default(false)
-  adsBudgetNoteAr   String?
-  adsBudgetNoteEn   String?
-  adsBudgetNoteFr   String?   @default("")
-  ctaLabelAr        String?
-  ctaLabelEn        String?
-  ctaLabelFr        String?   @default("")
-  isActive          Boolean   @default(true)
-  order             Int       @default(0)
-  isFeatured        Boolean   @default(false)
-
-  // Many-to-many relation
-  services          Service[]
+  service           Service  @relation(fields: [serviceId], references: [id])
 }
 
 model WorkStep {
@@ -197,7 +150,6 @@ model Message {
   isRead      Boolean  @default(false)
   isAdmin     Boolean  @default(false)
   createdAt   DateTime @default(now())
-
   projectId   String
   project     Project  @relation(fields: [projectId], references: [id])
   senderId    String
@@ -213,109 +165,28 @@ model File {
   size        Int
   type        String
   createdAt   DateTime @default(now())
-
   projectId   String
   project     Project  @relation(fields: [projectId], references: [id])
 }
 
-// ==================== المدفوعات ====================
-
-model Payment {
-  id            String        @id @default(cuid())
-  amount        Float
-  currency      String        @default("USD")
-  status        PaymentStatus @default(PENDING)
-  method        PaymentMethod?
-  stripeId      String?
-  paypalId      String?
-  invoiceUrl    String?
-  paidAt        DateTime?
-  createdAt     DateTime      @default(now())
-
-  projectId     String
-  project       Project       @relation(fields: [projectId], references: [id])
-  clientId      String
-  client        User          @relation(fields: [clientId], references: [id])
-}
-
-enum PaymentStatus {
-  PENDING
-  AWAITING_PAYMENT
-  PAID
-  FAILED
-  REFUNDED
-}
-
-enum PaymentMethod {
-  CARD
-  PAYPAL
-  BANK_TRANSFER
-}
-
-// ==================== المدونة ====================
-
-model BlogPost {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  titleAr     String
-  titleEn     String
-  titleFr     String @default("")
-  contentAr   String
-  contentEn   String
-  contentFr   String @default("")
-  excerptAr   String?
-  excerptEn   String?
-  excerptFr   String?
-  coverImage  String?
-  isPublished Boolean  @default(false)
-  publishedAt DateTime?
-  createdAt   DateTime @default(now())
-  tags        String[]
-}
-
-// ==================== الصفحات الثابتة ====================
-
-model Page {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  titleAr     String
-  titleEn     String
-  titleFr     String   @default("")
-  contentAr   String   @db.Text
-  contentEn   String   @db.Text
-  contentFr   String   @default("") @db.Text
-  isPublished Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-// ==================== التحديثات ====================
-
-model ProjectUpdate {
-  id          String   @id @default(cuid())
-  content     String
-  createdAt   DateTime @default(now())
-
-  projectId   String
-  project     Project  @relation(fields: [projectId], references: [id])
-}
-
-// ==================== Auth (NextAuth) ====================
+// ==================== الحسابات ====================
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([provider, providerAccountId])
 }
 
@@ -326,6 +197,48 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+// ==================== المدفوعات ====================
+
+model Payment {
+  id          String   @id @default(cuid())
+  amount      Float
+  currency    String   @default("MAD")
+  status      PaymentStatus @default(PENDING)
+  method      PaymentMethod?
+  stripeId    String?
+  paypalId    String?
+  invoiceUrl  String?
+  paidAt      DateTime?
+  createdAt   DateTime @default(now())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+  clientId    String
+  client      User     @relation(fields: [clientId], references: [id])
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  STRIPE
+  PAYPAL
+  BANK_TRANSFER
+  COD
+}
+
+model ProjectUpdate {
+  id          String   @id @default(cuid())
+  content     String
+  createdAt   DateTime @default(now())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+}
+
 // ==================== المنتجات الرقمية ====================
 
 model DigitalProduct {
@@ -345,40 +258,59 @@ model DigitalProduct {
   updatedAt   DateTime @updatedAt
 }
 
-// ==================== الإعدادات ====================
+// ==================== الإعدادات العامة ====================
 
 model Settings {
-  id            String   @id @default("site-settings")
-  companyName   String
-  address       String?
-  phone         String?
-  email         String?
-  facebook      String?
-  instagram     String?
-  twitter       String?
-  linkedin      String?
-  updatedAt     DateTime @updatedAt
+  id          String @id @default(cuid())
+  companyName String
+  address     String?
+  phone       String?
+  email       String?
+  facebook    String?
+  instagram   String?
+  twitter     String?
+  linkedin    String?
+  updatedAt   DateTime @updatedAt
 }
 
-// ==================== NEW MODELS FOR PREMIUM UPGRADE ====================
+// ==================== المدونة ====================
 
-model ServiceCategory {
-  id            String    @id @default(cuid())
-  slug          String    @unique
-  nameAr        String
-  nameEn        String
-  nameFr        String    @default("")
-  descriptionAr String
-  descriptionEn String
-  descriptionFr String    @default("")
-  icon          String?
-  image         String?
-  order         Int       @default(0)
-  isActive      Boolean   @default(true)
-  services      Service[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleAr     String
+  titleEn     String
+  titleFr     String @default("")
+  excerptAr   String?
+  excerptEn   String?
+  excerptFr   String? @default("")
+  contentAr   String
+  contentEn   String
+  contentFr   String @default("")
+  coverImage  String?
+  isPublished Boolean  @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  tags        String[]
 }
+
+// ==================== الصفحات الثابتة ====================
+
+model Page {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleAr     String
+  titleEn     String
+  titleFr     String @default("")
+  contentAr   String
+  contentEn   String
+  contentFr   String @default("")
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ==================== الطلبات والعروض ====================
 
 model Lead {
   id                 String     @id @default(cuid())
@@ -407,13 +339,6 @@ model Lead {
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
 
-  // Notion Sync Tracking Fields
-  notionPageId       String?
-  notionSyncStatus   NotionSyncStatus @default(PENDING)
-  notionSyncedAt     DateTime?
-  notionSyncError    String?
-  notionRetryCount   Int              @default(0)
-
   // Relations
   requestedServiceId String?
   requestedService   Service?   @relation(fields: [requestedServiceId], references: [id])
@@ -429,165 +354,4 @@ enum LeadStatus {
   WON
   LOST
   ARCHIVED
-}
-
-model PortfolioItem {
-  id              String        @id @default(cuid())
-  slug            String        @unique
-  titleAr         String
-  titleEn         String
-  titleFr         String        @default("")
-  descAr          String
-  descEn          String
-  descFr          String        @default("")
-  clientName      String
-  clientLogo      String?
-  coverImage      String
-  mediaType       PortfolioType @default(VIDEO)
-  youtubeUrl      String?
-  youtubeVideoId  String?
-  uploadedVideoUrl String?
-  externalUrl     String?
-  industry        String
-  isFeatured      Boolean       @default(false)
-  isPublished     Boolean       @default(false)
-  order           Int           @default(0)
-  publishedAt     DateTime?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  
-  // Relations
-  serviceId       String?
-  service         Service?      @relation(fields: [serviceId], references: [id])
-  caseStudyId     String?
-  caseStudy       CaseStudy?    @relation(fields: [caseStudyId], references: [id])
-}
-
-enum PortfolioType {
-  YOUTUBE
-  VIDEO
-  IMAGE
-  WEBSITE
-  BRANDING
-}
-
-model CaseStudy {
-  id            String          @id @default(cuid())
-  slug          String          @unique
-  titleAr       String
-  titleEn       String
-  titleFr       String          @default("")
-  clientName    String
-  industry      String
-  challengeAr   String
-  challengeEn   String
-  challengeFr   String          @default("")
-  objectiveAr   String
-  objectiveEn   String
-  objectiveFr   String          @default("")
-  solutionAr    String
-  solutionEn    String
-  solutionFr    String          @default("")
-  duration      String
-  publicBudget  String?
-  resultsAr     String
-  resultsEn     String
-  resultsFr     String          @default("")
-  coverImage    String
-  gallery       Json?
-  isFeatured    Boolean         @default(false)
-  isPublished   Boolean         @default(false)
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-
-  // Relations
-  portfolioItems PortfolioItem[]
-  testimonialId  String?         @unique
-  testimonial    Testimonial?    @relation(fields: [testimonialId], references: [id])
-  services       Service[]
-}
-
-model Testimonial {
-  id               String     @id @default(cuid())
-  clientName       String
-  businessName     String
-  roleAr           String
-  roleEn           String
-  roleFr           String     @default("")
-  quoteAr          String
-  quoteEn          String     
-  quoteFr          String     @default("")
-  avatar           String?
-  logo             String?
-  videoUrl         String?
-  rating           Int        @default(5)
-  consentToPublish Boolean    @default(true)
-  isFeatured       Boolean    @default(false)
-  isPublished      Boolean    @default(false)
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @updatedAt
-
-  // Relations
-  caseStudy        CaseStudy?
-}
-
-model FAQ {
-  id          String   @id @default(cuid())
-  questionAr  String
-  questionEn  String
-  questionFr  String   @default("")
-  answerAr    String
-  answerEn    String
-  answerFr    String   @default("")
-  category    String
-  order       Int      @default(0)
-  isPublished Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relations
-  serviceId   String?
-  service     Service? @relation(fields: [serviceId], references: [id])
-}
-
-enum NotionSyncStatus {
-  PENDING
-  SYNCED
-  FAILED
-}
-
-model Solution {
-  id            String   @id @default(cuid())
-  slug          String   @unique
-  nameAr        String
-  nameEn        String
-  nameFr        String   @default("")
-  descriptionAr String
-  descriptionEn String
-  descriptionFr String   @default("")
-  icon          String?
-  image         String?
-  isActive      Boolean  @default(true)
-  isFeatured    Boolean  @default(false)
-  order         Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  services SolutionService[]
-}
-
-model SolutionService {
-  id         String   @id @default(cuid())
-  solutionId String
-  serviceId  String
-
-  order      Int      @default(0)
-  isPrimary  Boolean  @default(false)
-
-  solution   Solution @relation(fields: [solutionId], references: [id], onDelete: Cascade)
-  service    Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-
-  @@unique([solutionId, serviceId])
-  @@index([solutionId])
-  @@index([serviceId])
 }
