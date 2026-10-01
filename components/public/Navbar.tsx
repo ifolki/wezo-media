@@ -156,7 +156,7 @@ export default function Navbar() {
           <RequestServiceModal>
             <Button className="h-14 px-8 rounded-2xl gradient-brand border-none hover:opacity-90 font-black text-sm shadow-[0_10px_30px_rgba(255,107,43,0.3)] hover:scale-105 active:scale-95 transition-all gap-2">
               <Sparkles className="w-4 h-4" />
-              {t('home') === 'الرئيسية' ? 'اطلب خدمة' : 'Let\'s Talk'}
+              {t('talk_button')}
             </Button>
           </RequestServiceModal>
         </div>
@@ -235,13 +235,13 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex items-center justify-between p-5 rounded-[2rem] glass-card border border-white/5">
-                  <span className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2">{locale === 'ar' ? 'اللغة' : 'Language'}</span>
+                  <span className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2">{t('language')}</span>
                   <LanguageSwitcher />
                 </div>
                 
                 <RequestServiceModal>
                   <Button className="w-full h-20 rounded-[2.5rem] gradient-brand font-black text-2xl shadow-2xl active:scale-95 transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                    {t('home') === 'الرئيسية' ? 'اطلب خدمة الآن' : 'Get Started'}
+                    {t('get_started')}
                   </Button>
                 </RequestServiceModal>
               </div>

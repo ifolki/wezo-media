@@ -14,7 +14,9 @@
     "case_studies": "Case Studies",
     "get_quote": "Get a Quote",
     "dashboard": "Dashboard",
-    "talk_button": "Let's Talk"
+    "talk_button": "Let's Talk",
+    "get_started": "Start a Project",
+    "language": "Language"
   },
   "mobile_nav": {
     "home": "Home",
@@ -24,13 +26,31 @@
     "more": "More"
   },
   "hero": {
-    "badge": "Your Digital Growth Partner",
-    "eyebrow": "Your Digital Growth Partner",
+    "badge": "YOUR DIGITAL GROWTH PARTNER",
+    "eyebrow": "YOUR DIGITAL GROWTH PARTNER",
+    "title_line1": "Integrated digital solutions",
+    "title_line2": "to grow your business",
     "title": "Integrated digital solutions to grow your business",
-    "description": "We help businesses build and grow their digital presence — from strategy and branding to websites, social media, content, advertising and automation.",
+    "description": "WEZO MEDIA helps businesses in Morocco move from strategy to execution through branding, websites, social media, content, advertising and automation.",
     "ctaPrimary": "Tell Us About Your Project",
     "ctaSecondary": "Explore Our Solutions",
-    "tagline": "Strategy • Branding • Web • Advertising • Automation"
+    "tagline": "Strategy • Branding • Web • Advertising • Automation",
+    "ecosystem": {
+      "core_title": "WEZO CORE",
+      "core_sub": "Growth Engine",
+      "web": "Web & E-Commerce",
+      "web_sub": "High-Converting Funnels",
+      "analytics": "Analytics & Optimization",
+      "analytics_sub": "Performance Tracking",
+      "automation": "AI & Automation",
+      "automation_sub": "CRM & WhatsApp Flows",
+      "branding": "Branding & Content",
+      "branding_sub": "Visual Strategy & Assets",
+      "ads": "Advertising & Acquisition",
+      "ads_sub": "Meta & Google Ads",
+      "strategy": "Digital Strategy",
+      "strategy_sub": "Advisory & Growth"
+    }
   },
   "stats": {
     "projects": "Projects Done",

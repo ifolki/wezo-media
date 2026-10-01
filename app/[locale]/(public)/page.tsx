@@ -23,16 +23,16 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
   const isFr = locale === 'fr'
 
   const title = isAr
-    ? 'ويزو ميديا | حلول رقمية متكاملة ووكالة تسويق رقمي في المغرب'
+    ? 'WEZO MEDIA | وكالة حلول رقمية وتسويق رقمي في المغرب'
     : isFr
-    ? 'WEZO MEDIA | Solutions Digitales Intégrées & Agence Digitale Maroc'
-    : 'WEZO MEDIA | Integrated Digital Solutions & Marketing Agency Morocco'
+    ? 'WEZO MEDIA | Agence digitale & solutions digitales au Maroc'
+    : 'WEZO MEDIA | Digital Agency & Integrated Digital Solutions in Morocco'
 
   const description = isAr
-    ? 'وكالة رائدة في الحلول الرقمية المتكاملة والتسويق بالمغرب. نساعد الشركات وأصحاب المشاريع على بناء وتطوير حضورهم الرقمي من الاستراتيجية والهوية إلى المواقع، المحتوى، الإعلانات والأتمتة.'
+    ? 'وكالة WEZO MEDIA للحلول الرقمية وشريك النمو للشركات في المغرب. استراتيجية رقمية، مواقع إلكترونية ومتاجر، هوية بصرية، إعلانات ممولة وأتمتة ذكية للأعمال.'
     : isFr
-    ? 'Agence de marketing digital et solutions digitales au Maroc. Nous accompagnons votre entreprise : stratégie, identité de marque, sites web, réseaux sociaux, publicité et automatisation.'
-    : 'Leading digital solutions and marketing agency in Morocco. We help businesses build and scale their digital presence — from strategy and branding to websites, advertising and automation.'
+    ? 'WEZO MEDIA, agence de solutions digitales et partenaire de croissance au Maroc. Stratégie digitale, création de sites web & e-commerce, branding, publicité en ligne et automatisation IA pour entreprises ambitieuses.'
+    : 'WEZO MEDIA is an integrated digital solutions agency and growth partner in Morocco. Digital strategy, websites, e-commerce, branding, advertising and AI automation for ambitious businesses.'
 
   const canonicalUrl = `https://www.wezomedia.ma/${locale}`
 

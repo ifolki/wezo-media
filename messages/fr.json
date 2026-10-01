@@ -13,7 +13,10 @@
     "about": "À Propos",
     "case_studies": "Études de Cas",
     "get_quote": "Obtenir un Devis",
-    "dashboard": "Tableau de bord"
+    "dashboard": "Tableau de bord",
+    "talk_button": "Discutons de votre projet",
+    "get_started": "Démarrer un projet",
+    "language": "Langue"
   },
   "mobile_nav": {
     "home": "Accueil",
@@ -23,13 +26,31 @@
     "more": "Plus"
   },
   "hero": {
-    "badge": "Votre partenaire de croissance digitale",
-    "eyebrow": "Votre partenaire de croissance digitale",
+    "badge": "VOTRE PARTENAIRE DE CROISSANCE DIGITALE",
+    "eyebrow": "VOTRE PARTENAIRE DE CROISSANCE DIGITALE",
+    "title_line1": "Des solutions digitales intégrées",
+    "title_line2": "pour développer votre entreprise",
     "title": "Des solutions digitales intégrées pour développer votre entreprise",
-    "description": "Nous accompagnons les entreprises de la stratégie à l’exécution : identité, sites web, réseaux sociaux, contenu, publicité et automatisation.",
+    "description": "WEZO MEDIA accompagne les entreprises au Maroc de la stratégie à l’exécution : identité, sites web, réseaux sociaux, contenu, publicité et automatisation.",
     "ctaPrimary": "Parlez-nous de votre projet",
     "ctaSecondary": "Découvrir nos solutions",
-    "tagline": "Stratégie • Identité • Web • Publicité • Automatisation"
+    "tagline": "Stratégie • Identité • Web • Publicité • Automatisation",
+    "ecosystem": {
+      "core_title": "WEZO CORE",
+      "core_sub": "Moteur de Croissance",
+      "web": "Web & E-Commerce",
+      "web_sub": "Tunnels Haute Conversion",
+      "analytics": "Analyse & Optimisation",
+      "analytics_sub": "Suivi des Performances",
+      "automation": "IA & Automatisation",
+      "automation_sub": "WhatsApp & Flux CRM",
+      "branding": "Branding & Contenu",
+      "branding_sub": "Stratégie Visuelle & Assets",
+      "ads": "Publicité & Acquisition",
+      "ads_sub": "Meta & Google Ads",
+      "strategy": "Stratégie Digitale",
+      "strategy_sub": "Conseil & Croissance"
+    }
   },
   "stats": {
     "projects": "Projets Réalisés",
