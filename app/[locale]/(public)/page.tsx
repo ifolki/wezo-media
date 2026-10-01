@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import prisma from '@/lib/prisma'
 import Hero from '@/components/public/Hero'
 import Stats from '@/components/public/Stats'
@@ -14,6 +15,72 @@ import { AlertCircle } from 'lucide-react'
 interface Props {
   params: {
     locale: string
+  }
+}
+
+export async function generateMetadata({ params: { locale } }: Props): Promise<Metadata> {
+  const isAr = locale === 'ar'
+  const isFr = locale === 'fr'
+
+  const title = isAr
+    ? 'ويزو ميديا | حلول رقمية متكاملة ووكالة تسويق رقمي في المغرب'
+    : isFr
+    ? 'WEZO MEDIA | Solutions Digitales Intégrées & Agence Digitale Maroc'
+    : 'WEZO MEDIA | Integrated Digital Solutions & Marketing Agency Morocco'
+
+  const description = isAr
+    ? 'وكالة رائدة في الحلول الرقمية المتكاملة والتسويق بالمغرب. نساعد الشركات وأصحاب المشاريع على بناء وتطوير حضورهم الرقمي من الاستراتيجية والهوية إلى المواقع، المحتوى، الإعلانات والأتمتة.'
+    : isFr
+    ? 'Agence de marketing digital et solutions digitales au Maroc. Nous accompagnons votre entreprise : stratégie, identité de marque, sites web, réseaux sociaux, publicité et automatisation.'
+    : 'Leading digital solutions and marketing agency in Morocco. We help businesses build and scale their digital presence — from strategy and branding to websites, advertising and automation.'
+
+  const canonicalUrl = `https://www.wezomedia.ma/${locale}`
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        'ar': 'https://www.wezomedia.ma/ar',
+        'fr': 'https://www.wezomedia.ma/fr',
+        'en': 'https://www.wezomedia.ma/en',
+        'x-default': 'https://www.wezomedia.ma/ar',
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: 'WEZO MEDIA',
+      locale: isAr ? 'ar_MA' : isFr ? 'fr_MA' : 'en_US',
+      type: 'website',
+      images: [
+        {
+          url: 'https://www.wezomedia.ma/assets/agency/office.jpg',
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['https://www.wezomedia.ma/assets/agency/office.jpg'],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   }
 }
 

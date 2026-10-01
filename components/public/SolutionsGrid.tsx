@@ -35,7 +35,7 @@ export default function SolutionsGrid({ solutions, locale }: SolutionsGridProps)
   if (!solutions || solutions.length === 0) return null
 
   return (
-    <section className="py-24 relative overflow-hidden bg-[#07070B] text-start">
+    <section id="solutions" className="py-24 relative overflow-hidden bg-[#07070B] text-start scroll-mt-24">
       <div className="container-custom mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
           <motion.div

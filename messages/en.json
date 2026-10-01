@@ -24,15 +24,13 @@
     "more": "More"
   },
   "hero": {
-    "badge": "YOUR PARTNER IN DIGITAL GROWTH 🚀",
-    "title_1": "We create ",
-    "title_publicites": "ads ",
-    "title_2": "that capture attention and ",
-    "title_gradient": "acquire customers.",
-    "subtitle": "Advertising videos, creative content, Meta Ads campaigns, and high-converting landing pages built to scale your business.",
-    "ctaPrimary": "Request a Quote",
-    "ctaSecondary": "View Our Work",
-    "tagline": "Creation • Advertising • Conversion • Performance Tracking"
+    "badge": "Your Digital Growth Partner",
+    "eyebrow": "Your Digital Growth Partner",
+    "title": "Integrated digital solutions to grow your business",
+    "description": "We help businesses build and grow their digital presence — from strategy and branding to websites, social media, content, advertising and automation.",
+    "ctaPrimary": "Tell Us About Your Project",
+    "ctaSecondary": "Explore Our Solutions",
+    "tagline": "Strategy • Branding • Web • Advertising • Automation"
   },
   "stats": {
     "projects": "Projects Done",
@@ -55,18 +53,19 @@
   },
   "process": {
     "title": "Our Process",
-    "subtitle": "Your journey from vision to reality, guided by our professional production workflow.",
+    "subtitle": "From discovery and strategy to execution and growth.",
     "steps": {
-      "step1": { "title": "Concept & Plan", "desc": "We start by understanding your vision and turning it into a solid action plan." },
-      "step2": { "title": "Production", "desc": "Setting up all requirements and beginning the actual execution with high standards." },
-      "step3": { "title": "Review & Polish", "desc": "We present the initial draft for your feedback to ensure perfect final results." },
-      "step4": { "title": "Launch & Grow", "desc": "Delivering the final project while providing continuous support for ongoing success." }
+      "step1": { "title": "Discovery & Analysis", "desc": "Understand the business, objectives, target audience and current digital presence." },
+      "step2": { "title": "Strategy", "desc": "Define the digital strategy, priorities, channels and required solutions." },
+      "step3": { "title": "Execution", "desc": "Build and deploy the digital ecosystem: branding, website, social media, content and ads." },
+      "step4": { "title": "Growth & Optimization", "desc": "Launch, track performance metrics and continuously scale your digital results." }
     }
   },
   "portfolio": {
-    "title": "Featured Work",
-    "subtitle": "Take a look at some of our latest creations and client success stories.",
-    "viewAll": "View All Projects"
+    "title": "Our Work",
+    "subtitle": "Explore selected digital projects and solutions we've delivered for our clients.",
+    "viewAll": "View All Projects",
+    "viewCase": "View Case Study"
   },
   "team": {
     "title": "Creative Team",

@@ -23,15 +23,13 @@
     "more": "Plus"
   },
   "hero": {
-    "badge": "VOTRE PARTENAIRE EN CROISSANCE DIGITALE 🚀",
-    "title_1": "Nous créons des ",
-    "title_publicites": "publicités ",
-    "title_2": "qui captent l'attention et ",
-    "title_gradient": "génèrent des clients.",
-    "subtitle": "Vidéos publicitaires, contenu créatif, campagnes Meta Ads et pages de conversion conçus pour faire grandir votre activité.",
-    "ctaPrimary": "Demander un devis",
-    "ctaSecondary": "Voir nos réalisations",
-    "tagline": "Création • Publicité • Conversion • Suivi des performances"
+    "badge": "Votre partenaire de croissance digitale",
+    "eyebrow": "Votre partenaire de croissance digitale",
+    "title": "Des solutions digitales intégrées pour développer votre entreprise",
+    "description": "Nous accompagnons les entreprises de la stratégie à l’exécution : identité, sites web, réseaux sociaux, contenu, publicité et automatisation.",
+    "ctaPrimary": "Parlez-nous de votre projet",
+    "ctaSecondary": "Découvrir nos solutions",
+    "tagline": "Stratégie • Identité • Web • Publicité • Automatisation"
   },
   "stats": {
     "projects": "Projets Réalisés",
@@ -53,19 +51,20 @@
     }
   },
   "process": {
-    "title": "Notre Processus",
-    "subtitle": "Votre parcours de la vision à la réalité, guidé par des étapes de production professionnelles.",
+    "title": "Notre méthode",
+    "subtitle": "De l’analyse et la stratégie à l’exécution et la croissance.",
     "steps": {
-      "step1": { "title": "Concept et Plan", "desc": "Nous commençons par comprendre votre vision et la transformer en un plan d'action solide." },
-      "step2": { "title": "Production", "desc": "Mise en place de toutes les exigences et début de l'exécution avec des normes élevées." },
-      "step3": { "title": "Révision et Amélioration", "desc": "Nous vous présentons la première version pour recueillir vos retours et garantir un résultat parfait." },
-      "step4": { "title": "Lancement et Croissance", "desc": "Livraison du projet final tout en offrant un soutien continu pour un succès durable." }
+      "step1": { "title": "Analyse du projet", "desc": "Comprendre votre activité, vos objectifs, votre cible et votre présence digitale actuelle." },
+      "step2": { "title": "Stratégie", "desc": "Définir la stratégie digitale, les priorités, les canaux et les solutions nécessaires." },
+      "step3": { "title": "Mise en œuvre", "desc": "Construire et déployer votre écosystème : identité, site web, réseaux, contenu et publicité." },
+      "step4": { "title": "Croissance & optimisation", "desc": "Lancer, mesurer la performance et optimiser continuellement votre impact digital." }
     }
   },
   "portfolio": {
-    "title": "Notre Travail",
-    "subtitle": "Jetez un œil à nos dernières créations et aux histoires de succès de nos clients.",
-    "viewAll": "Voir Tous les Projets"
+    "title": "Nos réalisations",
+    "subtitle": "Découvrez une sélection de projets et de solutions digitales réalisés pour nos clients.",
+    "viewAll": "Voir tous nos projets",
+    "viewCase": "Voir l'étude de cas"
   },
   "team": {
     "title": "Équipe Créative",

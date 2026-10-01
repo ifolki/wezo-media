@@ -1,14 +1,14 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Lightbulb, FileText, Search, PlayCircle } from 'lucide-react'
+import { Search, Compass, Layers, TrendingUp } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 const processSteps = [
-  { key: 'step1', icon: Lightbulb, color: '#FF6B2B' },
-  { key: 'step2', icon: FileText, color: '#FF2D78' },
-  { key: 'step3', icon: Search, color: '#4ADE80' },
-  { key: 'step4', icon: PlayCircle, color: '#60A5FA' },
+  { key: 'step1', icon: Search, color: '#FF6B2B' },
+  { key: 'step2', icon: Compass, color: '#FF2D78' },
+  { key: 'step3', icon: Layers, color: '#4ADE80' },
+  { key: 'step4', icon: TrendingUp, color: '#60A5FA' },
 ]
 
 export default function WorkProcess() {
