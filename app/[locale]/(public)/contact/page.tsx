@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { useTranslations } from 'next-intl'
 import { siteConfig } from '@/lib/config/site'
+import { trackPhoneClick } from '@/lib/analytics/gtag'
 
 export default function ContactPage() {
   const t = useTranslations('contact')
@@ -33,8 +34,15 @@ export default function ContactPage() {
                  
                  <div className="space-y-8">
                     {[
-                      { icon: Mail, label: t('email_label'), value: siteConfig.email },
-                      { icon: Phone, label: t('phone_label'), value: siteConfig.phone, dir: 'ltr' },
+                      { icon: Mail, label: t('email_label'), value: siteConfig.email, href: `mailto:${siteConfig.email}` },
+                      { 
+                        icon: Phone, 
+                        label: t('phone_label'), 
+                        value: siteConfig.phone, 
+                        dir: 'ltr',
+                        href: `tel:${siteConfig.phone}`,
+                        onClick: () => trackPhoneClick({ ctaLocation: 'contact_page_phone' })
+                      },
                       { icon: MapPin, label: t('address_label'), value: 'BD moustapha el maani N 22 casablanca' },
                     ].map((item, i) => (
                       <div key={i} className="flex gap-6 group">
@@ -43,7 +51,18 @@ export default function ContactPage() {
                          </div>
                          <div className="text-start">
                             <div className="text-sm text-text-muted mb-1">{item.label}</div>
-                            <div className={`text-2xl font-bold text-white ${item.dir === 'ltr' ? 'font-mono' : ''}`} dir={item.dir || 'auto'}>{item.value}</div>
+                            {item.href ? (
+                              <a 
+                                href={item.href}
+                                onClick={item.onClick}
+                                className={`text-2xl font-bold text-white hover:text-brand-orange transition-colors ${item.dir === 'ltr' ? 'font-mono' : ''}`} 
+                                dir={item.dir || 'auto'}
+                              >
+                                {item.value}
+                              </a>
+                            ) : (
+                              <div className={`text-2xl font-bold text-white ${item.dir === 'ltr' ? 'font-mono' : ''}`} dir={item.dir || 'auto'}>{item.value}</div>
+                            )}
                          </div>
                       </div>
                     ))}

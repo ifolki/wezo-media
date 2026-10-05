@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 import RequestServiceModal from '@/components/shared/RequestServiceModal'
 import { cn } from '@/lib/utils'
+import { trackRequestQuote } from '@/lib/analytics/gtag'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -154,7 +155,10 @@ export default function Navbar() {
           <div className="h-8 w-[1px] bg-white/10" />
 
           <RequestServiceModal>
-            <Button className="h-14 px-8 rounded-2xl gradient-brand border-none hover:opacity-90 font-black text-sm shadow-[0_10px_30px_rgba(255,107,43,0.3)] hover:scale-105 active:scale-95 transition-all gap-2">
+            <Button 
+              onClick={() => trackRequestQuote({ ctaLocation: 'navbar_desktop_talk_button', locale })}
+              className="h-14 px-8 rounded-2xl gradient-brand border-none hover:opacity-90 font-black text-sm shadow-[0_10px_30px_rgba(255,107,43,0.3)] hover:scale-105 active:scale-95 transition-all gap-2"
+            >
               <Sparkles className="w-4 h-4" />
               {t('talk_button')}
             </Button>
@@ -240,7 +244,13 @@ export default function Navbar() {
                 </div>
                 
                 <RequestServiceModal>
-                  <Button className="w-full h-20 rounded-[2.5rem] gradient-brand font-black text-2xl shadow-2xl active:scale-95 transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button 
+                    className="w-full h-20 rounded-[2.5rem] gradient-brand font-black text-2xl shadow-2xl active:scale-95 transition-all" 
+                    onClick={() => {
+                      trackRequestQuote({ ctaLocation: 'navbar_mobile_menu_get_started', locale })
+                      setIsMobileMenuOpen(false)
+                    }}
+                  >
                     {t('get_started')}
                   </Button>
                 </RequestServiceModal>

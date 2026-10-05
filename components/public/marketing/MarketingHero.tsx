@@ -1,11 +1,13 @@
 'use client'
 
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { Sparkles, MessageCircle, ArrowRight, CheckCircle2, ShieldCheck, TrendingUp, Search, Compass, Layers, BarChart3 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { siteConfig } from '@/lib/config/site'
 import { Link } from '@/navigation'
+import { trackRequestQuote, trackWhatsAppClick, trackServiceView } from '@/lib/analytics/gtag'
 
 interface Props {
   locale: string
@@ -15,6 +17,15 @@ export default function MarketingHero({ locale }: Props) {
   const t = useTranslations('marketing_service.hero')
   const tb = useTranslations('marketing_service.breadcrumbs')
   const isAr = locale === 'ar'
+
+  useEffect(() => {
+    trackServiceView({
+      serviceName: 'Marketing Digital Intégré',
+      serviceSlug: 'marketing',
+      locale,
+      pagePath: typeof window !== 'undefined' ? window.location.pathname : '/services/marketing',
+    })
+  }, [locale])
 
   const whatsappMessage = encodeURIComponent(
     isAr
@@ -121,7 +132,17 @@ export default function MarketingHero({ locale }: Props) {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2"
             >
-              <a href="#project-request" className="w-full sm:w-auto">
+              <a 
+                href="#project-request" 
+                className="w-full sm:w-auto"
+                onClick={() => {
+                  trackRequestQuote({
+                    ctaLocation: 'marketing_hero_primary',
+                    serviceName: 'marketing',
+                    locale,
+                  })
+                }}
+              >
                 <Button className="w-full sm:w-auto h-14 sm:h-15 px-8 sm:px-9 rounded-2xl text-base sm:text-lg font-black gradient-brand text-white hover:opacity-95 shadow-[0_12px_36px_rgba(255,107,43,0.35)] hover:scale-[1.02] active:scale-95 transition-all gap-3">
                   <Sparkles className="w-5 h-5 text-white shrink-0" />
                   <span>{t('cta_primary')}</span>
@@ -133,6 +154,13 @@ export default function MarketingHero({ locale }: Props) {
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto"
+                onClick={() => {
+                  trackWhatsAppClick({
+                    ctaLocation: 'marketing_hero_secondary',
+                    service: 'marketing',
+                    locale,
+                  })
+                }}
               >
                 <Button
                   variant="outline"

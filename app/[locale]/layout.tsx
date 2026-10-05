@@ -4,6 +4,7 @@ import "./../globals.css";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Providers } from "@/components/shared/Providers";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 
 const tajawal = Tajawal({ 
   subsets: ["arabic"],
@@ -53,6 +54,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <body className={`${tajawal.variable} ${dmSans.variable} ${cairo.variable} ${syne.variable} font-tajawal antialiased`}>
+        <GoogleAnalytics locale={locale} />
         <NextIntlClientProvider messages={messages}>
           <Providers>
             {children}

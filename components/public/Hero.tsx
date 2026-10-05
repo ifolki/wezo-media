@@ -16,6 +16,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/navigation'
+import { trackRequestQuote } from '@/lib/analytics/gtag'
 
 export default function Hero() {
   const t = useTranslations('hero')
@@ -85,7 +86,16 @@ export default function Hero() {
               transition={{ delay: 0.25, duration: 0.6 }}
               className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-1"
             >
-              <Link href="/get-quote" aria-label={t('ctaPrimary')} className="w-full sm:w-auto">
+              <Link 
+                href="/get-quote" 
+                aria-label={t('ctaPrimary')} 
+                className="w-full sm:w-auto"
+                onClick={() => {
+                  trackRequestQuote({
+                    ctaLocation: 'homepage_hero_primary',
+                  })
+                }}
+              >
                 <Button className="w-full sm:w-auto h-14 sm:h-15 px-8 sm:px-9 rounded-2xl text-base sm:text-lg font-black gradient-brand hover:opacity-95 shadow-[0_12px_40px_rgba(255,107,43,0.35)] hover:scale-[1.02] active:scale-95 transition-all gap-3 text-white">
                   <Sparkles className="w-5 h-5 text-white shrink-0" />
                   <span>{t('ctaPrimary')}</span>

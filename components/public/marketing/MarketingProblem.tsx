@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { AlertCircle, Target, Film, Layout, RefreshCw, ArrowRight, CheckCircle2, ShieldAlert } from 'lucide-react'
+import { trackRequestQuote } from '@/lib/analytics/gtag'
 
 interface Props {
   locale: string
@@ -133,12 +134,22 @@ export default function MarketingProblem({ locale }: Props) {
               </p>
             </div>
 
-            <a href="#project-request" className="shrink-0 w-full sm:w-auto">
-              <button className="w-full sm:w-auto h-13 px-7 rounded-2xl bg-white text-[#111118] hover:bg-white/90 font-black text-sm transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
-                <span>{isAr ? 'ابدأ بتشخيص مشروعك' : 'Demander votre diagnostic'}</span>
-                <ArrowRight className="w-4 h-4 text-brand-orange rtl:rotate-180" />
-              </button>
-            </a>
+              <a 
+                href="#project-request" 
+                className="shrink-0 w-full sm:w-auto"
+                onClick={() => {
+                  trackRequestQuote({
+                    ctaLocation: 'marketing_problem_statement',
+                    serviceName: 'marketing',
+                    locale,
+                  })
+                }}
+              >
+                <button className="w-full sm:w-auto h-13 px-7 rounded-2xl bg-white text-[#111118] hover:bg-white/90 font-black text-sm transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+                  <span>{isAr ? 'ابدأ بتشخيص مشروعك' : 'Demander votre diagnostic'}</span>
+                  <ArrowRight className="w-4 h-4 text-brand-orange rtl:rotate-180" />
+                </button>
+              </a>
           </div>
         </motion.div>
 

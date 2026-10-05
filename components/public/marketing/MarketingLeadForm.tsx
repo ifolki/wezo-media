@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { 
@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { siteConfig } from '@/lib/config/site'
 import { toast } from 'sonner'
+import { trackFormStart, trackLeadSubmit, trackWhatsAppClick } from '@/lib/analytics/gtag'
 
 interface Props {
   locale: string
@@ -53,7 +54,22 @@ export default function MarketingLeadForm({ locale }: Props) {
     budget: 'tier2'
   })
 
+  const hasTrackedStart = useRef(false)
+
+  const triggerFormStart = () => {
+    if (!hasTrackedStart.current) {
+      hasTrackedStart.current = true
+      trackFormStart({
+        formId: 'marketing_service_lead_form',
+        formName: 'Marketing Service Diagnostic Form',
+        pagePath: typeof window !== 'undefined' ? window.location.pathname : `/services/marketing`,
+        locale,
+      })
+    }
+  }
+
   const updateField = (field: string, value: string) => {
+    triggerFormStart()
     setFormData(prev => ({ ...prev, [field]: value }))
     if (errors[field]) {
       setErrors(prev => {
@@ -145,6 +161,13 @@ export default function MarketingLeadForm({ locale }: Props) {
 
       if (res.ok) {
         setSubmitted(true)
+        trackLeadSubmit({
+          formId: 'marketing_service_lead_form',
+          serviceInterest: `marketing_${formData.need}`,
+          budgetTier: formData.budget,
+          pagePath: typeof window !== 'undefined' ? window.location.pathname : '/services/marketing',
+          locale,
+        })
         toast.success(isAr ? 'تم استلام طلبك بنجاح' : 'Demande reçue avec succès')
       } else {
         const errorData = await res.json()
@@ -670,6 +693,14 @@ export default function MarketingLeadForm({ locale }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto"
+                  onClick={() => {
+                    trackWhatsAppClick({
+                      ctaLocation: 'marketing_lead_form_success',
+                      service: 'marketing',
+                      pagePath: typeof window !== 'undefined' ? window.location.pathname : '/services/marketing',
+                      locale,
+                    })
+                  }}
                 >
                   <Button className="w-full sm:w-auto h-13 px-7 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm shadow-md active:scale-95 transition-all gap-2">
                     <MessageCircle className="w-4 h-4" />

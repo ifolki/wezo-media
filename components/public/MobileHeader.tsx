@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Link } from '@/navigation'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 import { Phone } from 'lucide-react'
+import { trackWhatsAppClick } from '@/lib/analytics/gtag'
 
 interface SettingsData {
   phone?: string | null
@@ -50,6 +51,11 @@ export default function MobileHeader() {
             href={`https://wa.me/${phone}`}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => {
+              trackWhatsAppClick({
+                ctaLocation: 'mobile_header',
+              })
+            }}
             aria-label="Contact us on WhatsApp"
             className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 active:scale-95 flex items-center justify-center transition-all border border-emerald-500/10"
           >

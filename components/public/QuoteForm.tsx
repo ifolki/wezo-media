@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslations, useLocale } from 'next-intl'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 import { siteConfig } from '@/lib/config/site'
+import { trackFormStart, trackLeadSubmit, trackWhatsAppClick } from '@/lib/analytics/gtag'
 
 interface Service {
   id: string
@@ -41,6 +42,19 @@ export default function QuoteForm({ services }: QuoteFormProps) {
   const [dbOffline, setDbOffline] = useState(false)
 
   const preselectedServiceId = searchParams ? searchParams.get('service') : null
+  const hasTrackedStart = useRef(false)
+
+  const triggerFormStart = () => {
+    if (!hasTrackedStart.current) {
+      hasTrackedStart.current = true
+      trackFormStart({
+        formId: 'quote_form',
+        formName: 'Multi-Step Quote Form',
+        pagePath: '/get-quote',
+        locale,
+      })
+    }
+  }
 
   useEffect(() => {
     if (preselectedServiceId && services && services.length > 0) {
@@ -87,12 +101,14 @@ export default function QuoteForm({ services }: QuoteFormProps) {
 
   // Handle Input Changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    triggerFormStart()
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
   // Handle Service Selection
   const handleServiceSelect = (serviceId: string) => {
+    triggerFormStart()
     setFormData(prev => ({ ...prev, requestedServiceId: serviceId }))
     setStep(2)
   }
@@ -147,6 +163,20 @@ export default function QuoteForm({ services }: QuoteFormProps) {
         const data = await res.json()
         setCreatedLead(data.lead)
         setSubmitted(true)
+        
+        const selectedService = services.find(s => s.id === formData.requestedServiceId)
+        const serviceName = selectedService 
+          ? (locale === 'ar' ? selectedService.nameAr : locale === 'fr' ? selectedService.nameFr : selectedService.nameEn)
+          : 'general'
+
+        trackLeadSubmit({
+          formId: 'quote_form',
+          serviceInterest: serviceName,
+          budgetTier: `${formData.budgetMin || 0}-${formData.budgetMax || 0}`,
+          pagePath: '/get-quote',
+          locale,
+        })
+
         toast.success(isAr ? 'تم إرسال طلبك بنجاح!' : 'Your request has been sent successfully!')
       } else {
         const errorData = await res.json()
@@ -209,7 +239,15 @@ export default function QuoteForm({ services }: QuoteFormProps) {
         </div>
         <div className="flex flex-col gap-4">
           <Button 
-            onClick={() => window.open(whatsappUrl, '_blank')} 
+            onClick={() => {
+              trackWhatsAppClick({
+                ctaLocation: 'quote_form_db_offline',
+                service: serviceName,
+                pagePath: '/get-quote',
+                locale,
+              })
+              window.open(whatsappUrl, '_blank')
+            }} 
             className="w-full h-14 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.2)] transition-all"
           >
             {locale === 'ar' ? 'تواصل معنا مباشرة عبر واتساب 💬' : 'Contact us directly via WhatsApp 💬'}
@@ -257,15 +295,12 @@ export default function QuoteForm({ services }: QuoteFormProps) {
 
     // Track click event in Analytics
     const handleWhatsAppClick = () => {
-      if (typeof window !== 'undefined') {
-        console.log('Analytics event recorded: click_whatsapp_after_lead')
-        if ((window as any).gtag) {
-          ;(window as any).gtag('event', 'click_whatsapp_after_lead', {
-            event_category: 'engagement',
-            event_label: leadRef
-          })
-        }
-      }
+      trackWhatsAppClick({
+        ctaLocation: 'quote_form_success',
+        service: serviceName,
+        pagePath: '/get-quote',
+        locale,
+      })
       window.open(whatsappUrl, '_blank')
     }
 

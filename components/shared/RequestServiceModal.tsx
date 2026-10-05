@@ -24,6 +24,7 @@ import {
 import { Label } from '@/components/ui/label'
 import { Rocket, CheckCircle2, ChevronRight, ChevronLeft, Send, Loader2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { trackFormStart, trackLeadSubmit } from '@/lib/analytics/gtag'
 
 export default function RequestServiceModal({ children }: { children?: React.ReactNode }) {
   const { data: session } = useSession()
@@ -51,7 +52,15 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
     }
   }, [session, open])
 
-  const nextStep = () => setStep(s => s + 1)
+  const nextStep = () => {
+    if (step === 1) {
+      trackFormStart({
+        formId: 'request_service_modal',
+        formName: 'Request Service Modal',
+      })
+    }
+    setStep(s => s + 1)
+  }
   const prevStep = () => setStep(s => s - 1)
 
   const reset = () => {
@@ -78,6 +87,12 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
       if (!resp.ok) {
         throw new Error('Failed to submit request')
       }
+
+      trackLeadSubmit({
+        formId: 'request_service_modal',
+        serviceInterest: formData.serviceId,
+        pagePath: typeof window !== 'undefined' ? window.location.pathname : '',
+      })
 
       nextStep()
     } catch (error) {

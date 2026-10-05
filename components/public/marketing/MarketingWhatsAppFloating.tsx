@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { MessageCircle } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { siteConfig } from '@/lib/config/site'
+import { trackWhatsAppClick } from '@/lib/analytics/gtag'
 
 interface Props {
   locale: string
@@ -32,6 +33,13 @@ export default function MarketingWhatsAppFloating({ locale }: Props) {
         href={url}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => {
+          trackWhatsAppClick({
+            ctaLocation: 'marketing_floating_whatsapp',
+            service: 'marketing',
+            locale,
+          })
+        }}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         whileHover={{ scale: 1.05 }}
