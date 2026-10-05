@@ -75,10 +75,22 @@
     "title": "Notre méthode",
     "subtitle": "De l’analyse et la stratégie à l’exécution et la croissance.",
     "steps": {
-      "step1": { "title": "Analyse du projet", "desc": "Comprendre votre activité, vos objectifs, votre cible et votre présence digitale actuelle." },
-      "step2": { "title": "Stratégie", "desc": "Définir la stratégie digitale, les priorités, les canaux et les solutions nécessaires." },
-      "step3": { "title": "Mise en œuvre", "desc": "Construire et déployer votre écosystème : identité, site web, réseaux, contenu et publicité." },
-      "step4": { "title": "Croissance & optimisation", "desc": "Lancer, mesurer la performance et optimiser continuellement votre impact digital." }
+      "step1": {
+        "title": "Analyse du projet",
+        "desc": "Comprendre votre activité, vos objectifs, votre cible et votre présence digitale actuelle."
+      },
+      "step2": {
+        "title": "Stratégie",
+        "desc": "Définir la stratégie digitale, les priorités, les canaux et les solutions nécessaires."
+      },
+      "step3": {
+        "title": "Mise en œuvre",
+        "desc": "Construire et déployer votre écosystème : identité, site web, réseaux, contenu et publicité."
+      },
+      "step4": {
+        "title": "Croissance & optimisation",
+        "desc": "Lancer, mesurer la performance et optimiser continuellement votre impact digital."
+      }
     }
   },
   "portfolio": {
@@ -308,5 +320,313 @@
     "thank_you_title": "Demande Reçue avec Succès !",
     "thank_you_desc": "Notre spécialiste de la croissance va analyser vos données. Si le profil correspond, nous vous contacterons directement par WhatsApp.",
     "thank_you_whatsapp": "Contact Rapide via WhatsApp"
+  },
+  "marketing_service": {
+    "meta": {
+      "title": "Agence Marketing Digital au Maroc | WEZO MEDIA",
+      "description": "WEZO MEDIA accompagne les entreprises au Maroc avec une stratégie digitale sur mesure : contenu, publicité, acquisition, sites web et optimisation."
+    },
+    "breadcrumbs": {
+      "home": "Accueil",
+      "services": "Services",
+      "marketing": "Marketing Digital"
+    },
+    "hero": {
+      "eyebrow": "VOTRE PARTENAIRE DE CROISSANCE DIGITALE",
+      "h1": "Agence de marketing digital au Maroc",
+      "h1_sub": "Stratégie sur mesure, exécution coordonnée et impact commercial réel.",
+      "subtitle": "Nous analysons votre activité, vos objectifs et vos besoins pour construire une stratégie digitale adaptée, puis nous coordonnons sa mise en œuvre : contenu, publicité, acquisition, pages web et suivi des performances.",
+      "cta_primary": "Demander une étude de projet",
+      "cta_secondary": "Échanger sur WhatsApp",
+      "trust_line": "Nous commençons par comprendre votre projet avant de proposer la solution.",
+      "flow_step1": "Comprendre",
+      "flow_step2": "Diagnostiquer",
+      "flow_step3": "Bâtir la Stratégie",
+      "flow_step4": "Coordonner & Exécuter",
+      "flow_step5": "Mesurer & Optimiser"
+    },
+    "problem": {
+      "badge": "DIAGNOSTIC SUR-MESURE",
+      "title": "Chaque entreprise a des besoins marketing différents",
+      "subtitle": "Pourquoi les formules toutes faites échouent : un problème commercial peut venir du trafic, du contenu, de la page de destination ou de la confiance client. Sans diagnostic précis, vous gaspillez votre budget.",
+      "business_a": {
+        "tag": "Entreprise A",
+        "status": "Offre validée mais manque de flux prévisible",
+        "bottleneck_label": "Goulot identifié",
+        "bottleneck": "Acquisition & Volume de prospects",
+        "solution_label": "Intervention WEZO",
+        "solution": "Campagnes d'acquisition ciblées Meta & Google Ads avec structure de test et scaling progressif."
+      },
+      "business_b": {
+        "tag": "Entreprise B",
+        "status": "Présence existante mais perception faible",
+        "bottleneck_label": "Goulot identifié",
+        "bottleneck": "Qualité du contenu & angle créatif",
+        "solution_label": "Intervention WEZO",
+        "solution": "Direction artistique, vidéos courtes engageantes (Reels) et communication visuelle rassurante."
+      },
+      "business_c": {
+        "tag": "Entreprise C",
+        "status": "Trafic publicitaire actif mais faible conversion",
+        "bottleneck_label": "Goulot identifié",
+        "bottleneck": "Infrastructure de conversion (Landing Page)",
+        "solution_label": "Intervention WEZO",
+        "solution": "Conception d'une landing page ultra-rapide avec parcours WhatsApp fluide et formulaire épuré."
+      },
+      "business_d": {
+        "tag": "Entreprise D",
+        "status": "Actions éparpillées et manque de cohérence",
+        "bottleneck_label": "Goulot identifié",
+        "bottleneck": "Restructuration globale de la présence",
+        "solution_label": "Intervention WEZO",
+        "solution": "Audit 360°, alignement stratégique complet, coordination des canaux et pilotage des indicateurs."
+      },
+      "statement_title": "Notre rôle : diagnostiquer avant d'exécuter",
+      "statement_desc": "WEZO MEDIA n'est pas un simple vendeur de publicités isolées. Nous identifions ce dont votre entreprise a réellement besoin et nous coordonnons l'ensemble des solutions pour y parvenir."
+    },
+    "pillars": {
+      "badge": "SOLUTIONS INTÉGRÉES",
+      "title": "Nos 5 piliers d'intervention stratégique",
+      "subtitle": "Nous ne forçons pas l'ensemble des services sur chaque projet. Chaque brique est sélectionnée et activée selon les priorités réelles de votre développement.",
+      "disclaimer": "Une approche modulaire : vous ne payez que pour les solutions utiles à votre stade de croissance.",
+      "p1_title": "01. Stratégie & Planification Digitale",
+      "p1_desc": "La fondation indispensable pour ne plus naviguer à vue et maximiser l'efficacité de chaque dirham investi.",
+      "p1_items": [
+        "Audit approfondi du projet et de la présence actuelle",
+        "Définition précise des objectifs et des KPIs de vente",
+        "Étude de l'audience cible, segments et attentes clients",
+        "Clarification de l'offre et différenciation concurrentielle",
+        "Sélection et priorisation des canaux d'acquisition pertinents"
+      ],
+      "p2_title": "02. Contenu & Création Visuelle",
+      "p2_desc": "Capter l'attention, valoriser votre marque et susciter le désir d'achat avec une identité forte.",
+      "p2_items": [
+        "Créatifs publicitaires orientés conversion (Images & Carrousels)",
+        "Production de vidéos courtes dynamiques (Reels, TikTok, Shorts)",
+        "Contenu de marque engageant pour réseaux sociaux",
+        "Communication visuelle cohérente et soignée"
+      ],
+      "p3_title": "03. Publicité & Acquisition Ciblée",
+      "p3_desc": "Générer un flux régulier de prospects qualifiés et transformer l'attention en opportunités commerciales.",
+      "p3_items": [
+        "Gestion experte des campagnes Meta Ads (Facebook & Instagram)",
+        "Structure de campagnes rigoureuse et A/B testing régulier",
+        "Génération continue de leads qualifiés et prospects ciblés",
+        "Optimisation méthodique du ROAS et du coût par lead (CPL)"
+      ],
+      "p4_title": "04. Infrastructure Digitale & Conversion",
+      "p4_desc": "Assurer que chaque visiteur soit guidé sans friction vers la prise de contact ou la commande.",
+      "p4_items": [
+        "Conception de landing pages persuasives et ultra-rapides",
+        "Sites web et vitrines orientés action",
+        "Formulaires interactifs avec qualification préalable",
+        "Parcours clients WhatsApp automatisés et réactifs"
+      ],
+      "p5_title": "05. Suivi, Analyse & Optimisation",
+      "p5_desc": "Les données orientent nos décisions pour pérenniser et développer vos résultats dans le temps.",
+      "p5_items": [
+        "Tableau de bord de suivi des performances en temps réel",
+        "Détection proactive des points de friction et blocages",
+        "Recommandations d'ajustements stratégiques régulières",
+        "Optimisation continue pour maximiser le retour sur investissement"
+      ]
+    },
+    "process": {
+      "badge": "MÉTHODOLOGIE ÉPROUVÉE",
+      "title": "La méthode WEZO : du diagnostic à la croissance",
+      "subtitle": "Un cadre de travail rigoureux et transparent pour transformer vos investissements marketing en leviers de développement durables.",
+      "step1_num": "01",
+      "step1_title": "Comprendre le business",
+      "step1_desc": "Immersion dans votre activité, étude de vos marges, de vos forces concurrentielles et de vos attentes commerciales.",
+      "step2_num": "02",
+      "step2_title": "Diagnostiquer problèmes & opportunités",
+      "step2_desc": "Analyse rigoureuse des goulots d'étranglement actuels (trafic, offre, page, messaging) pour cibler les leviers à fort impact.",
+      "step3_num": "03",
+      "step3_title": "Bâtir la stratégie",
+      "step3_desc": "Définition du plan d'action sur mesure, priorisation des solutions à activer, budgets et calendrier d'exécution.",
+      "step4_num": "04",
+      "step4_title": "Coordonner la production & l'exécution",
+      "step4_desc": "Mobilisation de nos spécialistes : rédaction des textes persuasifs, création des visuels, tournage vidéo et développement web.",
+      "step5_num": "05",
+      "step5_title": "Lancer et mesurer",
+      "step5_desc": "Mise en ligne des campagnes et outils de conversion, collecte des premières données réelles et suivi méticuleux.",
+      "step6_num": "06",
+      "step6_title": "Optimiser et développer",
+      "step6_desc": "Analyse des retours, suppression des éléments non rentables, scaling des leviers gagnants et croissance continue."
+    },
+    "target": {
+      "badge": "ÉLIGIBILITÉ & CADRE",
+      "title": "À qui s'adresse notre accompagnement ?",
+      "subtitle": "Nous collaborons avec des dirigeants et des entreprises qui considèrent le marketing digital comme un investissement stratégique, pas une dépense improvisée.",
+      "suitable_title": "Notre accompagnement est idéal pour :",
+      "suitable_items": [
+        "Entreprises, PME et structures en phase de développement ou de consolidation",
+        "Dirigeants, fondateurs et commerçants ayant une offre solide à promouvoir",
+        "Marques de produits et boutiques e-commerce cherchant une acquisition rentable",
+        "Professions libérales, cliniques et prestataires de services B2B ou B2C",
+        "Entreprises cherchant un partenaire digital unique pour coordonner leur stratégie"
+      ],
+      "unsuitable_title": "Ce service N'EST PAS conçu pour :",
+      "unsuitable_items": [
+        "Les recherches de prestations isolées à très bas coût (ex. publicité à 100 DH)",
+        "Les personnes cherchant des 'abonnés fantômes' sans impact commercial réel",
+        "Les activités sans produit ou service validé cherchant des solutions miracles sans investissement",
+        "Les projets sans vision à moyen terme ni volonté d'échanger avec transparence"
+      ]
+    },
+    "cases": {
+      "badge": "TRAVAIL RÉEL & ÉTUDES DE CAS",
+      "title": "Projets récents & interventions concrètes",
+      "subtitle": "Découvrez comment notre accompagnement stratégique et coordonné aide des entreprises au Maroc à transformer leur présence digitale.",
+      "btn_view": "Voir le projet",
+      "view_all": "Explorer tout le portfolio",
+      "problem_label": "Problématique :",
+      "strategy_label": "Stratégie :",
+      "execution_label": "Exécution :",
+      "result_label": "Résultat :",
+      "c1_client": "Decoafrica",
+      "c1_type": "E-Commerce & Décoration",
+      "c1_problem": "Visibilité digitale dispersée et difficulté à maintenir des ventes en ligne stables sans dépendre de publications ponctuelles.",
+      "c1_strategy": "Création d'une structure publicitaire Meta Ads axée sur les angles d'utilisation déco et réassurance client.",
+      "c1_execution": "Direction artistique des créatifs, visuels carrousels orientés bénéfices et gestion rigoureuse des campagnes.",
+      "c1_result": "+170% d'engagement global • 300% de ROAS moyen • Hausse soutenue des commandes en ligne.",
+      "c2_client": "Crèche Btissam",
+      "c2_type": "Éducation & Petite Enfance",
+      "c2_problem": "Difficulté à mobiliser les parents lors des périodes d'inscription avec une communication visuelle vieillissante.",
+      "c2_strategy": "Repositionnement de la marque autour de la confiance parentale et ciblage géographique très précis de proximité.",
+      "c2_execution": "Production de contenu vidéo chaleureux, refonte des messages clés et campagnes d'acquisition locales.",
+      "c2_result": "+230% de demandes d'informations • +90% d'inscriptions finalisées dès le premier mois.",
+      "c3_client": "Psychologue Hanae Kandri",
+      "c3_type": "Santé & Consultation Professionnelle",
+      "c3_problem": "Besoin d'établir une réputation professionnelle rassurante pour faciliter la prise de rendez-vous en cabinet et en ligne.",
+      "c3_strategy": "Architecture d'une présence sobre, éthique et pédagogique avec canal de contact direct et confidentiel.",
+      "c3_execution": "Identité visuelle professionnelle, ligne éditoriale experte et parcours de contact WhatsApp optimisé.",
+      "c3_result": "+180% de visibilité qualifiée • Multiplication par 2,5 du volume de consultations prises.",
+      "c4_client": "Horizon Travel's Morocco",
+      "c4_type": "Tourisme & Expéditions",
+      "c4_problem": "Forte concurrence dans le secteur touristique et besoin de convertir l'intérêt des voyageurs en réservations fermes.",
+      "c4_strategy": "Stratégie de narration visuelle immersive mettant en valeur les expériences uniques et l'authenticité des circuits.",
+      "c4_execution": "Production de contenu vidéo promotionnel percutant et campagnes d'acquisition de leads voyageurs.",
+      "c4_result": "+210% de demandes de devis et réservations directes enregistrées."
+    },
+    "why": {
+      "badge": "NOTRE MODÈLE OPÉRATIONNEL",
+      "title": "Pourquoi choisir WEZO MEDIA ?",
+      "subtitle": "Pas de fausses promesses ni de slogans creux. Un modèle opérationnel clair qui associe vision stratégique et rigueur d'exécution.",
+      "item1_title": "Un partenaire stratégique unique",
+      "item1_desc": "Fini de jongler entre plusieurs freelances ou agences dispersées. WEZO MEDIA centralise la vision et coordonne l'ensemble.",
+      "item2_title": "Solutions adaptées à votre réalité",
+      "item2_desc": "Aucune formule imposée. Nous diagnostiquons votre stade actuel et n'activons que les leviers pertinents pour votre rentabilité.",
+      "item3_title": "Des spécialistes coordonnés",
+      "item3_desc": "Stratèges, copywriters, designers, monteurs et media buyers travaillent en synergie sous une même direction de projet.",
+      "item4_title": "Stratégie + Exécution concrète",
+      "item4_desc": "Nous ne nous limitons pas à des recommandations théoriques : nous produisons, mettons en ligne, testons et ajustons.",
+      "item5_title": "Communication claire et transparente",
+      "item5_desc": "Pas de jargon technique inutile. Vous disposez d'un point de contact dédié et d'un suivi clair des actions menées.",
+      "item6_title": "Optimisation guidée par les chiffres",
+      "item6_desc": "Les données réelles guident nos arbitrages budgétaires et créatifs pour assurer un retour sur investissement durable."
+    },
+    "form": {
+      "badge": "PREMIÈRE ÉTAPE",
+      "title": "Parlons de votre projet",
+      "subtitle": "Répondez à quelques questions en 2 minutes. Notre équipe analyse votre demande, étudie votre présence actuelle et vous recontacte pour un échange stratégique.",
+      "step_indicator": "Étape {current} sur {total}",
+      "step1_title": "Votre Entreprise",
+      "step1_desc": "Présentez-nous votre structure et vos coordonnées directes.",
+      "name_label": "Nom et prénom *",
+      "name_placeholder": "Ex: Karim Benjelloun",
+      "phone_label": "Téléphone / WhatsApp direct *",
+      "phone_placeholder": "Ex: 06 12 34 56 78",
+      "company_label": "Nom de l'entreprise ou du projet *",
+      "company_placeholder": "Ex: Maison Atlas Déco",
+      "industry_label": "Secteur d'activité *",
+      "industry_placeholder": "Ex: E-commerce, Clinique, Immobilier, BTP...",
+      "city_label": "Ville *",
+      "city_placeholder": "Ex: Casablanca, Rabat, Marrakech...",
+      "step2_title": "Votre Présence Actuelle",
+      "step2_desc": "Indiquez vos canaux existants pour nous permettre d'analyser votre visibilité.",
+      "website_label": "Site web ou Landing Page existante",
+      "website_placeholder": "Ex: https://monentreprise.ma",
+      "instagram_label": "Profil Instagram",
+      "instagram_placeholder": "Ex: @monentreprise",
+      "facebook_label": "Page Facebook",
+      "facebook_placeholder": "Ex: facebook.com/monentreprise",
+      "other_links_label": "Autres liens utiles (LinkedIn, TikTok, Catalogue...)",
+      "other_links_placeholder": "Liens complémentaires...",
+      "step3_title": "Votre Besoin Principal",
+      "step3_desc": "De quoi votre entreprise a-t-elle besoin en priorité ?",
+      "need_label": "Sélectionnez votre besoin majeur :",
+      "need_options": {
+        "strategy": "Stratégie marketing globale & diagnostic complet",
+        "advertising": "Publicité & acquisition de clients (Meta / Google Ads)",
+        "content": "Création de contenu visuel & réseaux sociaux (Reels, visuels)",
+        "leads": "Génération de prospects & leads qualifiés",
+        "website": "Création de Site Web ou Landing Page de conversion",
+        "full": "Accompagnement digital complet de A à Z",
+        "not_sure": "Je ne suis pas sûr / J'ai besoin de l'analyse de WEZO"
+      },
+      "step4_title": "Votre Situation Actuelle",
+      "step4_desc": "Aidez-nous à cerner votre défi et vos objectifs commerciaux.",
+      "challenge_label": "Quel est votre principal défi marketing actuellement ? *",
+      "challenge_placeholder": "Ex: Nous manquons de demandes de devis régulières, nos coûts par acquisition sont trop élevés...",
+      "run_ads_label": "Avez-vous déjà fait de la publicité en ligne payante ?",
+      "run_ads_options": {
+        "yes_regular": "Oui, régulièrement",
+        "yes_occasional": "Oui, de temps en temps",
+        "never": "Non, jamais"
+      },
+      "goal_label": "Quel résultat souhaitez-vous atteindre en priorité ?",
+      "goal_placeholder": "Ex: Doubler nos demandes de devis mensuelles, développer nos ventes en ligne...",
+      "budget_label": "Budget marketing mensuel indicatif envisagé (MAD) :",
+      "budget_options": {
+        "tier1": "Moins de 5 000 MAD / mois",
+        "tier2": "5 000 - 15 000 MAD / mois",
+        "tier3": "15 000 - 30 000 MAD / mois",
+        "tier4": "Plus de 30 000 MAD / mois",
+        "undecided": "À définir selon la stratégie recommandée"
+      },
+      "step5_title": "Récapitulatif & Envoi",
+      "step5_desc": "Vérifiez vos informations avant de transmettre votre demande à nos stratèges.",
+      "recap_name": "Contact :",
+      "recap_company": "Projet :",
+      "recap_need": "Besoin :",
+      "recap_budget": "Budget indicatif :",
+      "recap_city": "Ville :",
+      "recap_notice": "La soumission de ce formulaire engage une étude préliminaire par notre équipe. Nous vous contacterons pour un échange constructif.",
+      "btn_next": "Étape suivante",
+      "btn_prev": "Retour",
+      "btn_submit": "Demander une étude de projet",
+      "submitting": "Transmission en cours...",
+      "success_title": "Demande reçue avec succès",
+      "success_desc": "Merci. Nous avons bien reçu votre demande. L'équipe WEZO va examiner les détails de votre projet et vous contacter sous 24h ouvrées pour échanger sur la stratégie la plus adaptée.",
+      "success_cta_whatsapp": "Échanger directement sur WhatsApp",
+      "success_cta_reset": "Envoyer une autre demande",
+      "validation_required": "Veuillez renseigner ce champ.",
+      "validation_phone": "Veuillez saisir un numéro de téléphone valide."
+    },
+    "whatsapp": {
+      "button_text": "Discuter sur WhatsApp",
+      "floating_tooltip": "Une question ? Échangez directement avec un stratège WEZO",
+      "prefilled_text": "Bonjour WEZO MEDIA, je souhaite discuter du marketing digital de mon projet."
+    },
+    "faq": {
+      "badge": "RÉPONSES AUX QUESTIONS",
+      "title": "Questions fréquentes sur notre accompagnement",
+      "subtitle": "Tout ce que vous devez savoir avant de démarrer une collaboration avec WEZO MEDIA.",
+      "q1": "Que fait concrètement une agence de marketing digital intégrée comme WEZO MEDIA ?",
+      "a1": "Contrairement à un prestataire qui ne gère qu'un outil isolé, WEZO MEDIA prend en charge l'ensemble de la chaîne de valeur : compréhension de votre marché, définition de la stratégie, production du contenu créatif, paramétrage des campagnes d'acquisition, création des pages de conversion et suivi analytique continu. Vous bénéficiez d'un partenaire unique qui coordonne l'ensemble des expertises nécessaires.",
+      "q2": "Combien coûte un accompagnement en marketing digital au Maroc ?",
+      "a2": "Le coût d'un accompagnement dépend directement de l'envergure de votre projet et des leviers à activer (stratégie, volume de contenu à produire, gestion des campagnes publicitaires, infrastructure web). Nous ne proposons pas de tarifs 'au rabais' sans lendemain : chaque proposition est chiffrée sur mesure après l'étude de votre projet afin de garantir un retour sur investissement cohérent avec vos marges.",
+      "q3": "Quel budget publicitaire faut-il prévoir pour la publicité ?",
+      "a3": "Le budget publicitaire dépend de votre secteur d'activité, de la concurrence et de vos objectifs de croissance. Pour tester des audiences et obtenir des résultats statistiques fiables au Maroc, nous recommandons généralement un budget publicitaire initial d'au moins 3 000 à 5 000 MAD par mois, pouvant ensuite être augmenté au fur et à mesure que la rentabilité est prouvée.",
+      "q4": "WEZO MEDIA peut-elle gérer à la fois le contenu créatif et les campagnes publicitaires ?",
+      "a4": "Oui, c'est précisément le cœur de notre modèle intégré. La performance d'une campagne publicitaire dépend à 70% de la qualité de son message et de ses visuels. En concevant le contenu et en gérant les campagnes au sein de la même équipe, nous assurons une cohérence parfaite et pouvons ajuster les créatifs rapidement selon les données de performance.",
+      "q5": "Travaillez-vous avec les PME et les entreprises locales ?",
+      "a5": "Absolument. Une grande partie de nos clients sont des PME, des commerces en développement, des cliniques et des entreprises locales au Maroc qui souhaitent franchir un cap et professionnaliser leur acquisition de clientèle sans devoir embaucher une équipe marketing interne complète.",
+      "q6": "Comment se déroule le démarrage d'un projet avec WEZO MEDIA ?",
+      "a6": "Le processus démarre par votre demande en ligne, suivie d'un appel stratégique pour approfondir vos objectifs et diagnostiquer votre situation actuelle. Nous vous présentons ensuite une feuille de route sur mesure avec les solutions prioritaires recommandées. Dès validation, notre équipe lance la phase de production et de configuration.",
+      "q7": "Est-ce que chaque client reçoit la même stratégie ou une formule standardisée ?",
+      "a7": "Non, jamais. Une marque de décoration e-commerce, un cabinet de conseil B2B et une crèche ont des cycles de décision et des impératifs radicalement différents. Nous construisons chaque plan d'action en fonction de vos forces réelles, de vos contraintes et de vos opportunités de marché."
+    }
   }
 }
