@@ -1,13 +1,18 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Rocket, ArrowRight, ArrowLeft } from 'lucide-react'
+import { Rocket, ArrowRight, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useTranslations } from 'next-intl'
-import RequestServiceModal from '@/components/shared/RequestServiceModal'
+import { useTranslations, useLocale } from 'next-intl'
+import { Link } from '@/navigation'
+import { siteConfig } from '@/lib/config/site'
+import { trackRequestQuote, trackWhatsAppClick } from '@/lib/analytics/gtag'
 
 export default function FinalCTA() {
   const t = useTranslations('cta')
+  const locale = useLocale()
+  const isAr = locale === 'ar'
+  const isFr = locale === 'fr'
 
   return (
     <section className="py-32 relative overflow-hidden">
@@ -16,7 +21,7 @@ export default function FinalCTA() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative rounded-[4rem] overflow-hidden gradient-brand p-16 md:p-32 text-center space-y-12 shadow-[0_0_120px_rgba(255,107,43,0.3)] group"
+          className="relative rounded-[4rem] overflow-hidden gradient-brand p-12 md:p-28 text-center space-y-12 shadow-[0_0_120px_rgba(255,107,43,0.3)] group"
         >
           {/* Decorative Elements */}
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 group-hover:bg-white/20 transition-colors duration-1000" />
@@ -28,7 +33,7 @@ export default function FinalCTA() {
             </div>
             
             <div className="space-y-6">
-              <h2 className="text-5xl md:text-8xl font-black text-white leading-[1.1] tracking-tighter">
+              <h2 className="text-4xl md:text-7xl font-black text-white leading-[1.1] tracking-tighter">
                 {t('title')}
               </h2>
               
@@ -37,13 +42,28 @@ export default function FinalCTA() {
               </p>
             </div>
 
-            <div className="pt-8">
-              <RequestServiceModal>
-                <Button size="lg" className="h-24 px-16 bg-white text-brand-orange hover:bg-white/90 font-black text-3xl rounded-[2rem] gap-4 shadow-[0_30px_60px_rgba(0,0,0,0.3)] hover:scale-110 active:scale-95 transition-all">
-                  {t('button')}
-                  <ArrowRight className="w-8 h-8 rtl:rotate-180" />
+            <div className="pt-8 flex flex-wrap items-center justify-center gap-6">
+              <Link
+                href="/get-quote"
+                onClick={() => trackRequestQuote({ ctaLocation: 'homepage_final_cta', locale })}
+              >
+                <Button size="lg" className="h-20 px-12 bg-white text-brand-orange hover:bg-white/95 font-black text-xl md:text-2xl rounded-[2rem] gap-4 shadow-[0_30px_60px_rgba(0,0,0,0.3)] hover:scale-105 active:scale-95 transition-all">
+                  <span>{t('button')}</span>
+                  <ArrowRight className="w-7 h-7 rtl:rotate-180" />
                 </Button>
-              </RequestServiceModal>
+              </Link>
+
+              <a
+                href={`https://wa.me/${siteConfig.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackWhatsAppClick({ ctaLocation: 'homepage_final_cta_whatsapp', locale })}
+              >
+                <Button size="lg" variant="outline" className="h-20 px-10 bg-black/20 border-2 border-white/30 text-white hover:bg-black/35 font-black text-xl md:text-2xl rounded-[2rem] gap-3 backdrop-blur-md hover:scale-105 active:scale-95 transition-all">
+                  <MessageCircle className="w-7 h-7 text-emerald-300" />
+                  <span>{isAr ? 'تواصل عبر واتساب' : isFr ? 'Discuter sur WhatsApp' : 'Chat on WhatsApp'}</span>
+                </Button>
+              </a>
             </div>
           </div>
         </motion.div>

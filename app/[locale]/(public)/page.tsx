@@ -10,6 +10,7 @@ import Portfolio from '@/components/public/Portfolio'
 import Team from '@/components/public/Team'
 import Testimonials from '@/components/public/Testimonials'
 import FinalCTA from '@/components/public/CTA'
+import { siteConfig } from '@/lib/config/site'
 import { AlertCircle } from 'lucide-react'
 
 interface Props {
@@ -125,6 +126,7 @@ const featuredSolutions = [
 
 export default async function Home({ params: { locale } }: Props) {
   const isAr = locale === 'ar'
+  const isFr = locale === 'fr'
   
   let featuredServices = []
   let dbOffline = false
@@ -141,8 +143,54 @@ export default async function Home({ params: { locale } }: Props) {
     featuredServices = fallbackServices
   }
 
+  const localBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': ['LocalBusiness', 'ProfessionalService'],
+    '@id': 'https://www.wezomedia.ma/#organization',
+    name: 'WEZO MEDIA',
+    url: `https://www.wezomedia.ma/${locale}`,
+    logo: 'https://www.wezomedia.ma/assets/logo/logo-normal.png',
+    image: 'https://www.wezomedia.ma/assets/agency/office.jpg',
+    description: isAr
+      ? 'وكالة WEZO MEDIA للحلول الرقمية وشريك النمو للشركات في المغرب. استراتيجية رقمية، مواقع إلكترونية ومتاجر، هوية بصرية، إعلانات ممولة وأتمتة ذكية للأعمال.'
+      : isFr
+      ? 'WEZO MEDIA, agence de solutions digitales et partenaire de croissance au Maroc. Stratégie digitale, création de sites web & e-commerce, branding, publicité en ligne et automatisation IA.'
+      : 'WEZO MEDIA is an integrated digital solutions agency and growth partner in Morocco. Digital strategy, websites, e-commerce, branding, advertising and AI automation.',
+    telephone: siteConfig.phoneInternational,
+    email: siteConfig.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'BD Moustapha El Maani N 22',
+      addressLocality: 'Casablanca',
+      addressRegion: 'Casablanca-Settat',
+      addressCountry: 'MA',
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: 'Morocco',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '230',
+      bestRating: '5',
+      worstRating: '1',
+    },
+    sameAs: [
+      siteConfig.social.instagram,
+      siteConfig.social.facebook,
+      siteConfig.social.linkedin,
+      siteConfig.social.tiktok,
+      siteConfig.social.youtube,
+    ],
+  }
+
   return (
     <main className="flex flex-col w-full relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
       {dbOffline && (
         <div className="absolute top-4 inset-x-0 max-w-md mx-auto z-50">
           <div className="bg-red-500/10 border border-red-500/20 text-red-400 py-2 px-4 rounded-xl flex items-center justify-center gap-2 text-sm mx-4">

@@ -170,7 +170,7 @@ export default function MobileBottomSheet({ isOpen, onClose, triggerRef }: Botto
               </Link>
 
               <Link
-                href="/case-studies"
+                href="/portfolio"
                 onClick={onClose}
                 className="flex items-center gap-3 p-4 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-all font-bold text-sm text-start"
               >

@@ -1,17 +1,30 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Send, Instagram, Twitter, Facebook, Youtube } from 'lucide-react'
+import { Mail, Phone, MapPin, Send, Instagram, Facebook, Youtube, Linkedin, Music2, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { siteConfig } from '@/lib/config/site'
-import { trackPhoneClick } from '@/lib/analytics/gtag'
+import { trackPhoneClick, trackWhatsAppClick } from '@/lib/analytics/gtag'
 
 export default function ContactPage() {
   const t = useTranslations('contact')
+  const locale = useLocale()
+  const isAr = locale === 'ar'
+  const isFr = locale === 'fr'
+
+  const address = isAr ? siteConfig.addressAr : isFr ? siteConfig.addressFr : siteConfig.addressEn
+
+  const socialLinks = [
+    { icon: Instagram, href: siteConfig.social.instagram, label: 'Instagram' },
+    { icon: Facebook, href: siteConfig.social.facebook, label: 'Facebook' },
+    { icon: Linkedin, href: siteConfig.social.linkedin, label: 'LinkedIn' },
+    { icon: Music2, href: siteConfig.social.tiktok, label: 'TikTok' },
+    { icon: Youtube, href: siteConfig.social.youtube, label: 'YouTube' },
+  ].filter(s => s.href && s.href !== '#')
 
   return (
     <main className="min-h-screen pb-20">
@@ -27,23 +40,32 @@ export default function ContactPage() {
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
               {/* Contact Info */}
               <div className="space-y-12">
-                 <div className="space-y-6">
+                 <div className="space-y-6 text-start">
                     <h2 className="text-4xl font-black text-white">{t('info_title')}</h2>
                     <p className="text-xl text-text-muted">{t('info_desc')}</p>
                  </div>
                  
                  <div className="space-y-8">
                     {[
-                      { icon: Mail, label: t('email_label'), value: siteConfig.email, href: `mailto:${siteConfig.email}` },
+                      { icon: Mail, label: t('email_label'), value: siteConfig.email, dir: 'ltr', href: `mailto:${siteConfig.email}` },
                       { 
                         icon: Phone, 
                         label: t('phone_label'), 
-                        value: siteConfig.phone, 
+                        value: siteConfig.whatsappFormatted, 
                         dir: 'ltr',
-                        href: `tel:${siteConfig.phone}`,
-                        onClick: () => trackPhoneClick({ ctaLocation: 'contact_page_phone' })
+                        href: `tel:${siteConfig.phoneInternational}`,
+                        onClick: () => trackPhoneClick({ ctaLocation: 'contact_page_phone', locale })
                       },
-                      { icon: MapPin, label: t('address_label'), value: 'BD moustapha el maani N 22 casablanca' },
+                      { 
+                        icon: MessageCircle, 
+                        label: isAr ? 'واتساب للأعمال' : isFr ? 'WhatsApp Business' : 'WhatsApp Business', 
+                        value: siteConfig.whatsappFormatted, 
+                        dir: 'ltr',
+                        href: `https://wa.me/${siteConfig.whatsapp}`,
+                        target: '_blank',
+                        onClick: () => trackWhatsAppClick({ ctaLocation: 'contact_page_whatsapp', locale })
+                      },
+                      { icon: MapPin, label: t('address_label'), value: address },
                     ].map((item, i) => (
                       <div key={i} className="flex gap-6 group">
                          <div className="w-16 h-16 rounded-2xl glass-card flex items-center justify-center shrink-0 border-white/5 group-hover:border-brand-orange transition-all">
@@ -54,6 +76,8 @@ export default function ContactPage() {
                             {item.href ? (
                               <a 
                                 href={item.href}
+                                target={item.target}
+                                rel={item.target === '_blank' ? 'noopener noreferrer' : undefined}
                                 onClick={item.onClick}
                                 className={`text-2xl font-bold text-white hover:text-brand-orange transition-colors ${item.dir === 'ltr' ? 'font-mono' : ''}`} 
                                 dir={item.dir || 'auto'}
@@ -71,11 +95,21 @@ export default function ContactPage() {
                  <div className="space-y-6 text-start">
                     <h4 className="text-xl font-bold text-white">{t('follow_us')}</h4>
                     <div className="flex gap-4">
-                       {[Instagram, Twitter, Facebook, Youtube].map((Icon, i) => (
-                         <a key={i} href="#" className="w-14 h-14 rounded-2xl glass-card flex items-center justify-center hover:gradient-brand hover:text-white transition-all">
-                            <Icon className="w-6 h-6" />
-                         </a>
-                       ))}
+                       {socialLinks.map((social, i) => {
+                         const Icon = social.icon
+                         return (
+                           <a
+                             key={i}
+                             href={social.href}
+                             target="_blank"
+                             rel="noopener noreferrer"
+                             aria-label={social.label}
+                             className="w-14 h-14 rounded-2xl glass-card flex items-center justify-center hover:gradient-brand hover:text-white transition-all"
+                           >
+                             <Icon className="w-6 h-6" />
+                           </a>
+                         )
+                       })}
                     </div>
                  </div>
               </div>

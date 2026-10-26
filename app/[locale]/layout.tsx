@@ -31,8 +31,12 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "Wezo Media | Digital Success Partner",
-  description: "Music production, digital marketing, and web development services.",
+  metadataBase: new URL("https://www.wezomedia.ma"),
+  title: {
+    default: "WEZO MEDIA | وكالة حلول رقمية وتسويق رقمي في المغرب",
+    template: "%s | WEZO MEDIA",
+  },
+  description: "وكالة WEZO MEDIA للحلول الرقمية وشريك النمو للشركات في المغرب. استراتيجية رقمية، مواقع إلكترونية ومتاجر، هوية بصرية، إعلانات ممولة وأتمتة ذكية للأعمال.",
   alternates: {
     languages: {
       'en': '/en',

@@ -28,6 +28,12 @@ export default function FeaturedPortfolio() {
     return project.highlightEn
   }
 
+  const getProjectTags = (project: any): string[] => {
+    if (isAr && project.tagsAr) return project.tagsAr
+    if (isFr && project.tagsFr) return project.tagsFr
+    return project.tags || []
+  }
+
   return (
     <section className="py-32 relative group/section overflow-hidden bg-[#07070A] text-start">
       {/* Background Ambient Glow */}
@@ -137,7 +143,7 @@ export default function FeaturedPortfolio() {
 
                   {/* Capabilities / Service Tags */}
                   <div className="pt-4 border-t border-white/5 flex flex-wrap gap-2">
-                    {project.tags.slice(0, 3).map((tag, tagIndex) => (
+                    {getProjectTags(project).map((tag, tagIndex) => (
                       <span 
                         key={tagIndex}
                         className="text-[11px] font-bold text-white/70 bg-white/[0.04] border border-white/5 px-2.5 py-1 rounded-lg"
@@ -145,11 +151,6 @@ export default function FeaturedPortfolio() {
                         {tag}
                       </span>
                     ))}
-                    {project.tags.length > 3 && (
-                      <span className="text-[11px] font-bold text-brand-orange bg-brand-orange/10 px-2 py-1 rounded-lg">
-                        +{project.tags.length - 3}
-                      </span>
-                    )}
                   </div>
                 </div>
               </Link>
