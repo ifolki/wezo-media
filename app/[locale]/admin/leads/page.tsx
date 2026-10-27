@@ -475,6 +475,28 @@ export default function AdminLeadsPage() {
                     </p>
                   </div>
 
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-xs text-text-muted font-bold block mb-0.5">{isAr ? 'الهاتف' : 'Phone'}</label>
+                      <a href={`tel:${selectedLead.phone}`} dir="ltr" className="text-white hover:text-brand-orange font-mono font-bold text-sm flex items-center gap-1.5">
+                        <Phone className="w-3.5 h-3.5 text-brand-orange" />
+                        {selectedLead.phone}
+                      </a>
+                    </div>
+                    <div>
+                      <label className="text-xs text-text-muted font-bold block mb-0.5">{isAr ? 'واتساب' : 'WhatsApp'}</label>
+                      <a
+                        href={`https://wa.me/${(selectedLead.whatsapp || selectedLead.phone || '').replace(/[^0-9]/g, '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        dir="ltr"
+                        className="text-emerald-400 hover:underline font-mono font-bold text-sm flex items-center gap-1.5"
+                      >
+                        {selectedLead.whatsapp || selectedLead.phone}
+                      </a>
+                    </div>
+                  </div>
+
                   <div>
                     <label className="text-xs text-text-muted font-bold block mb-0.5">{isAr ? 'الشركة / النشاط' : 'Company / Industry'}</label>
                     <p className="text-white font-bold text-base">{selectedLead.businessName}</p>
@@ -516,11 +538,27 @@ export default function AdminLeadsPage() {
                     </div>
                   </div>
 
-                  <div className="border-t border-white/5 pt-4">
-                    <label className="text-xs text-text-muted font-bold block mb-1">{isAr ? 'أهداف المشروع وتفاصيله' : 'Project Objectives & Details'}</label>
-                    <p className="text-white text-sm bg-brand-dark/50 p-4 rounded-xl leading-relaxed whitespace-pre-wrap border border-white/5">
-                      {selectedLead.objective}
-                    </p>
+                  <div className="border-t border-white/5 pt-4 space-y-3">
+                    <div>
+                      <label className="text-xs text-text-muted font-bold block mb-1">{isAr ? 'الهدف الأساسي' : 'Primary Objective'}</label>
+                      <p className="text-white text-sm bg-brand-dark/50 p-4 rounded-xl leading-relaxed whitespace-pre-wrap border border-white/5">
+                        {selectedLead.objective}
+                      </p>
+                    </div>
+                    {selectedLead.message && selectedLead.message !== selectedLead.objective && (
+                      <div>
+                        <label className="text-xs text-text-muted font-bold block mb-1">{isAr ? 'تفاصيل إضافية / رسالة الزبون' : 'Additional Details / Message'}</label>
+                        <p className="text-white text-xs bg-brand-dark/50 p-4 rounded-xl leading-relaxed whitespace-pre-wrap border border-white/5">
+                          {selectedLead.message}
+                        </p>
+                      </div>
+                    )}
+                    {selectedLead.source && (
+                      <div className="flex items-center justify-between bg-white/5 px-3 py-2 rounded-lg text-xs">
+                        <span className="text-text-muted font-bold">{isAr ? 'مصدر الاستمارة:' : 'Form Source:'}</span>
+                        <span className="text-brand-orange font-bold">{selectedLead.source}</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* UTM Trackers */}

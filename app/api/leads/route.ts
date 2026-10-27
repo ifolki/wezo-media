@@ -89,6 +89,17 @@ export async function POST(req: Request) {
     // 4. Save to local database (Prisma)
     let lead;
     try {
+      let validServiceId: string | null = null
+      if (data.requestedServiceId && !data.requestedServiceId.startsWith('cl-') && data.requestedServiceId.length > 5) {
+        const existingService = await prisma.service.findUnique({
+          where: { id: data.requestedServiceId },
+          select: { id: true }
+        })
+        if (existingService) {
+          validServiceId = existingService.id
+        }
+      }
+
       lead = await prisma.lead.create({
         data: {
           name: data.name,
@@ -104,7 +115,7 @@ export async function POST(req: Request) {
           budgetMax: budgetMaxVal,
           message: data.message || null,
           locale: data.locale,
-          requestedServiceId: data.requestedServiceId || null,
+          requestedServiceId: validServiceId,
           utmSource: data.utmSource || null,
           utmMedium: data.utmMedium || null,
           utmCampaign: data.utmCampaign || null,

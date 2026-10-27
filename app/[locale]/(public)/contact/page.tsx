@@ -1,20 +1,90 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Send, Instagram, Facebook, Youtube, Linkedin, Music2, MessageCircle } from 'lucide-react'
+import { Mail, Phone, MapPin, Send, Instagram, Facebook, Youtube, Linkedin, Music2, MessageCircle, CheckCircle2, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { useTranslations, useLocale } from 'next-intl'
 import { siteConfig } from '@/lib/config/site'
-import { trackPhoneClick, trackWhatsAppClick } from '@/lib/analytics/gtag'
+import { trackPhoneClick, trackWhatsAppClick, trackLeadSubmit } from '@/lib/analytics/gtag'
 
 export default function ContactPage() {
   const t = useTranslations('contact')
   const locale = useLocale()
   const isAr = locale === 'ar'
   const isFr = locale === 'fr'
+
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    subject: '',
+    message: '',
+  })
+  const [submitting, setSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!formData.name || !formData.phone || !formData.message) {
+      setErrorMsg(
+        isAr
+          ? 'يرجى ملء الاسم ورقم الهاتف والرسالة'
+          : isFr
+          ? 'Veuillez remplir le nom, le téléphone et le message'
+          : 'Please fill in your name, phone number, and message'
+      )
+      return
+    }
+
+    setSubmitting(true)
+    setErrorMsg(null)
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          whatsapp: formData.phone,
+          email: formData.email || '',
+          businessName: formData.subject || (isAr ? 'رسالة تواصل عام' : 'Contact Inquiry'),
+          industry: isAr ? 'استفسار مباشر' : 'Direct Contact',
+          city: '-',
+          objective: formData.message,
+          message: formData.subject ? `${formData.subject}\n\n${formData.message}` : formData.message,
+          locale,
+          source: 'Contact Page',
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.success === false) {
+        throw new Error(data.message || 'Submission failed')
+      }
+      trackLeadSubmit({
+        formType: 'contact_form',
+        serviceSlug: 'contact',
+        city: '-',
+        industry: 'Direct Contact',
+        locale,
+      })
+      setSubmitted(true)
+    } catch {
+      setErrorMsg(
+        isAr
+          ? 'حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى أو التواصل عبر واتساب.'
+          : isFr
+          ? 'Une erreur est survenue. Veuillez réessayer ou nous contacter sur WhatsApp.'
+          : 'An error occurred. Please try again or reach us via WhatsApp.'
+      )
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   const address = isAr ? siteConfig.addressAr : isFr ? siteConfig.addressFr : siteConfig.addressEn
 
@@ -126,30 +196,97 @@ export default function ContactPage() {
                     <p className="text-text-muted">{t('form_desc')}</p>
                  </div>
                  
-                 <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                       <div className="space-y-2">
-                          <Label className="text-white">{t('placeholders.name')}</Label>
-                          <Input className="bg-brand-dark/50 border-white/10 h-14 rounded-2xl" placeholder={t('placeholders.name')} />
-                       </div>
-                       <div className="space-y-2">
-                          <Label className="text-white">{t('email_label')}</Label>
-                          <Input className="bg-brand-dark/50 border-white/10 h-14 rounded-2xl" type="email" placeholder={t('placeholders.email')} />
-                       </div>
-                    </div>
-                    <div className="space-y-2">
-                       <Label className="text-white">{t('subject')}</Label>
-                       <Input className="bg-brand-dark/50 border-white/10 h-14 rounded-2xl" placeholder={t('placeholders.subject')} />
-                    </div>
-                    <div className="space-y-2">
-                       <Label className="text-white">{t('message')}</Label>
-                       <Textarea className="bg-brand-dark/50 border-white/10 min-h-[150px] rounded-2xl" placeholder={t('placeholders.message')} />
-                    </div>
-                    <Button className="w-full h-16 gradient-brand font-black text-xl rounded-2xl gap-3">
-                       {t('send_button')}
-                       <Send className="w-6 h-6" />
-                    </Button>
-                 </div>
+                 {submitted ? (
+                   <div className="py-10 text-center space-y-4">
+                     <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                       <CheckCircle2 className="w-9 h-9" />
+                     </div>
+                     <h4 className="text-2xl font-black text-white">
+                       {isAr ? 'تم استلام رسالتك بنجاح!' : isFr ? 'Votre message a bien été envoyé !' : 'Your message has been sent!'}
+                     </h4>
+                     <p className="text-text-muted">
+                       {isAr
+                         ? 'شكراً لتواصلك مع WEZO MEDIA. سيتواصل معك فريقنا قريباً.'
+                         : isFr
+                         ? 'Merci de nous avoir contactés. Notre équipe vous répondra très prochainement.'
+                         : 'Thank you for reaching out. Our team will get back to you shortly.'}
+                     </p>
+                   </div>
+                 ) : (
+                   <form onSubmit={handleSubmit} className="space-y-6">
+                      {errorMsg && (
+                        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-bold">
+                          {errorMsg}
+                        </div>
+                      )}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                         <div className="space-y-2">
+                            <Label className="text-white">{t('placeholders.name')} *</Label>
+                            <Input
+                              required
+                              value={formData.name}
+                              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                              className="bg-brand-dark/50 border-white/10 h-14 rounded-2xl"
+                              placeholder={t('placeholders.name')}
+                            />
+                         </div>
+                         <div className="space-y-2">
+                            <Label className="text-white">{t('phone_label')} / WhatsApp *</Label>
+                            <Input
+                              required
+                              dir="ltr"
+                              value={formData.phone}
+                              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                              className="bg-brand-dark/50 border-white/10 h-14 rounded-2xl"
+                              placeholder="+212 6..."
+                            />
+                         </div>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                         <div className="space-y-2">
+                            <Label className="text-white">{t('email_label')}</Label>
+                            <Input
+                              value={formData.email}
+                              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                              className="bg-brand-dark/50 border-white/10 h-14 rounded-2xl"
+                              type="email"
+                              placeholder={t('placeholders.email')}
+                            />
+                         </div>
+                         <div className="space-y-2">
+                            <Label className="text-white">{t('subject')}</Label>
+                            <Input
+                              value={formData.subject}
+                              onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                              className="bg-brand-dark/50 border-white/10 h-14 rounded-2xl"
+                              placeholder={t('placeholders.subject')}
+                            />
+                         </div>
+                      </div>
+                      <div className="space-y-2">
+                         <Label className="text-white">{t('message')} *</Label>
+                         <Textarea
+                           required
+                           value={formData.message}
+                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                           className="bg-brand-dark/50 border-white/10 min-h-[150px] rounded-2xl"
+                           placeholder={t('placeholders.message')}
+                         />
+                      </div>
+                      <Button
+                        type="submit"
+                        disabled={submitting}
+                        className="w-full h-16 gradient-brand font-black text-xl rounded-2xl gap-3"
+                      >
+                         {submitting ? <Loader2 className="w-6 h-6 animate-spin" /> : (
+                           <>
+                             {t('send_button')}
+                             <Send className="w-6 h-6" />
+                           </>
+                         )}
+                      </Button>
+                   </form>
+                 )}
               </motion.div>
            </div>
         </div>

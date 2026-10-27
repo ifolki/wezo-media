@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Disc, Youtube, Music2, Share2, Mic2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import RequestServiceModal from '@/components/shared/RequestServiceModal'
+import { Link } from '@/navigation'
 
 export default function ArtistsPage() {
   return (
@@ -32,11 +32,11 @@ export default function ArtistsPage() {
             من الإنتاج الموسيقي إلى التوزيع العالمي على جميع المنصات. نحن شريكك في رحلة النجومية.
           </p>
           <div className="pt-8">
-            <RequestServiceModal>
+            <Link href="/get-quote?service=music-production">
               <Button size="lg" className="gradient-brand font-black px-12 py-8 text-xl rounded-2xl shadow-2xl">
                 ابدأ رحلتك الآن
               </Button>
-            </RequestServiceModal>
+            </Link>
           </div>
         </div>
       </section>
