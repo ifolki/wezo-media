@@ -29,10 +29,18 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
     : 'Discover WEZO MEDIA in Casablanca: your digital growth partner combining strategy, web development, paid acquisition, AI automation, and an in-house production studio.'
 
   return {
-    title,
+    title: {
+      absolute: title,
+    },
     description,
     alternates: {
       canonical: `https://www.wezomedia.ma/${locale}/about`,
+      languages: {
+        ar: 'https://www.wezomedia.ma/ar/about',
+        fr: 'https://www.wezomedia.ma/fr/about',
+        en: 'https://www.wezomedia.ma/en/about',
+        'x-default': 'https://www.wezomedia.ma/ar/about',
+      },
     },
   }
 }

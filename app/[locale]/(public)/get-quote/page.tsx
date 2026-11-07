@@ -1,7 +1,7 @@
-import prisma from "@/lib/prisma"
-import QuoteForm from "@/components/public/QuoteForm"
+import QuoteForm from '@/components/public/QuoteForm'
 import { getTranslations } from 'next-intl/server'
 import { Suspense } from 'react'
+import { getAllServicesWithHierarchy } from '@/lib/services-hierarchy'
 
 interface Props {
   params: {
@@ -12,84 +12,27 @@ interface Props {
 export async function generateMetadata({ params: { locale } }: Props) {
   const t = await getTranslations({ locale, namespace: 'quote' })
   return {
-    title: `${t('title')} | WEZO MEDIA`,
-    description: t('subtitle')
+    title: {
+      absolute: `${t('title')} | WEZO MEDIA`,
+    },
+    description: t('subtitle'),
+    alternates: {
+      canonical: `https://www.wezomedia.ma/${locale}/get-quote`,
+      languages: {
+        ar: 'https://www.wezomedia.ma/ar/get-quote',
+        fr: 'https://www.wezomedia.ma/fr/get-quote',
+        en: 'https://www.wezomedia.ma/en/get-quote',
+        'x-default': 'https://www.wezomedia.ma/ar/get-quote',
+      },
+    },
   }
 }
 
 export default async function GetQuotePage({ params: { locale } }: Props) {
   const t = await getTranslations({ locale, namespace: 'quote' })
-  
-  // Fetch services from DB for the selection step, with a fallback if the database is unreachable/paused
-  let services = [];
-  try {
-    services = await prisma.service.findMany({
-      select: {
-        id: true,
-        slug: true,
-        nameAr: true,
-        nameEn: true,
-        nameFr: true,
-        descAr: true,
-        descEn: true,
-        descFr: true
-      }
-    });
-  } catch (error) {
-    console.error("Database connection failed. Falling back to static services list.", error);
-    services = [
-      {
-        id: "cl-audio-id",
-        slug: "audio",
-        nameAr: "الإنتاج الصوتي",
-        nameEn: "Audio Production",
-        nameFr: "Production Audio",
-        descAr: "توزيع موسيقي، هندسة صوتية، وإنتاج كامل.",
-        descEn: "Music arrangement, sound engineering, and full production.",
-        descFr: "Arrangement musical, ingénierie sonore et production complète."
-      },
-      {
-        id: "cl-video-id",
-        slug: "video",
-        nameAr: "الإنتاج المرئي",
-        nameEn: "Video Production",
-        nameFr: "Production Vidéo",
-        descAr: "تصوير فيديو كليب، مونتاج، وإخراج.",
-        descEn: "Music video shooting, editing, and directing.",
-        descFr: "Tournage de clips vidéo, montage et réalisation."
-      },
-      {
-        id: "cl-marketing-id",
-        slug: "marketing",
-        nameAr: "التسويق الرقمي",
-        nameEn: "Digital Marketing",
-        nameFr: "Marketing Digital",
-        descAr: "إدارة حملات إعلانية وتنشيط السوشيال ميديا.",
-        descEn: "Ad campaign management and social media activation.",
-        descFr: "Gestion de campagnes publicitaires et activation des médias sociaux."
-      },
-      {
-        id: "cl-web-id",
-        slug: "web",
-        nameAr: "تطوير المواقع",
-        nameEn: "Web Development",
-        nameFr: "Développement Web",
-        descAr: "بناء منصات ومواقع عصرية.",
-        descEn: "Building modern platforms and websites.",
-        descFr: "Construction de plateformes et de sites web modernes."
-      },
-      {
-        id: "cl-artist-id",
-        slug: "artist",
-        nameAr: "خدمات الفنانين",
-        nameEn: "Artist Services",
-        nameFr: "Services aux Artistes",
-        descAr: "إدارة وتوزيع أعمال الفنانين.",
-        descEn: "Artist management and distribution.",
-        descFr: "Gestion et distribution des œuvres des artistes."
-      }
-    ];
-  }
+
+  const { services } = await getAllServicesWithHierarchy()
+  const activeServices = services.filter((s) => s.isActive)
 
   return (
     <main className="min-h-screen pb-24">
@@ -112,7 +55,7 @@ export default async function GetQuotePage({ params: { locale } }: Props) {
       {/* Interactive Form Step Section */}
       <section className="px-4 md:px-0">
         <Suspense fallback={<div className="text-white text-center py-10">Loading...</div>}>
-          <QuoteForm services={services} />
+          <QuoteForm services={activeServices} />
         </Suspense>
       </section>
     </main>

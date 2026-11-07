@@ -28,13 +28,14 @@
   "hero": {
     "badge": "VOTRE PARTENAIRE DE CROISSANCE DIGITALE",
     "eyebrow": "VOTRE PARTENAIRE DE CROISSANCE DIGITALE",
-    "title_line1": "Des solutions digitales intégrées",
-    "title_line2": "pour développer votre entreprise",
-    "title": "Des solutions digitales intégrées pour développer votre entreprise",
-    "description": "WEZO MEDIA accompagne les entreprises au Maroc de la stratégie à l’exécution : identité, sites web, réseaux sociaux, contenu, publicité et automatisation.",
-    "ctaPrimary": "Parlez-nous de votre projet",
-    "ctaSecondary": "Découvrir nos solutions",
-    "tagline": "Stratégie • Identité • Web • Publicité • Automatisation",
+    "title_line1": "Agence de communication",
+    "title_line2": "digitale au Maroc",
+    "title": "Agence de communication digitale au Maroc",
+    "subtitle": "Stratégie, créativité et solutions digitales pour développer votre entreprise.",
+    "description": "WEZO MEDIA accompagne les entreprises au Maroc de la stratégie à l’exécution : identité visuelle, création de sites web, réseaux sociaux, contenu vidéo, publicité Meta Ads et automatisation.",
+    "ctaPrimary": "Demander un devis",
+    "ctaSecondary": "Découvrir nos services",
+    "tagline": "Stratégie • Identité • Web • Publicité • Vidéo • Automatisation",
     "ecosystem": {
       "core_title": "WEZO CORE",
       "core_sub": "Moteur de Croissance",
@@ -116,9 +117,9 @@
     "rating": "Évaluation du Service"
   },
   "cta": {
-    "title": "Prêt à Démarrer Votre Prochain Projet ?",
-    "desc": "Rejoignez des centaines d'entreprises et d'artistes qui ont fait confiance à Wezo Media pour leur succès numérique.",
-    "button": "Demander un Service Maintenant"
+    "title": "Prêt à Développer Votre Entreprise ?",
+    "desc": "Parlez-nous de votre projet. Notre équipe étudie vos objectifs et vous propose une stratégie de communication digitale sur mesure.",
+    "button": "Demander un devis personnalisé"
   },
   "dashboard": {
     "welcome": "Bienvenue",
@@ -225,16 +226,16 @@
     "view_all": "Voir Tout"
   },
   "agency_studio": {
-    "badge": "Notre Studio Créatif 🏢",
-    "title_prefix": "L'espace où naissent vos ",
-    "title_highlight": "prochaines campagnes",
-    "description": "C'est ici que la magie opère. Notre studio moderne réunit réalisateurs, monteurs, experts en acquisition et designers pour concevoir des campagnes publicitaires à fort impact. Équipé des dernières technologies de production, notre espace est optimisé pour la vitesse, la créativité et la performance commerciale.",
-    "feature_1_title": "Équipement Ultra-Moderne",
-    "feature_1_desc": "Caméras cinéma, cabines d'enregistrement insonorisées et stations de montage de pointe.",
+    "badge": "Notre Agence & Studio à Casablanca",
+    "title_prefix": "Une équipe intégrée au service de ",
+    "title_highlight": "votre communication digitale",
+    "description": "Basée à Casablanca, notre agence réunit sous un même toit stratèges, designers, développeurs web, réalisateurs vidéo et experts en acquisition publicitaire. Cette organisation intégrée garantit une exécution rapide, cohérente et orientée résultats pour les entreprises au Maroc.",
+    "feature_1_title": "Studio de Production Interne",
+    "feature_1_desc": "Tournage vidéo, prise de son, design graphique et montage réalisés en interne avec un équipement professionnel.",
     "feature_2_title": "Équipe Collaborative Directe",
-    "feature_2_desc": "Pas d'intermédiaires. Nos créatifs et experts média travaillent côte à côte sur votre projet.",
+    "feature_2_desc": "Pas d'intermédiaires : nos créatifs, développeurs et experts média travaillent côte à côte sur votre projet.",
     "feature_3_title": "Culture de la Performance",
-    "feature_3_desc": "Chaque recoin de notre espace est conçu pour brainstormer, tester et optimiser vos ROI."
+    "feature_3_desc": "Chaque action de communication est conçue pour renforcer votre image de marque et générer des opportunités commerciales."
   },
   "quote": {
     "title": "Demandez un Devis Personnalisé",

@@ -1,14 +1,58 @@
+import type { Metadata } from 'next'
 import prisma from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { Link } from "@/navigation"
-import { CheckCircle2, AlertCircle, Sparkles, HelpCircle, ArrowRight } from 'lucide-react'
+import { AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getStaticSolutionDetails } from '@/lib/config/solutions'
+import { staticServicesData } from '@/lib/config/services'
 
 interface Props {
   params: {
     locale: string
     slug: string
+  }
+}
+
+export async function generateMetadata({ params: { locale, slug } }: Props): Promise<Metadata> {
+  const staticSolution = getStaticSolutionDetails(slug)
+  if (!staticSolution) {
+    return {
+      title: { absolute: 'Solution Not Found | WEZO MEDIA' },
+    }
+  }
+
+  const isAr = locale === 'ar'
+  const isFr = locale === 'fr'
+
+  const titleBase = isAr
+    ? staticSolution.nameAr
+    : isFr
+    ? staticSolution.nameFr
+    : staticSolution.nameEn
+
+  const description = isAr
+    ? staticSolution.descriptionAr
+    : isFr
+    ? staticSolution.descriptionFr
+    : staticSolution.descriptionEn
+
+  const normalizedSlug = staticSolution.slug
+
+  return {
+    title: {
+      absolute: `${titleBase} | WEZO MEDIA`,
+    },
+    description,
+    alternates: {
+      canonical: `https://www.wezomedia.ma/${locale}/solutions/${normalizedSlug}`,
+      languages: {
+        ar: `https://www.wezomedia.ma/ar/solutions/${normalizedSlug}`,
+        fr: `https://www.wezomedia.ma/fr/solutions/${normalizedSlug}`,
+        en: `https://www.wezomedia.ma/en/solutions/${normalizedSlug}`,
+        'x-default': `https://www.wezomedia.ma/ar/solutions/${normalizedSlug}`,
+      },
+    },
   }
 }
 
@@ -35,18 +79,20 @@ export default async function SolutionDetailsPage({ params: { locale, slug } }: 
   } catch (error) {
     console.error("Database query failed for solution services. Fallback active:", error)
     dbOffline = true
-    // Map offline fallback services
-    dbServices = staticSolution.serviceSlugs.map((sSlug, i) => ({
-      id: `offline-${sSlug}`,
-      slug: sSlug,
-      nameAr: sSlug.split('-').join(' '),
-      nameEn: sSlug.split('-').join(' '),
-      nameFr: sSlug.split('-').join(' '),
-      descAr: 'خدمة متميزة مخصصة لمساعدتك على النمو والتميز الرقمي.',
-      descEn: 'Bespoke service designed to scale your operations.',
-      descFr: 'Prestation sur-mesure.',
-      category: 'DIGITAL_MARKETING'
-    }))
+    dbServices = staticSolution.serviceSlugs.map((sSlug) => {
+      const staticSrv = staticServicesData[sSlug]
+      return {
+        id: `offline-${sSlug}`,
+        slug: sSlug,
+        nameAr: staticSrv?.nameAr || sSlug.split('-').join(' '),
+        nameEn: staticSrv?.nameEn || sSlug.split('-').join(' '),
+        nameFr: staticSrv?.nameFr || sSlug.split('-').join(' '),
+        descAr: staticSrv?.descAr || 'خدمة متميزة مخصصة لمساعدتك على النمو والتميز الرقمي.',
+        descEn: staticSrv?.descEn || 'Bespoke service designed to scale your operations.',
+        descFr: staticSrv?.descFr || 'Prestation sur-mesure conçue pour développer votre activité.',
+        category: staticSrv?.categoryKey || 'DIGITAL_MARKETING'
+      }
+    })
   }
 
   const getLocalized = (ar: string, en: string, fr?: string) => {
@@ -58,9 +104,21 @@ export default async function SolutionDetailsPage({ params: { locale, slug } }: 
   const solutionTitle = getLocalized(staticSolution.nameAr, staticSolution.nameEn, staticSolution.nameFr)
   const solutionDesc = getLocalized(staticSolution.descriptionAr, staticSolution.descriptionEn, staticSolution.descriptionFr)
 
-  // Map database services in order of serviceSlugs array
+  // Map database or static services in order of serviceSlugs array
   const servicesList = staticSolution.serviceSlugs.map(sSlug => {
-    const service = dbServices.find(s => s.slug === sSlug)
+    const dbSrv = dbServices.find(s => s.slug === sSlug)
+    const staticSrv = staticServicesData[sSlug]
+    const service = dbSrv || (staticSrv ? {
+      id: `static-${sSlug}`,
+      slug: sSlug,
+      nameAr: staticSrv.nameAr,
+      nameEn: staticSrv.nameEn,
+      nameFr: staticSrv.nameFr,
+      descAr: staticSrv.descAr,
+      descEn: staticSrv.descEn,
+      descFr: staticSrv.descFr,
+      category: staticSrv.categoryKey,
+    } : null)
     if (!service) return null
     return {
       service,
@@ -76,7 +134,7 @@ export default async function SolutionDetailsPage({ params: { locale, slug } }: 
           <div className="absolute top-4 inset-x-0 max-w-md mx-auto z-50">
             <div className="bg-red-500/10 border border-red-500/20 text-red-400 py-2 px-4 rounded-xl flex items-center justify-center gap-2 text-sm mx-4">
               <AlertCircle className="w-4 h-4" />
-              <span>{isAr ? 'تصفح غير متصل بالخادم' : 'Viewing offline cached version'}</span>
+              <span>{isAr ? 'تصفح غير متصل بالخادم' : isFr ? 'Version mise en cache' : 'Viewing offline cached version'}</span>
             </div>
           </div>
         )}
@@ -86,7 +144,7 @@ export default async function SolutionDetailsPage({ params: { locale, slug } }: 
         <div className="container mx-auto px-4 space-y-6">
           <div className="flex items-center gap-2 text-text-muted text-sm font-bold">
             <Link href="/solutions" className="hover:text-brand-orange transition-colors">
-              {isAr ? 'الحلول الرقمية' : 'Solutions'}
+              {isAr ? 'الحلول الرقمية' : isFr ? 'Solutions Digitales' : 'Solutions'}
             </Link>
             <span>/</span>
             <span className="text-brand-orange">{solutionTitle}</span>
@@ -105,7 +163,11 @@ export default async function SolutionDetailsPage({ params: { locale, slug } }: 
       <section className="py-24 text-start">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-black text-white mb-16 text-center">
-            {isAr ? 'الخدمات المشمولة في هذا الحل' : 'Included Services in this Solution'}
+            {isAr
+              ? 'الخدمات المشمولة في هذا الحل'
+              : isFr
+              ? 'Prestations Incluses dans cette Solution'
+              : 'Included Services in this Solution'}
           </h2>
 
           <div className="space-y-8 max-w-4xl mx-auto">
@@ -118,7 +180,7 @@ export default async function SolutionDetailsPage({ params: { locale, slug } }: 
                 <div key={service.id} className={`glass-card p-10 rounded-[2.5rem] border border-white/5 relative overflow-hidden flex flex-col md:flex-row gap-8 items-start justify-between ${rel.isPrimary ? 'border-brand-orange/40 glow-orange' : ''}`}>
                   {rel.isPrimary && (
                     <span className="absolute top-0 right-10 bg-brand-orange text-white px-4 py-1 rounded-b-xl text-xs font-bold uppercase tracking-wide">
-                      {isAr ? 'الخدمة الأساسية' : 'Primary Service'}
+                      {isAr ? 'الخدمة الأساسية' : isFr ? 'Service Principal' : 'Primary Service'}
                     </span>
                   )}
                   
@@ -139,7 +201,7 @@ export default async function SolutionDetailsPage({ params: { locale, slug } }: 
                   <div className="shrink-0 pt-4 md:pt-0 self-end md:self-center">
                     <Link href={`/services/${service.slug}`}>
                       <Button className="h-12 px-6 rounded-xl font-bold bg-white/5 border border-white/10 hover:bg-white/10 text-white gap-2">
-                        <span>{isAr ? 'استكشف الخدمة بالتفصيل' : 'View Service Details'}</span>
+                        <span>{isAr ? 'استكشف الخدمة بالتفصيل' : isFr ? 'Découvrir le service' : 'View Service Details'}</span>
                         <span>→</span>
                       </Button>
                     </Link>

@@ -13,13 +13,17 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
   const t = await getTranslations({ locale: params.locale, namespace: 'blog' })
   
   return {
-    title: `${t('title')} | Wezo Media`,
+    title: {
+      absolute: `${t('title')} | WEZO MEDIA`,
+    },
     description: t('subtitle'),
     alternates: {
+      canonical: `https://www.wezomedia.ma/${params.locale}/blog`,
       languages: {
-        'ar': '/ar/blog',
-        'en': '/en/blog',
-        'fr': '/fr/blog',
+        'ar': 'https://www.wezomedia.ma/ar/blog',
+        'en': 'https://www.wezomedia.ma/en/blog',
+        'fr': 'https://www.wezomedia.ma/fr/blog',
+        'x-default': 'https://www.wezomedia.ma/ar/blog',
       }
     }
   }

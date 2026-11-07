@@ -44,7 +44,7 @@ export default function MobileBottomNav() {
     <>
       <nav
         aria-label="Mobile navigation"
-        className={`fixed bottom-0 left-0 right-0 z-40 bg-[#07070A]/90 backdrop-blur-2xl border-t border-white/5 shadow-[0_-12px_40px_rgba(0,0,0,0.6)] px-4 pb-[env(safe-area-inset-bottom)] h-[72px] flex items-center justify-between md:hidden transition-transform duration-300 ${
+        className={`fixed bottom-0 left-0 right-0 z-40 bg-brand-dark/95 backdrop-blur-2xl border-t border-white/[0.08] shadow-[0_-12px_40px_rgba(0,0,0,0.5)] px-4 pb-[env(safe-area-inset-bottom)] h-[72px] flex items-center justify-between md:hidden transition-transform duration-300 ${
           isKeyboardOpen ? 'translate-y-full pointer-events-none' : 'translate-y-0'
         }`}
       >

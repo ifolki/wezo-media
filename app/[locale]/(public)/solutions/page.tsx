@@ -1,10 +1,44 @@
+import type { Metadata } from 'next'
 import { Link } from "@/navigation"
-import { AlertCircle, Target, Sparkles, TrendingUp, Lightbulb, Rocket, Zap, Heart, Disc } from 'lucide-react'
+import { Target, Sparkles, TrendingUp, Lightbulb, Rocket, Zap, Heart } from 'lucide-react'
 import { staticSolutionsData } from '@/lib/config/solutions'
 
 interface Props {
   params: {
     locale: string
+  }
+}
+
+export async function generateMetadata({ params: { locale } }: Props): Promise<Metadata> {
+  const isAr = locale === 'ar'
+  const isFr = locale === 'fr'
+
+  const title = isAr
+    ? 'حلولنا الرقمية المتكاملة للأعمال | WEZO MEDIA'
+    : isFr
+    ? 'Solutions Digitales Clés en Main au Maroc | WEZO MEDIA'
+    : 'Integrated Digital Business Solutions in Morocco | WEZO MEDIA'
+
+  const description = isAr
+    ? 'باقات وحلول رقمية متكاملة من WEZO MEDIA مصممة لتحقيق أهدافك التجارية: إطلاق العلامة التجارية، مضاعفة المبيعات، وأتمتة مسارات العملاء.'
+    : isFr
+    ? 'Découvrez les solutions digitales intégrées de WEZO MEDIA au Maroc : lancement de marque, acquisition client à grande échelle et automatisation CRM & WhatsApp.'
+    : 'Explore WEZO MEDIA’s turnkey digital solutions in Morocco: brand launch, scalable customer acquisition, and automated CRM & WhatsApp workflows.'
+
+  return {
+    title: {
+      absolute: title,
+    },
+    description,
+    alternates: {
+      canonical: `https://www.wezomedia.ma/${locale}/solutions`,
+      languages: {
+        ar: 'https://www.wezomedia.ma/ar/solutions',
+        fr: 'https://www.wezomedia.ma/fr/solutions',
+        en: 'https://www.wezomedia.ma/en/solutions',
+        'x-default': 'https://www.wezomedia.ma/ar/solutions',
+      },
+    },
   }
 }
 
@@ -45,11 +79,17 @@ export default async function SolutionsPage({ params: { locale } }: Props) {
       <section className="py-20 bg-brand-secondary/30 relative text-center">
         <div className="container mx-auto px-4 space-y-6">
           <h1 className="text-5xl md:text-7xl font-black text-white leading-tight">
-            {isAr ? 'حلولنا الرقمية المتكاملة' : 'Our Integrated Digital Solutions'}
+            {isAr
+              ? 'حلولنا الرقمية المتكاملة'
+              : isFr
+              ? 'Nos Solutions Digitales Intégrées'
+              : 'Our Integrated Digital Solutions'}
           </h1>
           <p className="text-xl text-text-muted max-w-2xl mx-auto leading-relaxed">
             {isAr 
               ? 'نساعدك على تحقيق أهدافك التجارية عبر تجميع وتنسيق باقة من خدماتنا المتكاملة التي تركز على النتائج.'
+              : isFr
+              ? 'Nous accompagnons la croissance de votre entreprise grâce à des écosystèmes de communication et d’acquisition orientés résultats.'
               : 'We help you achieve your business milestones by bundling target services centered around results.'}
           </p>
         </div>
@@ -77,7 +117,13 @@ export default async function SolutionsPage({ params: { locale } }: Props) {
                   </div>
 
                   <div className="flex items-center gap-2 pt-6 text-brand-orange font-bold">
-                    <span>{isAr ? 'عرض التفاصيل والخدمات' : 'View Details & Services'}</span>
+                    <span>
+                      {isAr
+                        ? 'عرض التفاصيل والخدمات'
+                        : isFr
+                        ? 'Voir les détails et services inclus'
+                        : 'View Details & Services'}
+                    </span>
                     <span className="group-hover:translate-x-2 transition-transform rtl:rotate-180">➔</span>
                   </div>
                 </div>

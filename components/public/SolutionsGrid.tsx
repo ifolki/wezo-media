@@ -1,8 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Target, Sparkles, TrendingUp, Lightbulb } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { Target, TrendingUp, Lightbulb, Zap } from 'lucide-react'
 import { Link } from '@/navigation'
 
 interface SolutionsGridProps {
@@ -11,7 +10,6 @@ interface SolutionsGridProps {
 }
 
 export default function SolutionsGrid({ solutions, locale }: SolutionsGridProps) {
-  const t = useTranslations('nav')
   const isAr = locale === 'ar'
   const isFr = locale === 'fr'
 
@@ -23,10 +21,14 @@ export default function SolutionsGrid({ solutions, locale }: SolutionsGridProps)
 
   const getSolutionIcon = (slug: string) => {
     switch (slug) {
+      case 'launch-business-brand':
       case 'launch-my-business':
         return <Lightbulb className="w-10 h-10 text-brand-orange" />
+      case 'scale-customer-acquisition':
       case 'get-more-customers':
         return <TrendingUp className="w-10 h-10 text-emerald-500" />
+      case 'automate-crm-operations':
+        return <Zap className="w-10 h-10 text-brand-pink" />
       default:
         return <Target className="w-10 h-10 text-brand-pink" />
     }
@@ -41,21 +43,44 @@ export default function SolutionsGrid({ solutions, locale }: SolutionsGridProps)
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             className="inline-block px-4 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange font-bold text-xs uppercase tracking-wider"
           >
-            {isAr ? 'ماذا تريد أن تحقق لمشروعك؟' : 'What do you want to achieve?'}
+            {isAr
+              ? 'ماذا تريد أن تحقق لمشروعك؟'
+              : isFr
+                ? 'Que souhaitez-vous accomplir ?'
+                : 'What do you want to achieve?'}
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-black text-white"
           >
-            {isAr ? 'حلول أعمال متكاملة بالنتائج' : 'Outcome-Driven Solutions'}
+            {isAr
+              ? 'حلول أعمال متكاملة بالنتائج'
+              : isFr
+                ? 'Des Solutions Digitales Orientées Résultats'
+                : 'Outcome-Driven Digital Solutions'}
           </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="text-base md:text-lg text-text-muted max-w-2xl mx-auto leading-relaxed"
+          >
+            {isAr
+              ? 'باقات وحلول متكاملة مصممة للاستجابة للأولويات التجارية للشركات والمؤسسات في المغرب.'
+              : isFr
+                ? 'Des parcours clés en main conçus pour accompagner les entreprises au Maroc vers des résultats concrets.'
+                : 'Turnkey digital ecosystems engineered around the commercial priorities of businesses in Morocco.'}
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {solutions.map((sol, i) => (
             <motion.div
               key={sol.id}
@@ -85,8 +110,14 @@ export default function SolutionsGrid({ solutions, locale }: SolutionsGridProps)
                   href={`/solutions/${sol.slug}`}
                   className="inline-flex items-center gap-2 text-brand-orange font-bold text-sm"
                 >
-                  <span>{isAr ? 'استكشف الحل التجاري' : 'Explore Solution'}</span>
-                  <span>→</span>
+                  <span>
+                    {isAr
+                      ? 'استكشف الحل التجاري'
+                      : isFr
+                        ? 'Découvrir la solution'
+                        : 'Explore Solution'}
+                  </span>
+                  <span className="rtl:rotate-180">→</span>
                 </Link>
               </div>
             </motion.div>

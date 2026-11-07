@@ -22,8 +22,19 @@ export async function generateMetadata({ params: { locale, sector } }: Props) {
   const desc = isAr ? config.heroSubAr : isFr ? config.heroSubFr : config.heroSubEn
 
   return {
-    title: `${title} | WEZO MEDIA`,
-    description: desc
+    title: {
+      absolute: `${title} | WEZO MEDIA`,
+    },
+    description: desc,
+    alternates: {
+      canonical: `https://www.wezomedia.ma/${locale}/growth/${sector}`,
+      languages: {
+        ar: `https://www.wezomedia.ma/ar/growth/${sector}`,
+        fr: `https://www.wezomedia.ma/fr/growth/${sector}`,
+        en: `https://www.wezomedia.ma/en/growth/${sector}`,
+        'x-default': `https://www.wezomedia.ma/ar/growth/${sector}`,
+      },
+    },
   }
 }
 

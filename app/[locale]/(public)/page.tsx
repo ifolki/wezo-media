@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import prisma from '@/lib/prisma'
 import Hero from '@/components/public/Hero'
 import Stats from '@/components/public/Stats'
 import AgencyStudio from '@/components/public/AgencyStudio'
@@ -11,6 +10,7 @@ import Team from '@/components/public/Team'
 import Testimonials from '@/components/public/Testimonials'
 import FinalCTA from '@/components/public/CTA'
 import { siteConfig } from '@/lib/config/site'
+import { getAllServicesWithHierarchy } from '@/lib/services-hierarchy'
 import { AlertCircle } from 'lucide-react'
 
 interface Props {
@@ -24,21 +24,23 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
   const isFr = locale === 'fr'
 
   const title = isAr
-    ? 'WEZO MEDIA | وكالة حلول رقمية وتسويق رقمي في المغرب'
+    ? 'وكالة التواصل والتسويق الرقمي في المغرب | WEZO MEDIA'
     : isFr
-    ? 'WEZO MEDIA | Agence digitale & solutions digitales au Maroc'
-    : 'WEZO MEDIA | Digital Agency & Integrated Digital Solutions in Morocco'
+    ? 'Agence de Communication Digitale au Maroc | WEZO MEDIA'
+    : 'Digital Marketing & Communication Agency in Morocco | WEZO MEDIA'
 
   const description = isAr
-    ? 'وكالة WEZO MEDIA للحلول الرقمية وشريك النمو للشركات في المغرب. استراتيجية رقمية، مواقع إلكترونية ومتاجر، هوية بصرية، إعلانات ممولة وأتمتة ذكية للأعمال.'
+    ? 'وكالة WEZO MEDIA للتواصل والتسويق الرقمي وشريك النمو للشركات في المغرب. استراتيجية رقمية، مواقع إلكترونية ومتاجر، هوية بصرية، إعلانات ممولة وأتمتة ذكية للأعمال.'
     : isFr
-    ? 'WEZO MEDIA, agence de solutions digitales et partenaire de croissance au Maroc. Stratégie digitale, création de sites web & e-commerce, branding, publicité en ligne et automatisation IA pour entreprises ambitieuses.'
-    : 'WEZO MEDIA is an integrated digital solutions agency and growth partner in Morocco. Digital strategy, websites, e-commerce, branding, advertising and AI automation for ambitious businesses.'
+    ? 'WEZO MEDIA accompagne les entreprises au Maroc en communication digitale, publicité Meta Ads, création de sites web, branding et automatisation.'
+    : 'WEZO MEDIA is a digital communication and marketing agency in Morocco helping businesses grow through branding, websites, paid ads, video, and automation.'
 
   const canonicalUrl = `https://www.wezomedia.ma/${locale}`
 
   return {
-    title,
+    title: {
+      absolute: title,
+    },
     description,
     alternates: {
       canonical: canonicalUrl,
@@ -85,12 +87,6 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
   }
 }
 
-const fallbackServices = [
-  { id: 'meta-ads-id', slug: 'meta-ads-management', nameAr: 'إدارة إعلانات ميتا', nameEn: 'Meta Ads Management', nameFr: 'Gestion des publicités Meta', descAr: 'إدارة حملات فيسبوك وإنستغرام.' },
-  { id: 'landing-page-id', slug: 'landing-page', nameAr: 'صفحة هبوط احترافية', nameEn: 'Conversion Landing Page', nameFr: 'Landing page professionnelle', descAr: 'صفحة ويب محسنة لرفع معدل التحويل.' },
-  { id: 'ecommerce-store-id', slug: 'ecommerce-store', nameAr: 'متجر إلكتروني متكامل', nameEn: 'E-commerce Store', nameFr: 'Boutique e-commerce', descAr: 'إنشاء متجر متكامل لعرض منتجاتك.' }
-]
-
 const featuredSolutions = [
   {
     id: "sol-acq",
@@ -128,20 +124,8 @@ export default async function Home({ params: { locale } }: Props) {
   const isAr = locale === 'ar'
   const isFr = locale === 'fr'
   
-  let featuredServices = []
-  let dbOffline = false
-
-  try {
-    featuredServices = await prisma.service.findMany({
-      where: { isActive: true },
-      take: 6,
-      orderBy: { order: 'asc' }
-    })
-  } catch (err) {
-    console.error("Database offline on homepage loading. Using fallback services:", err)
-    dbOffline = true
-    featuredServices = fallbackServices
-  }
+  const { services: allServices, dbOffline } = await getAllServicesWithHierarchy()
+  const featuredServices = allServices.filter((s) => s.isActive && s.showInCatalog)
 
   const localBusinessSchema = {
     '@context': 'https://schema.org',
@@ -152,10 +136,10 @@ export default async function Home({ params: { locale } }: Props) {
     logo: 'https://www.wezomedia.ma/assets/logo/logo-normal.png',
     image: 'https://www.wezomedia.ma/assets/agency/office.jpg',
     description: isAr
-      ? 'وكالة WEZO MEDIA للحلول الرقمية وشريك النمو للشركات في المغرب. استراتيجية رقمية، مواقع إلكترونية ومتاجر، هوية بصرية، إعلانات ممولة وأتمتة ذكية للأعمال.'
+      ? 'وكالة WEZO MEDIA للتواصل والتسويق الرقمي وشريك النمو للشركات في المغرب. استراتيجية رقمية، مواقع إلكترونية ومتاجر، هوية بصرية، إعلانات ممولة وأتمتة ذكية للأعمال.'
       : isFr
-      ? 'WEZO MEDIA, agence de solutions digitales et partenaire de croissance au Maroc. Stratégie digitale, création de sites web & e-commerce, branding, publicité en ligne et automatisation IA.'
-      : 'WEZO MEDIA is an integrated digital solutions agency and growth partner in Morocco. Digital strategy, websites, e-commerce, branding, advertising and AI automation.',
+      ? 'WEZO MEDIA accompagne les entreprises au Maroc en communication digitale, publicité Meta Ads, création de sites web, branding et automatisation.'
+      : 'WEZO MEDIA is a digital communication and marketing agency in Morocco helping businesses grow through branding, websites, paid ads, video, and automation.',
     telephone: siteConfig.phoneInternational,
     email: siteConfig.email,
     address: {
@@ -169,12 +153,23 @@ export default async function Home({ params: { locale } }: Props) {
       '@type': 'Country',
       name: 'Morocco',
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      reviewCount: '230',
-      bestRating: '5',
-      worstRating: '1',
+    knowsLanguage: ['fr', 'ar', 'en'],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: isAr
+        ? 'خدمات التواصل والتسويق الرقمي'
+        : isFr
+        ? 'Services de Communication Digitale & Croissance'
+        : 'Digital Communication & Growth Services',
+      itemListElement: featuredServices.map((srv) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: isAr ? srv.nameAr : isFr ? srv.nameFr : srv.nameEn,
+          description: isAr ? srv.descAr : isFr ? srv.descFr : srv.descEn,
+          url: `https://www.wezomedia.ma/${locale}/services/${srv.slug}`,
+        },
+      })),
     },
     sameAs: [
       siteConfig.social.instagram,

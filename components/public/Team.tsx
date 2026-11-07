@@ -73,14 +73,14 @@ export default function Team() {
   }
 
   return (
-    <section className="py-32 bg-brand-secondary/30 relative overflow-hidden">
+    <section className="py-20 lg:py-24 bg-[#141C2B] border-y border-white/[0.06] relative overflow-hidden">
       <div className="container-custom">
-        <div className="text-center max-w-3xl mx-auto mb-24 space-y-6">
+        <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-16 space-y-3.5">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-black text-white"
+            className="text-3xl sm:text-4xl lg:text-[2.65rem] font-black text-text-primary leading-tight"
           >
             {t('title')}
           </motion.h2>
@@ -89,13 +89,13 @@ export default function Team() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             viewport={{ once: true }}
-            className="text-xl text-text-muted"
+            className="text-sm sm:text-base text-text-muted"
           >
             {t('subtitle')}
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 lg:gap-6 justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-6 justify-center">
           {teamMembers.map((member, i) => {
             const name = getMemberName(member)
             const hasInstagram = isValidSocialUrl(member.instagram)
@@ -105,35 +105,35 @@ export default function Team() {
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.08 }}
                 viewport={{ once: true }}
-                className="group text-center space-y-8 flex flex-col items-center"
+                className="group text-center space-y-5 flex flex-col items-center"
               >
                 <div className="relative inline-block mx-auto">
-                  <div className="w-48 h-48 xl:w-52 xl:h-52 rounded-[3rem] overflow-hidden border-2 border-white/5 shadow-2xl transition-all duration-700 group-hover:scale-105 group-hover:border-brand-orange group-hover:shadow-brand-orange/20">
+                  <div className="w-40 h-40 xl:w-44 xl:h-44 rounded-[2rem] overflow-hidden border border-white/10 shadow-xl transition-all duration-500 group-hover:-translate-y-1 group-hover:border-brand-orange/50">
                     <img 
                       src={member.img} 
                       alt={getAltText(member)} 
                       loading="lazy"
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100" 
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" 
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   
                   {/* Social Links Popup - Only rendered if member has valid personal social URLs */}
                   {hasAnySocial && (
-                    <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-3 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                    <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 flex gap-2.5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
                       {hasInstagram && (
                         <a 
                           href={member.instagram}
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${name} Instagram`}
-                          className="w-10 h-10 rounded-xl gradient-brand flex items-center justify-center shadow-2xl hover:scale-125 transition-all text-white"
+                          className="w-9 h-9 rounded-xl gradient-brand flex items-center justify-center shadow-lg hover:scale-110 transition-all text-white"
                         >
-                          <Instagram className="w-4.5 h-4.5" />
+                          <Instagram className="w-4 h-4" />
                         </a>
                       )}
                       {hasLinkedin && (
@@ -142,20 +142,20 @@ export default function Team() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${name} LinkedIn`}
-                          className="w-10 h-10 rounded-xl gradient-brand flex items-center justify-center shadow-2xl hover:scale-125 transition-all text-white"
+                          className="w-9 h-9 rounded-xl gradient-brand flex items-center justify-center shadow-lg hover:scale-110 transition-all text-white"
                         >
-                          <Linkedin className="w-4.5 h-4.5" />
+                          <Linkedin className="w-4 h-4" />
                         </a>
                       )}
                     </div>
                   )}
                 </div>
 
-                <div className="space-y-2 pt-4">
-                  <h3 className="text-2xl font-black text-white group-hover:text-brand-orange transition-colors line-clamp-1">
+                <div className="space-y-1 pt-1">
+                  <h3 className="text-lg sm:text-xl font-bold text-text-primary group-hover:text-brand-orange transition-colors line-clamp-1">
                     {name}
                   </h3>
-                  <p className="text-brand-orange font-bold uppercase tracking-widest text-xs">
+                  <p className="text-brand-orange font-bold uppercase tracking-wider text-[11px]">
                     {t(member.roleKey)}
                   </p>
                 </div>

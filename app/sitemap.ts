@@ -37,13 +37,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       })
     }
 
-    // 2. Service Details Routes
+    // 2. Service Details Routes (all 26 services, avoiding duplicate /services/marketing)
     for (const slug of Object.keys(staticServicesData)) {
+      if (slug === 'marketing') continue
       entries.push({
         url: `${baseUrl}/${locale}/services/${slug}`,
         lastModified: now,
         changeFrequency: 'monthly',
-        priority: 0.8,
+        priority: staticServicesData[slug]?.showInCatalog ? 0.85 : 0.8,
       })
     }
 

@@ -78,11 +78,35 @@ export default function RequestServiceModal({ children }: { children?: React.Rea
   const handleSubmit = async () => {
     setIsLoading(true)
     try {
-      const resp = await fetch('/api/projects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
+      const isAuthenticatedClient = Boolean(
+        session?.user?.id && session?.user?.role === 'CLIENT'
+      )
+
+      const resp = isAuthenticatedClient
+        ? await fetch('/api/projects', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              serviceId: formData.serviceId,
+              description: formData.description,
+            }),
+          })
+        : await fetch('/api/leads', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: formData.name,
+              phone: formData.phone,
+              whatsapp: formData.phone,
+              email: formData.email,
+              businessName: formData.name,
+              industry: formData.serviceId || 'General Service',
+              city: '-',
+              objective: formData.description,
+              message: formData.description,
+              source: 'Request Service Modal',
+            }),
+          })
 
       if (!resp.ok) {
         throw new Error('Failed to submit request')

@@ -80,10 +80,10 @@ export default function Footer() {
             </Link>
             <p className="text-text-muted text-lg leading-relaxed">
               {isAr
-                ? 'وكالة رقمية رائدة متخصصة في الحلول الرقمية المتكاملة، التسويق الرقمي، تطوير المواقع، الأتمتة والإنتاج الفني. نحن نصنع المستقبل الرقمي.'
+                ? 'وكالة التواصل والتسويق الرقمي في المغرب، متخصصة في الهوية البصرية، تطوير المواقع، إعلانات ميتا وجوجل، الإنتاج المرئي والأتمتة الذكية لتنمية أعمالك.'
                 : isFr
-                ? 'Agence digitale leader spécialisée dans le marketing digital, le développement web, l’automatisation IA et la production créative au Maroc.'
-                : 'Leading digital agency specializing in integrated digital marketing, web development, AI automation, and creative production in Morocco.'}
+                ? 'Agence de communication digitale et partenaire de croissance au Maroc : stratégie, création de sites web, publicité Meta Ads, production vidéo et automatisation IA.'
+                : 'Digital marketing and communication agency in Morocco specializing in brand strategy, web development, Meta & Google Ads, video production, and AI automation.'}
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social, i) => {

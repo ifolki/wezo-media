@@ -66,10 +66,8 @@ export default function ContactPage() {
         throw new Error(data.message || 'Submission failed')
       }
       trackLeadSubmit({
-        formType: 'contact_form',
-        serviceSlug: 'contact',
-        city: '-',
-        industry: 'Direct Contact',
+        formId: 'contact_form',
+        serviceInterest: 'contact',
         locale,
       })
       setSubmitted(true)

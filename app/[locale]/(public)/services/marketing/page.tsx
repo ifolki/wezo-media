@@ -23,7 +23,9 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
   const canonicalUrl = `https://www.wezomedia.ma/${locale}/services/marketing`
 
   return {
-    title: t('title'),
+    title: {
+      absolute: t('title'),
+    },
     description: t('description'),
     alternates: {
       canonical: canonicalUrl,

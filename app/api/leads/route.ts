@@ -90,10 +90,19 @@ export async function POST(req: Request) {
     let lead;
     try {
       let validServiceId: string | null = null
-      if (data.requestedServiceId && !data.requestedServiceId.startsWith('cl-') && data.requestedServiceId.length > 5) {
-        const existingService = await prisma.service.findUnique({
-          where: { id: data.requestedServiceId },
-          select: { id: true }
+      if (
+        data.requestedServiceId &&
+        data.requestedServiceId !== 'custom-project' &&
+        data.requestedServiceId !== 'need-consultation' &&
+        !data.requestedServiceId.startsWith('cl-') &&
+        data.requestedServiceId.length > 2
+      ) {
+        const normalizedRef = data.requestedServiceId.replace(/^static-/, '').trim()
+        const existingService = await prisma.service.findFirst({
+          where: {
+            OR: [{ id: normalizedRef }, { slug: normalizedRef.toLowerCase() }],
+          },
+          select: { id: true },
         })
         if (existingService) {
           validServiceId = existingService.id
@@ -137,12 +146,13 @@ export async function POST(req: Request) {
       )
     }
 
-    // 5. Try to sync to Notion (non-blocking for client success page response)
-    // We run it within the request pipeline but catch errors locally.
-    try {
-      await syncLeadToNotion(lead.id)
-    } catch (notionError) {
-      console.error('Notion Sync triggered exception during lead creation:', notionError)
+    // 5. Notion integration is deferred/disabled by default unless explicitly enabled via NOTION_SYNC_ENABLED=true
+    if (process.env.NOTION_SYNC_ENABLED === 'true') {
+      try {
+        await syncLeadToNotion(lead.id)
+      } catch (notionError) {
+        console.error('Notion Sync triggered exception during lead creation:', notionError)
+      }
     }
 
     return NextResponse.json({ success: true, lead })

@@ -33,7 +33,7 @@ export default function MobileHeader() {
   }, [])
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-[#07070A]/85 backdrop-blur-xl border-b border-white/5 h-[60px] flex items-center justify-between px-6 md:hidden">
+    <header className="fixed top-0 left-0 right-0 z-40 bg-brand-dark/90 backdrop-blur-xl border-b border-white/[0.06] h-[60px] flex items-center justify-between px-5 md:hidden">
       {/* Brand Logo */}
       <Link href="/" className="flex items-center">
         <img 

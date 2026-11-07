@@ -40,7 +40,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const description = params.locale === 'ar' ? post.excerptAr : (params.locale === 'fr' ? post.excerptFr : post.excerptEn)
 
   return {
-    title: `${title} | Wezo Media Blog`,
+    title: {
+      absolute: `${title} | WEZO MEDIA`,
+    },
     description: description || '',
     alternates: {
       languages: {

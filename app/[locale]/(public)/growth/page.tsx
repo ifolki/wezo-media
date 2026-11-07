@@ -20,8 +20,19 @@ export async function generateMetadata({ params: { locale } }: Props) {
   const localizedTitle = isAr ? config.heroTitleAr : isFr ? config.heroTitleFr : title
 
   return {
-    title: `${localizedTitle} | WEZO MEDIA`,
-    description: isAr ? config.heroSubAr : isFr ? config.heroSubFr : config.heroSubEn
+    title: {
+      absolute: `${localizedTitle} | WEZO MEDIA`,
+    },
+    description: isAr ? config.heroSubAr : isFr ? config.heroSubFr : config.heroSubEn,
+    alternates: {
+      canonical: `https://www.wezomedia.ma/${locale}/growth`,
+      languages: {
+        ar: 'https://www.wezomedia.ma/ar/growth',
+        fr: 'https://www.wezomedia.ma/fr/growth',
+        en: 'https://www.wezomedia.ma/en/growth',
+        'x-default': 'https://www.wezomedia.ma/ar/growth',
+      },
+    },
   }
 }
 

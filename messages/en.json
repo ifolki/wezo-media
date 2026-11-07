@@ -28,13 +28,14 @@
   "hero": {
     "badge": "YOUR DIGITAL GROWTH PARTNER",
     "eyebrow": "YOUR DIGITAL GROWTH PARTNER",
-    "title_line1": "Integrated digital solutions",
-    "title_line2": "to grow your business",
-    "title": "Integrated digital solutions to grow your business",
-    "description": "WEZO MEDIA helps businesses in Morocco move from strategy to execution through branding, websites, social media, content, advertising and automation.",
-    "ctaPrimary": "Tell Us About Your Project",
-    "ctaSecondary": "Explore Our Solutions",
-    "tagline": "Strategy • Branding • Web • Advertising • Automation",
+    "title_line1": "Digital Marketing & Communication",
+    "title_line2": "Agency in Morocco",
+    "title": "Digital Marketing & Communication Agency in Morocco",
+    "subtitle": "Strategy, creativity, and integrated digital solutions to grow your business.",
+    "description": "WEZO MEDIA helps businesses in Morocco move from strategy to execution through brand identity, websites, social media, commercial video, paid advertising, and automation.",
+    "ctaPrimary": "Request a Quote",
+    "ctaSecondary": "Explore Our Services",
+    "tagline": "Strategy • Branding • Web • Advertising • Video • Automation",
     "ecosystem": {
       "core_title": "WEZO CORE",
       "core_sub": "Growth Engine",
@@ -225,16 +226,16 @@
     "view_all": "View All"
   },
   "agency_studio": {
-    "badge": "Our Creative Studio 🏢",
-    "title_prefix": "Where your next campaigns are ",
-    "title_highlight": "conceived & scaled",
-    "description": "This is where the magic happens. Our modern creative studio brings together directors, editors, ad buying experts, and designers to build high-impact digital campaigns. Equipped with the latest production technology, our space is designed for speed, creativity, and maximum commercial performance.",
-    "feature_1_title": "Ultra-Modern Equipment",
-    "feature_1_desc": "Cinema-grade cameras, soundproofed recording booths, and state-of-the-art editing bays.",
+    "badge": "Our Agency & Studio in Casablanca",
+    "title_prefix": "An integrated team powering ",
+    "title_highlight": "your digital communication",
+    "description": "Based in Casablanca, our agency brings together strategists, brand designers, web developers, video directors, and paid media specialists under one roof to deliver fast, cohesive, and measurable execution for businesses in Morocco.",
+    "feature_1_title": "In-House Production Studio",
+    "feature_1_desc": "Cinema-grade video shooting, soundproofed recording booths, graphic design, and editing suites in-house.",
     "feature_2_title": "Direct Collaborative Team",
-    "feature_2_desc": "No middle managers. Our creative and media experts work side-by-side on your project.",
+    "feature_2_desc": "No middlemen—our creatives, developers, and media buyers work side-by-side on your project.",
     "feature_3_title": "Performance-Driven Culture",
-    "feature_3_desc": "Every corner of our space is optimized to brainstorm, test, and maximize your campaign ROI."
+    "feature_3_desc": "Every communication asset and campaign is engineered to strengthen brand authority and generate qualified leads."
   },
   "quote": {
     "title": "Request a Custom Quote",
