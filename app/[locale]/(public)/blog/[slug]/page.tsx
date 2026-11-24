@@ -12,32 +12,73 @@ interface BlogPostPageProps {
 }
 
 async function getPost(slug: string) {
-  const post = await prisma.blogPost.findUnique({
-    where: { 
-      slug,
-      isPublished: true
-    }
-  })
-  return post
+  try {
+    const post = await prisma.blogPost.findUnique({
+      where: { 
+        slug,
+        isPublished: true
+      }
+    })
+    return post
+  } catch (error) {
+    console.error('Error fetching blog post:', error)
+    return null
+  }
 }
 
 async function getRelatedPosts(currentId: string) {
-  return await prisma.blogPost.findMany({
-    where: { 
-      id: { not: currentId },
-      isPublished: true
-    },
-    take: 3,
-    orderBy: { publishedAt: 'desc' }
-  })
+  try {
+    return await prisma.blogPost.findMany({
+      where: { 
+        id: { not: currentId },
+        isPublished: true
+      },
+      take: 3,
+      orderBy: { publishedAt: 'desc' }
+    })
+  } catch (error) {
+    console.error('Error fetching related posts:', error)
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const post = await getPost(params.slug)
-  if (!post) return {}
+  if (!post) {
+    return {
+      title: 'Article introuvable | WEZO MEDIA',
+    }
+  }
 
-  const title = params.locale === 'ar' ? post.titleAr : (params.locale === 'fr' ? post.titleFr : post.titleEn)
-  const description = params.locale === 'ar' ? post.excerptAr : (params.locale === 'fr' ? post.excerptFr : post.excerptEn)
+  const isAr = params.locale === 'ar'
+  const isFr = params.locale === 'fr'
+
+  const title = isAr ? post.titleAr : (isFr ? post.titleFr || post.titleEn : post.titleEn)
+  const description = isAr ? post.excerptAr : (isFr ? post.excerptFr || post.excerptEn : post.excerptEn)
+
+  // Verify real language versions actually present in this post
+  const hasAr = Boolean(post.titleAr && post.titleAr.trim().length > 0 && post.contentAr && post.contentAr.trim().length > 0)
+  const hasFr = Boolean(post.titleFr && post.titleFr.trim().length > 0 && post.contentFr && post.contentFr.trim().length > 0)
+  const hasEn = Boolean(post.titleEn && post.titleEn.trim().length > 0 && post.contentEn && post.contentEn.trim().length > 0)
+
+  const isCurrentLocaleAvailable = 
+    (params.locale === 'ar' && hasAr) ||
+    (params.locale === 'fr' && hasFr) ||
+    (params.locale === 'en' && hasEn)
+
+  if (!isCurrentLocaleAvailable) {
+    return {
+      title: 'Article introuvable | WEZO MEDIA',
+    }
+  }
+
+  const languageAlternates: Record<string, string> = {}
+  if (hasAr) languageAlternates['ar'] = `https://www.wezomedia.ma/ar/blog/${params.slug}`
+  if (hasFr) languageAlternates['fr'] = `https://www.wezomedia.ma/fr/blog/${params.slug}`
+  if (hasEn) languageAlternates['en'] = `https://www.wezomedia.ma/en/blog/${params.slug}`
+
+  const defaultLang = hasAr ? 'ar' : hasFr ? 'fr' : hasEn ? 'en' : 'ar'
+  languageAlternates['x-default'] = `https://www.wezomedia.ma/${defaultLang}/blog/${params.slug}`
 
   return {
     title: {
@@ -45,16 +86,23 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     },
     description: description || '',
     alternates: {
-      languages: {
-        'ar': `/ar/blog/${params.slug}`,
-        'en': `/en/blog/${params.slug}`,
-        'fr': `/fr/blog/${params.slug}`,
-      }
+      canonical: `https://www.wezomedia.ma/${params.locale}/blog/${params.slug}`,
+      languages: languageAlternates,
     },
     openGraph: {
       title,
       description: description || '',
-      images: post.coverImage ? [post.coverImage] : [],
+      url: `https://www.wezomedia.ma/${params.locale}/blog/${params.slug}`,
+      siteName: 'WEZO MEDIA',
+      locale: isAr ? 'ar_MA' : isFr ? 'fr_MA' : 'en_US',
+      type: 'article',
+      images: post.coverImage ? [post.coverImage] : ['https://www.wezomedia.ma/assets/agency/office.jpg'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | WEZO MEDIA`,
+      description: description || '',
+      images: post.coverImage ? [post.coverImage] : ['https://www.wezomedia.ma/assets/agency/office.jpg'],
     }
   }
 }
@@ -63,16 +111,97 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const post = await getPost(params.slug)
   if (!post) notFound()
 
-  const relatedPosts = await getRelatedPosts(post.id)
   const { locale } = params
   const isAr = locale === 'ar'
+  const isFr = locale === 'fr'
+
+  const hasAr = Boolean(post.titleAr && post.titleAr.trim().length > 0 && post.contentAr && post.contentAr.trim().length > 0)
+  const hasFr = Boolean(post.titleFr && post.titleFr.trim().length > 0 && post.contentFr && post.contentFr.trim().length > 0)
+  const hasEn = Boolean(post.titleEn && post.titleEn.trim().length > 0 && post.contentEn && post.contentEn.trim().length > 0)
+
+  const isCurrentLocaleAvailable = 
+    (locale === 'ar' && hasAr) ||
+    (locale === 'fr' && hasFr) ||
+    (locale === 'en' && hasEn)
+
+  if (!isCurrentLocaleAvailable) notFound()
+
+  const relatedPosts = await getRelatedPosts(post.id)
 
   const title = locale === 'ar' ? post.titleAr : (locale === 'fr' ? post.titleFr || post.titleEn : post.titleEn)
   const content = locale === 'ar' ? post.contentAr : (locale === 'fr' ? post.contentFr || post.contentEn : post.contentEn)
   const excerpt = locale === 'ar' ? post.excerptAr : (locale === 'fr' ? post.excerptFr || post.excerptEn : post.excerptEn)
 
+  const publishedDate = post.publishedAt || post.createdAt
+  const dateIso = publishedDate ? new Date(publishedDate).toISOString() : new Date().toISOString()
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: isAr ? 'الرئيسية' : isFr ? 'Accueil' : 'Home',
+        item: `https://www.wezomedia.ma/${locale}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: isAr ? 'المدونة' : 'Blog',
+        item: `https://www.wezomedia.ma/${locale}/blog`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: title,
+        item: `https://www.wezomedia.ma/${locale}/blog/${params.slug}`,
+      },
+    ],
+  }
+
+  const blogPostingSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `https://www.wezomedia.ma/${locale}/blog/${params.slug}#article`,
+    headline: title,
+    description: excerpt || '',
+    image: post.coverImage ? [post.coverImage] : ['https://www.wezomedia.ma/assets/agency/office.jpg'],
+    datePublished: dateIso,
+    dateModified: dateIso,
+    inLanguage: locale,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://www.wezomedia.ma/${locale}/blog/${params.slug}`,
+    },
+    author: {
+      '@type': 'Organization',
+      '@id': 'https://www.wezomedia.ma/#organization',
+      name: 'WEZO MEDIA',
+      url: 'https://www.wezomedia.ma',
+    },
+    publisher: {
+      '@type': 'Organization',
+      '@id': 'https://www.wezomedia.ma/#organization',
+      name: 'WEZO MEDIA',
+      url: 'https://www.wezomedia.ma',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.wezomedia.ma/assets/logo/logo-normal.png',
+      },
+    },
+  }
+
   return (
     <main className="min-h-screen pb-20 bg-[#0A0A0F]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+      />
       {/* Hero Header */}
       <section className="relative pt-40 pb-20 overflow-hidden">
         <div className="absolute inset-0">
@@ -112,7 +241,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
            {excerpt && (
              <p className="text-xl md:text-2xl text-text-muted max-w-3xl mx-auto leading-relaxed font-bold italic">
-               "{excerpt}"
+               &ldquo;{excerpt}&rdquo;
              </p>
            )}
         </div>

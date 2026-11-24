@@ -1,94 +1,129 @@
-'use client'
+import type { Metadata } from 'next'
+import PortfolioClient from '@/components/public/portfolio/PortfolioClient'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Filter, Play, ExternalLink } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Link } from '@/navigation'
-import { portfolioProjects } from '@/lib/config/portfolio'
+interface Props {
+  params: {
+    locale: string
+  }
+}
 
-const categories = [
-  { id: 'all', label_ar: 'الكل', label_en: 'All' },
-  { id: 'marketing', label_ar: 'تسويق', label_en: 'Marketing' },
-  { id: 'web', label_ar: 'ويب', label_en: 'Web' },
-  { id: 'music', label_ar: 'موسيقى', label_en: 'Music' },
-  { id: 'video', label_ar: 'فيديو', label_en: 'Video' },
-]
+export async function generateMetadata({ params: { locale } }: Props): Promise<Metadata> {
+  const isAr = locale === 'ar'
+  const isFr = locale === 'fr'
 
-export default function PortfolioPage() {
-  const [activeCategory, setActiveCategory] = useState('all')
+  const titleText = isAr
+    ? 'معرض الأعمال ودراسات الحالة | WEZO MEDIA'
+    : isFr
+    ? 'Nos Réalisations & Études de Cas | WEZO MEDIA'
+    : 'Our Portfolio & Case Studies | WEZO MEDIA'
 
-  const filteredProjects = portfolioProjects.filter(p => activeCategory === 'all' || p.category === activeCategory)
+  const descriptionText = isAr
+    ? 'اكتشف نماذج من أعمال ومشاريع WEZO MEDIA في المغرب: استراتيجيات التسويق الرقمي، تطوير المواقع والمتاجر، صناعة المحتوى المرئي، وبناء الهوية البصرية.'
+    : isFr
+    ? 'Découvrez les réalisations et études de cas de WEZO MEDIA au Maroc : campagnes publicitaires, sites web professionnels, identités de marque et production vidéo.'
+    : 'Explore WEZO MEDIA portfolio and client case studies in Morocco: digital marketing, custom websites, brand identity, and video production.'
+
+  const canonicalUrl = `https://www.wezomedia.ma/${locale}/portfolio`
+
+  return {
+    title: {
+      absolute: titleText,
+    },
+    description: descriptionText,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        ar: 'https://www.wezomedia.ma/ar/portfolio',
+        fr: 'https://www.wezomedia.ma/fr/portfolio',
+        en: 'https://www.wezomedia.ma/en/portfolio',
+        'x-default': 'https://www.wezomedia.ma/ar/portfolio',
+      },
+    },
+    openGraph: {
+      title: titleText,
+      description: descriptionText,
+      url: canonicalUrl,
+      siteName: 'WEZO MEDIA',
+      locale: isAr ? 'ar_MA' : isFr ? 'fr_MA' : 'en_US',
+      type: 'website',
+      images: [
+        {
+          url: 'https://www.wezomedia.ma/assets/agency/office.jpg',
+          width: 1200,
+          height: 630,
+          alt: titleText,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: titleText,
+      description: descriptionText,
+      images: ['https://www.wezomedia.ma/assets/agency/office.jpg'],
+    },
+  }
+}
+
+export default function PortfolioPage({ params: { locale } }: Props) {
+  const isAr = locale === 'ar'
+  const isFr = locale === 'fr'
+
+  const titleText = isAr
+    ? 'معرض الأعمال ودراسات الحالة'
+    : isFr
+    ? 'Nos Réalisations & Études de Cas'
+    : 'Our Portfolio & Case Studies'
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: isAr ? 'الرئيسية' : isFr ? 'Accueil' : 'Home',
+        item: `https://www.wezomedia.ma/${locale}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: titleText,
+        item: `https://www.wezomedia.ma/${locale}/portfolio`,
+      },
+    ],
+  }
+
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `https://www.wezomedia.ma/${locale}/portfolio#collection`,
+    url: `https://www.wezomedia.ma/${locale}/portfolio`,
+    name: `${titleText} | WEZO MEDIA`,
+    description: isAr
+      ? 'نماذج من مشاريع ودراسات حالة وكالة WEZO MEDIA في المغرب'
+      : isFr
+      ? 'Réalisations et études de cas de l\'agence WEZO MEDIA au Maroc'
+      : 'Client portfolio and case studies by WEZO MEDIA in Morocco',
+    inLanguage: locale,
+    isPartOf: {
+      '@type': 'WebSite',
+      '@id': 'https://www.wezomedia.ma/#website',
+      name: 'WEZO MEDIA',
+      url: 'https://www.wezomedia.ma',
+    },
+  }
 
   return (
-    <main className="min-h-screen pb-20">
-      <section className="py-20 bg-brand-secondary/30">
-        <div className="container mx-auto px-4 text-center space-y-4">
-          <h1 className="text-6xl font-black text-white">معرض الأعمال</h1>
-          <p className="text-xl text-text-muted">نشارككم قصص النجاح والمشاريع التي نفخر بإنجازها</p>
-        </div>
-      </section>
-
-      <section className="py-10 sticky top-20 z-30 bg-brand-dark/80 backdrop-blur-lg border-b border-white/5">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row gap-6 items-center justify-between">
-           <div className="flex flex-wrap gap-2 justify-center">
-             {categories.map((cat) => (
-               <button
-                 key={cat.id}
-                 onClick={() => setActiveCategory(cat.id)}
-                 className={`px-6 py-2 rounded-full font-bold transition-all ${
-                   activeCategory === cat.id 
-                     ? 'gradient-brand text-white shadow-lg' 
-                     : 'glass-card text-text-muted hover:text-white'
-                 }`}
-               >
-                 {cat.label_ar}
-               </button>
-             ))}
-           </div>
-           <div className="relative w-full md:w-80">
-             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-             <Input className="pl-10 bg-brand-card border-white/5" placeholder="ابحث في المشاريع..." />
-           </div>
-        </div>
-      </section>
-
-      <section className="py-16">
-        <div className="container mx-auto px-4 text-center">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-             <AnimatePresence mode="popLayout">
-               {filteredProjects.map((project, i) => (
-                 <Link key={project.id} href={project.slug ? `/portfolio/${project.slug}` : '#'}>
-                   <motion.div
-                     layout
-                     initial={{ opacity: 0, scale: 0.9 }}
-                     animate={{ opacity: 1, scale: 1 }}
-                     exit={{ opacity: 0, scale: 0.9 }}
-                     transition={{ duration: 0.4 }}
-                     className="group relative h-80 overflow-hidden rounded-[2rem] glass-card cursor-pointer"
-                   >
-                     <img src={project.img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-60 group-hover:opacity-100 transition-opacity" />
-                     <div className="absolute inset-0 flex flex-col justify-end p-8 text-right space-y-2 translate-y-4 group-hover:translate-y-0 transition-transform">
-                        <span className="text-brand-orange text-xs font-bold uppercase">{project.category}</span>
-                        <h3 className="text-2xl font-black text-white">{project.title}</h3>
-                        <div className="flex justify-end gap-3 pt-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                           <Button size="icon" className="rounded-full bg-white/10 hover:bg-white/20"><Play className="w-4 h-4 fill-current" /></Button>
-                           <Button size="icon" className="rounded-full bg-white/10 hover:bg-white/20"><ExternalLink className="w-4 h-4" /></Button>
-                        </div>
-                     </div>
-                   </motion.div>
-                 </Link>
-               ))}
-             </AnimatePresence>
-           </div>
-           
-           <div className="mt-20">
-              <Button variant="outline" className="border-white/10 px-12 py-7 text-lg rounded-2xl hover:bg-white/5">تحميل المزيد</Button>
-           </div>
-        </div>
-      </section>
-    </main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
+      <PortfolioClient />
+    </>
   )
 }

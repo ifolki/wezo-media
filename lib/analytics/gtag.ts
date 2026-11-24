@@ -162,11 +162,11 @@ export const trackFormStart = ({
 }
 
 /**
- * 4. Lead Submission Event (submit_lead)
- * CRITICAL CONVERSION: Only fires after successful HTTP 200 response from backend
+ * 4. Lead Generation Confirmed Event (generate_lead)
+ * CRITICAL CONVERSION: Only fires after successful HTTP 200 response from backend AND confirmed database persistence
  * ZERO PII: Does NOT send name, phone, email, or user text
  */
-export const trackLeadSubmit = ({
+export const trackGenerateLead = ({
   formId,
   serviceInterest,
   budgetTier,
@@ -179,7 +179,7 @@ export const trackLeadSubmit = ({
   pagePath?: string
   locale?: string
 }) => {
-  event('submit_lead', {
+  event('generate_lead', {
     event_category: 'conversion',
     form_id: formId,
     service_interest: serviceInterest || 'general',
@@ -188,6 +188,11 @@ export const trackLeadSubmit = ({
     page_language: locale || 'ar',
   })
 }
+
+/**
+ * Backward-compatible alias for trackGenerateLead (Standard GA4 event is generate_lead)
+ */
+export const trackLeadSubmit = trackGenerateLead
 
 /**
  * 5. Request Quote CTA Click (request_quote)

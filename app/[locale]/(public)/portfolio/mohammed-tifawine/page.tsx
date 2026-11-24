@@ -1,10 +1,16 @@
+import type { Metadata } from 'next'
 import { Link } from "@/navigation"
 import { ArrowLeft, CheckCircle2, FileText, BarChart, Award, Calendar, Globe, Youtube, Music, Disc, Volume2 } from 'lucide-react'
+import { generatePortfolioMetadata, PortfolioJsonLd } from '@/lib/seo/portfolio-metadata'
 
 interface Props {
   params: {
     locale: string
   }
+}
+
+export async function generateMetadata({ params: { locale } }: Props): Promise<Metadata> {
+  return generatePortfolioMetadata('mohammed-tifawine', locale)
 }
 
 export default function MohammedTifawineCaseStudy({ params: { locale } }: Props) {
@@ -94,6 +100,7 @@ export default function MohammedTifawineCaseStudy({ params: { locale } }: Props)
 
   return (
     <main className="min-h-screen pb-24 text-start">
+      <PortfolioJsonLd slug="mohammed-tifawine" locale={locale} />
       {/* Header Banner */}
       <section className="relative py-20 bg-brand-secondary/30 overflow-hidden border-b border-white/5">
         <div className="container mx-auto px-4 space-y-6">

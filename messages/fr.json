@@ -629,5 +629,358 @@
       "q7": "Est-ce que chaque client reçoit la même stratégie ou une formule standardisée ?",
       "a7": "Non, jamais. Une marque de décoration e-commerce, un cabinet de conseil B2B et une crèche ont des cycles de décision et des impératifs radicalement différents. Nous construisons chaque plan d'action en fonction de vos forces réelles, de vos contraintes et de vos opportunités de marché."
     }
+  },
+  "meta_ads_service": {
+    "meta": {
+      "title": "Attirez des prospects qualifiés avec Meta Ads | WEZO MEDIA",
+      "description": "Campagnes Facebook & Instagram orientées rentabilité : stratégie d'audience, formats Reels & visuels, parcours WhatsApp direct et optimisation continue."
+    },
+    "breadcrumbs": {
+      "home": "Accueil",
+      "services": "Services",
+      "marketing": "Marketing Digital",
+      "current": "Acquisition Meta Ads"
+    },
+    "hero": {
+      "badge": "Acquisition & Campagnes Meta Ads",
+      "title": "Attirez des prospects qualifiés grâce à des campagnes Facebook & Instagram conçues pour votre entreprise.",
+      "subtitle": "De la stratégie d'audience à la création publicitaire et au parcours WhatsApp : transformez votre visibilité sur Facebook et Instagram en demandes de devis concrètes.",
+      "cta_quote": "Demander un devis personnalisé",
+      "cta_packages": "Voir les formules",
+      "reassurance": "Accompagnement sur mesure sans engagement long terme • Budget média distinct et maîtrisé",
+      "pill_ads_manager": "Gestion experte via Meta Ads Manager",
+      "pill_creatives": "Formats Reels & visuels adaptés au Maroc",
+      "pill_funnel": "Parcours WhatsApp ou formulaires directs",
+      "flow_step1_title": "Ciblage & Audiences",
+      "flow_step1_desc": "Centres d'intérêt, zones locales & lookalikes au Maroc",
+      "flow_step2_title": "Créatifs & Formats Reels",
+      "flow_step2_desc": "Accroches testées & formats adaptés au fil d'actualité",
+      "flow_step3_title": "WhatsApp & Contact Direct",
+      "flow_step3_desc": "Message d'amorce pré-rempli & routage qualifié",
+      "flow_footer": "Compte publicitaire sous votre contrôle direct"
+    },
+    "problem_solution": {
+      "badge": "Diagnostic & Solution",
+      "title": "Pourquoi vos campagnes ne convertissent pas & comment nous structurons vos résultats",
+      "subtitle": "De nombreuses entreprises investissent sans retour mesurable. Nous transformons chaque frein récurrent en levier de conversion.",
+      "c1_problem_badge": "Frein fréquent",
+      "c1_problem_title": "Le bouton « Booster » vs Ads Manager",
+      "c1_problem_desc": "Le bouton Booster est rapide pour obtenir des likes, mais il ne permet pas le paramétrage par objectifs de conversion, l'A/B testing ou le contrôle du coût par prospect.",
+      "c1_solution_badge": "Solution WEZO",
+      "c1_solution_title": "Architecture Ads Manager Complète",
+      "c1_solution_desc": "Campagnes configurées dans Meta Ads Manager avec objectifs stricts de conversion, ciblage affiné et pilotage précis du coût par contact.",
+      "c2_problem_badge": "Frein fréquent",
+      "c2_problem_title": "Fatigue publicitaire & visuel unique",
+      "c2_problem_desc": "Diffuser la même image pendant des semaines fatigue l'audience et fait grimper le coût du clic sans apporter de nouveaux clients.",
+      "c2_solution_badge": "Solution WEZO",
+      "c2_solution_title": "Studio Créatif & Formats Reels",
+      "c2_solution_desc": "Production continue de déclinaisons visuelles et vidéos courtes pensées pour capter l'attention et renouveler l'intérêt du marché.",
+      "c3_problem_badge": "Frein fréquent",
+      "c3_problem_title": "Trafic perdu sans funnel dédié",
+      "c3_problem_desc": "Envoyer des visiteurs vers un profil sans appel clair crée des abandons massifs et fait fuiter les prospects intéressés.",
+      "c3_solution_badge": "Solution WEZO",
+      "c3_solution_title": "Parcours WhatsApp & Formulaires",
+      "c3_solution_desc": "Routage direct vers WhatsApp Business avec message d'amorce personnalisé ou formulaires natifs Meta Leads pour une prise de contact immédiate."
+    },
+    "services_process": {
+      "badge": "Prestations & Méthode",
+      "title": "Prestations & Parcours d'Intervention",
+      "subtitle": "Une vision claire et transparente de nos 4 volets d'accompagnement et de notre méthodologie d'exécution.",
+      "card1_title": "1. Stratégie & Structure de Compte",
+      "card1_desc": "Audit du compte publicitaire, identification des personas cibles et structuration technique dans Business Manager.",
+      "card1_toggle": "Détails contractuels & options",
+      "card1_details": "Configuration du Pixel Meta et des événements clés adaptée selon la faisabilité technique de votre site web. Définition des angles d'accroche prioritaires pour le marché marocain.",
+      "card2_title": "2. Studio Créatif & Copywriting",
+      "card2_desc": "Conception graphique des annonces, rédaction d'accroches percutantes et montage de vidéos courtes (Reels).",
+      "card2_toggle": "Détails contractuels & options",
+      "card2_details": "Tests de variantes visuelles pour identifier les meilleurs taux de clic. Sessions de tournage vidéo sur site ou production studio disponibles en option sur devis.",
+      "card3_title": "3. Parcours de Conversion & Contact",
+      "card3_desc": "Paramétrage du point de contact direct : Message WhatsApp Business pré-rempli ou formulaire intégré Meta Leads.",
+      "card3_toggle": "Détails contractuels & options",
+      "card3_details": "Clarification contractuelle : La qualification humaine des prospects et la gestion des conversations WhatsApp restent de la responsabilité de votre équipe interne (ou font l'objet d'un module d'assistance sur mesure). Landing page dédiée disponible selon le périmètre.",
+      "card4_title": "4. Pilotage, Tests A/B & Arbitrage",
+      "card4_desc": "Suivi continu des indicateurs (CPA, CTR, contacts), coupure des variantes saturées et réallocation du budget.",
+      "card4_toggle": "Détails contractuels & options",
+      "card4_details": "Rapport mensuel clair et transparent détaillant les dépenses médias et les opportunités générées. Recommandations stratégiques d'évolution.",
+      "process_title": "Notre parcours d'exécution en 4 étapes",
+      "step1_num": "01",
+      "step1_title": "Diagnostic & Cadrage",
+      "step1_desc": "Analyse de votre offre, personas cibles et panier moyen.",
+      "step2_num": "02",
+      "step2_title": "Création & Paramétrage",
+      "step2_desc": "Production des visuels/vidéos et configuration du tunnel WhatsApp.",
+      "step3_num": "03",
+      "step3_title": "Lancement & Tests A/B",
+      "step3_desc": "Activation maîtrisée avec fractionnement budgétaire prudent.",
+      "step4_num": "04",
+      "step4_title": "Optimisation & Reporting",
+      "step4_desc": "Arbitrage hebdomadaire des coûts et bilan d'orientation mensuel.",
+      "disclaimer_spend": "Transparence des dépenses : Le budget média payé à Meta est distinct des honoraires d'agence et reste réglé directement par votre entreprise."
+    },
+    "packages": {
+      "badge": "Formules d'Accompagnement",
+      "title": "Des formules adaptées à votre niveau de maturité",
+      "subtitle": "Chaque entreprise a des besoins spécifiques. Nos formules sont personnalisées sans grille tarifaire publique, après échange sur votre projet.",
+      "budget_notice_title": "Information importante sur le budget publicitaire",
+      "budget_notice_text": "Les dépenses médias sont réglées directement par votre entreprise à Meta. À titre indicatif, un budget média de 3 000 à 5 000 MAD par mois permet généralement de tester et valider des audiences au Maroc, variable selon votre secteur et vos objectifs. Les honoraires de l'agence couvrent l'expertise stratégique, la création graphique et la gestion quotidienne.",
+      "pkg1_name": "Démarrage & Visibilité Locale",
+      "pkg1_desc": "Idéal pour valider un premier canal d'acquisition ou dynamiser une activité locale.",
+      "pkg1_features": [
+        "1 objectif de campagne principal",
+        "2 à 4 créatifs publicitaires mensuels",
+        "Ciblage local ou thématique précis",
+        "Tunnel WhatsApp Business ou formulaire simple",
+        "Gestion technique & rapport mensuel"
+      ],
+      "pkg1_cta": "Devis Démarrage",
+      "pkg2_name": "Croissance & Génération de Leads",
+      "pkg2_badge": "Recommandé",
+      "pkg2_desc": "Pour les PME souhaitant un flux régulier de demandes de devis et des tests approfondis.",
+      "pkg2_features": [
+        "2 objectifs (Acquisition froide + Reciblage)",
+        "6 à 8 créatifs mensuels (visuels + Reels)",
+        "Tests A/B réguliers des messages et visuels",
+        "Optimisation du parcours de conversion",
+        "Point d'étape bimensuel & rapport détaillé"
+      ],
+      "pkg2_cta": "Devis Croissance",
+      "pkg3_name": "Performance & Sur Mesure",
+      "pkg3_desc": "Pour les entreprises établies avec des volumes élevés ou des besoins d'intégration avancés.",
+      "pkg3_features": [
+        "Architecture multi-campagnes & scaling",
+        "Production créative soutenue & formats multiples",
+        "Tracking avancé selon faisabilité technique",
+        "Recommandations CRM & pages d'atterrissage",
+        "Suivi rapproché & canal d'échange prioritaire"
+      ],
+      "pkg3_cta": "Devis Sur Mesure"
+    },
+    "proof_faq": {
+      "badge": "Références & FAQ",
+      "title": "Références Réelles & Questions Fréquentes",
+      "subtitle": "Des prestations concrètement déployées au Maroc et des réponses transparentes à vos questions.",
+      "cases_title": "Réalisations clients vérifiées",
+      "c1_title": "Decoafrica",
+      "c1_category": "E-commerce & Décoration",
+      "c1_context": "Marque marocaine d'aménagement cherchant à développer ses ventes en ligne.",
+      "c1_scope": "Direction artistique des annonces, montage de Reels produits, structuration des campagnes d'acquisition et de reciblage catalogue.",
+      "c2_title": "Crèche Btissam",
+      "c2_category": "Éducation Préscolaire",
+      "c2_context": "Établissement préscolaire cherchant à informer les parents de sa zone géographique.",
+      "c2_scope": "Campagnes géolocalisées en rayon précis autour de la crèche, créatifs rassurants sur le cadre pédagogique, tunnel direct pour inscriptions.",
+      "c3_title": "Psychologue Hanae Kandri",
+      "c3_category": "Profession Libérale & Santé",
+      "c3_context": "Cabinet cherchant à clarifier son offre dans le respect de la déontologie.",
+      "c3_scope": "Communication sobre et rassurante, campagnes thématiques d'information, parcours de prise de contact discret et confidentiel.",
+      "faq_title": "Questions fréquentes",
+      "q1": "Garantissez-vous un nombre précis de prospects ou un chiffre d'affaires ?",
+      "a1": "Non. Aucune agence sérieuse ne peut garantir des ventes, car les résultats dépendent aussi de votre offre, de vos tarifs, de la concurrence et de votre rapidité commerciale. Nous garantissons une rigueur méthodologique : ciblage chirurgical, visuels professionnels, tests continus et gestion transparente.",
+      "q2": "Comment se règle le budget publicitaire destiné à Meta ?",
+      "a2": "Le budget média est payé directement par vous à Meta par carte bancaire. Les honoraires de WEZO MEDIA couvrent le conseil, la création et la gestion. Vous gardez un contrôle total sur vos dépenses.",
+      "q3": "Quel budget publicitaire mensuel faut-il envisager pour démarrer ?",
+      "a3": "À titre indicatif, un budget média de 3 000 à 5 000 MAD par mois permet généralement de tester et valider différentes audiences au Maroc. Ce montant reste indicatif et varie selon votre secteur et vos objectifs.",
+      "q4": "Prenez-vous en charge la réponse aux messages WhatsApp des prospects ?",
+      "a4": "Notre mission est d'amener des contacts qualifiés sur votre messagerie avec un message clair. La réponse et la vente restent entre les mains de votre équipe qui connaît parfaitement votre métier.",
+      "q5": "Sous quel délai peut-on constater les premiers contacts ?",
+      "a5": "Dès les premiers jours de diffusion, les premiers contacts peuvent arriver. Une phase de 2 à 4 semaines d'apprentissage reste toutefois nécessaire pour stabiliser les coûts par contact.",
+      "q6": "Le Pixel Meta et l'API de conversions sont-ils systématiquement inclus ?",
+      "a6": "Leur intégration dépend de l'infrastructure de votre site web et du devis validé. Pour les campagnes orientées WhatsApp ou formulaires natifs Meta Leads, le tracking est géré directement dans Meta.",
+      "q7": "Y a-t-il un engagement de durée contraignant ?",
+      "a7": "Nos formules sont sans engagement contraignant à long terme. Nous conseillons simplement une période initiale de 2 à 3 mois pour collecter les données et rentabiliser l'apprentissage algorithmique."
+    },
+    "cta": {
+      "badge": "Passez à l'Action",
+      "title": "Prêt à structurer votre acquisition sur Facebook et Instagram ?",
+      "subtitle": "Parlons de votre entreprise, de vos objectifs commerciaux et étudions ensemble la stratégie d'acquisition la plus rentable.",
+      "btn_quote": "Demander un devis gratuit",
+      "btn_whatsapp": "Échanger sur WhatsApp",
+      "reassurance_1": "Réponse sous 24h ouvrées",
+      "reassurance_2": "Devis personnalisé sans engagement",
+      "reassurance_3": "Analyse préliminaire offerte"
+    },
+    "whatsapp": {
+      "button_text": "Discuter sur WhatsApp"
+    }
+  },
+  "home_v2": {
+    "hero": {
+      "eyebrow": "VOTRE PARTENAIRE DE CROISSANCE DIGITALE",
+      "title": "Agence de communication digitale au Maroc",
+      "title_line1": "Agence de communication",
+      "title_line2": "digitale au Maroc",
+      "subtitle": "Stratégie, créativité et solutions digitales pour développer votre entreprise.",
+      "description": "WEZO MEDIA accompagne les entreprises au Maroc dans leur stratégie digitale, leur communication, leurs campagnes publicitaires et leur développement en ligne.",
+      "cta_primary": "Demander un devis",
+      "cta_secondary": "Découvrir nos expertises",
+      "trust_row": "Stratégie • Publicité • Web • Contenu • Automatisation",
+      "whatsapp_label": "Échanger sur WhatsApp",
+      "whatsapp_badge": "Direct WhatsApp",
+      "badge_location": "Casablanca, Maroc",
+      "badge_trust": "Solutions B2B & Croissance",
+      "ecosystem": {
+        "core_title": "WEZO CORE",
+        "core_badge": "MOTEUR DIGITAL",
+        "core_sub": "Moteur de Croissance",
+        "pillar_strategy": "Stratégie Digitale",
+        "pillar_strategy_sub": "Conseil & Croissance",
+        "pillar_ads": "Publicité & Acquisition",
+        "pillar_ads_sub": "Meta & Google Ads",
+        "pillar_web": "Sites Web & E-commerce",
+        "pillar_web_sub": "Haute Conversion",
+        "pillar_branding": "Branding & Contenu",
+        "pillar_branding_sub": "Identité & Médias",
+        "pillar_automation": "IA & Automatisation",
+        "pillar_automation_sub": "WhatsApp & Flux CRM",
+        "pillar_analytics": "Analyse & Optimisation",
+        "pillar_analytics_sub": "Performance & ROI"
+      }
+    },
+    "challenges": {
+      "badge": "VOS ENJEUX, NOS SOLUTIONS",
+      "title": "Vos défis. Nos solutions.",
+      "subtitle": "Nous transformons vos enjeux digitaux en actions concrètes pour développer votre entreprise.",
+      "label_problem": "Le constat :",
+      "label_solution": "Notre réponse :",
+      "c1_title": "Manque de visibilité",
+      "c1_problem": "Votre présence digitale ne reflète pas encore la valeur de votre entreprise.",
+      "c1_solution": "Identité de marque & visibilité digitale.",
+      "c1_tag": "Image & Notoriété",
+      "c2_title": "Publicité peu efficace",
+      "c2_problem": "Vos campagnes génèrent des clics, mais peu d'opportunités commerciales.",
+      "c2_solution": "Stratégie publicitaire & acquisition ciblée.",
+      "c2_tag": "Acquisition & Rentabilité",
+      "c3_title": "Prospects mal suivis",
+      "c3_problem": "Des demandes commerciales restent sans suivi suffisamment structuré.",
+      "c3_solution": "CRM, suivi commercial & automatisation.",
+      "c3_tag": "Conversion & Réactivité"
+    },
+    "expertises": {
+      "badge": "NOS 6 PÔLES D'ACTION",
+      "title": "Nos Domaines d'Expertise Digitale",
+      "subtitle": "Des solutions intégrées et coordonnées pour construire une présence solide et développer votre activité au Maroc.",
+      "view_catalog": "Voir tout le catalogue",
+      "explore_service": "En savoir plus",
+      "preselect_quote": "Devis dédié",
+      "cta_bottom_title": "Un projet précis en tête ?",
+      "cta_bottom_subtitle": "Obtenez une proposition commerciale claire, personnalisée et sans engagement pour votre entreprise.",
+      "cta_bottom_btn": "Demander un devis personnalisé",
+      "items": {
+        "marketing": {
+          "title": "Marketing Digital & Publicité",
+          "category": "Acquisition & Visibilité",
+          "desc": "Stratégie digitale et campagnes Meta Ads et Google Ads adaptées à vos objectifs pour développer votre visibilité et vos opportunités commerciales."
+        },
+        "web": {
+          "title": "Création de Sites Web & E-commerce",
+          "category": "Infrastructure & Conversion",
+          "desc": "Sites professionnels, landing pages et boutiques en ligne conçus pour présenter votre activité et faciliter la conversion."
+        },
+        "video": {
+          "title": "Création de Contenu & Vidéos",
+          "category": "Contenu & Engagement",
+          "desc": "Vidéos publicitaires, Reels et contenus visuels pour valoriser votre marque et capter l'attention de votre audience."
+        },
+        "branding": {
+          "title": "Branding & Identité Visuelle",
+          "category": "Image de Marque",
+          "desc": "Identité de marque, logos et supports graphiques pour construire une image cohérente et professionnelle."
+        },
+        "automation": {
+          "title": "Automatisation WhatsApp & CRM",
+          "category": "Gestion des Prospects",
+          "desc": "Automatisation des échanges et organisation du suivi commercial pour améliorer la réactivité et réduire les opportunités manquées."
+        },
+        "production": {
+          "title": "Production Audiovisuelle",
+          "category": "Studio & Réalisation",
+          "desc": "Organisation de tournages, prise de son, voix-off et production audiovisuelle selon les besoins de votre projet."
+        }
+      }
+    },
+    "method": {
+      "badge": "MÉTHODOLOGIE ÉPROUVÉE",
+      "title": "Notre Méthode de Travail en 4 Étapes",
+      "subtitle": "Du diagnostic initial au suivi continu : un accompagnement rigoureux pour garantir la cohérence et l'efficacité de vos actions.",
+      "steps": {
+        "step1": {
+          "num": "01",
+          "title": "Diagnostic & Analyse",
+          "desc": "Analyse de votre activité, de vos offres, de vos concurrents et identification des besoins réels de votre communication."
+        },
+        "step2": {
+          "num": "02",
+          "title": "Stratégie & Planification",
+          "desc": "Définition des messages clés, sélection des canaux pertinents et élaboration de la feuille de route opérationnelle."
+        },
+        "step3": {
+          "num": "03",
+          "title": "Production & Déploiement",
+          "desc": "Conception des supports (visuels, vidéos, site web, campagnes) et mise en place des outils de suivi technique."
+        },
+        "step4": {
+          "num": "04",
+          "title": "Suivi & Optimisation",
+          "desc": "Analyse des retours, ajustements réguliers des créations et optimisation continue pour maximiser les retombées."
+        }
+      }
+    },
+    "realisations": {
+      "badge": "RÉALISATIONS CONCRÈTES",
+      "title": "Projets Récents et Réalisations Concrètes",
+      "subtitle": "Découvrez une sélection d’interventions réalisées pour des entreprises, marques et professionnels au Maroc.",
+      "view_all": "Voir tout le portfolio",
+      "view_project": "Consulter le projet"
+    },
+    "tiers": {
+      "badge": "ACCOMPAGNEMENT SUR MESURE",
+      "title": "Des Formules Adaptées à Votre Entreprise",
+      "subtitle": "Nous adaptons notre niveau d’intervention à la taille de votre entreprise, à vos objectifs et à vos ressources.",
+      "disclaimer": "Le périmètre exact et les modalités d'intervention sont détaillés dans une proposition commerciale sur mesure. Les budgets publicitaires sont alloués directement aux plateformes (Meta, Google) et demeurent distincts des honoraires d'agence.",
+      "cta": "Demander une proposition",
+      "t1": {
+        "name": "Lancement Digital",
+        "tag": "Création & Démarrage",
+        "desc": "Pour les nouvelles entreprises et marques en création souhaitant poser des bases digitales professionnelles et solides.",
+        "features": [
+          "Identité visuelle de marque & charte graphique",
+          "Création de site vitrine ou landing page rapide",
+          "Mise en place des profils sociaux professionnels",
+          "Configuration du canal de contact WhatsApp direct",
+          "Périmètre défini selon les priorités du projet"
+        ]
+      },
+      "t2": {
+        "name": "Accompagnement Marketing Mensuel",
+        "tag": "Croissance & Visibilité",
+        "popular": "Format Recommandé",
+        "desc": "Pour les entreprises en activité souhaitant déléguer la gestion continue de leur visibilité, contenus et campagnes publicitaires.",
+        "features": [
+          "Gestion et optimisation des campagnes publicitaires (Meta / Google)",
+          "Production continue de contenus (Reels, visuels publicitaires)",
+          "Tests créatifs réguliers pour renouveler les messages",
+          "Point de suivi et reporting régulier des actions",
+          "Budget publicitaire géré directement avec les régies"
+        ]
+      },
+      "t3": {
+        "name": "Solutions Digitales Sur Mesure",
+        "tag": "Projets Spécifiques & PME",
+        "desc": "Pour les organisations nécessitant un développement web spécifique, une automatisation CRM avancée ou une refonte globale.",
+        "features": [
+          "Cahier des charges dédié et cadrage technique sur mesure",
+          "Développement web personnalisé et intégrations d'outils",
+          "Automatisation avancée des flux WhatsApp & CRM",
+          "Organisation de tournages et production audiovisuelle complète",
+          "Accompagnement stratégique et coordination dédiée"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Parlons de votre prochain projet.",
+      "subtitle": "Vous souhaitez développer votre présence digitale, moderniser vos outils ou générer de nouvelles opportunités commerciales ? Notre équipe étudie vos besoins et vous propose un plan d’action adapté.",
+      "btn_primary": "Demander une proposition personnalisée",
+      "btn_whatsapp": "Nous contacter sur WhatsApp",
+      "reassurance": "Étude confidentielle de votre projet • Sans engagement"
+    }
   }
 }

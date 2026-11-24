@@ -62,9 +62,11 @@ export default function Footer() {
   const address = isAr ? siteConfig.addressAr : isFr ? siteConfig.addressFr : siteConfig.addressEn
 
   return (
-    <footer className="bg-brand-dark pt-32 pb-12 border-t border-white/5 relative overflow-hidden text-start">
+    <footer className="bg-brand-dark pt-32 pb-12 border-t border-white/5 relative overflow-hidden isolate text-start">
       {/* Background Glow */}
-      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-brand-pink/5 blur-[150px] -z-10" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[350px] md:max-w-[500px] h-[500px] bg-brand-pink/5 blur-[150px]" />
+      </div>
 
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">

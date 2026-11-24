@@ -1,14 +1,12 @@
 import type { Metadata } from 'next'
-import Hero from '@/components/public/Hero'
-import Stats from '@/components/public/Stats'
-import AgencyStudio from '@/components/public/AgencyStudio'
-import ServicesGrid from '@/components/public/ServicesGrid'
-import SolutionsGrid from '@/components/public/SolutionsGrid'
-import WorkProcess from '@/components/public/WorkProcess'
-import Portfolio from '@/components/public/Portfolio'
-import Team from '@/components/public/Team'
-import Testimonials from '@/components/public/Testimonials'
-import FinalCTA from '@/components/public/CTA'
+import HeroV2 from '@/components/public/home/HeroV2'
+import ChallengesSection from '@/components/public/home/ChallengesSection'
+import ExpertisesSection from '@/components/public/home/ExpertisesSection'
+import MethodSection from '@/components/public/home/MethodSection'
+import ProjectsSection from '@/components/public/home/ProjectsSection'
+import TiersSection from '@/components/public/home/TiersSection'
+import FinalCtaV2 from '@/components/public/home/FinalCtaV2'
+import HomeWhatsAppFloating from '@/components/public/home/HomeWhatsAppFloating'
 import { siteConfig } from '@/lib/config/site'
 import { getAllServicesWithHierarchy } from '@/lib/services-hierarchy'
 import { AlertCircle } from 'lucide-react'
@@ -87,39 +85,6 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
   }
 }
 
-const featuredSolutions = [
-  {
-    id: "sol-acq",
-    slug: "scale-customer-acquisition",
-    nameAr: "زيادة وتوسيع نطاق المبيعات والعملاء",
-    nameEn: "Scale Customer Acquisition",
-    nameFr: "Acquisition Client à Grande Échelle",
-    descriptionAr: "استراتيجيات تسويقية وقنوات نمو متطورة لزيادة مبيعاتك وأرباحك.",
-    descriptionEn: "Advanced marketing strategies and growth channels to scale sales and revenue.",
-    descriptionFr: "Stratégies de marketing avancées pour développer vos ventes."
-  },
-  {
-    id: "sol-launch",
-    slug: "launch-business-brand",
-    nameAr: "أطلق مشروعي وعلامتي التجارية",
-    nameEn: "Launch My Business & Brand",
-    nameFr: "Lancer Mon Entreprise & Marque",
-    descriptionAr: "الحزمة المتكاملة لتأسيس حضور رقمي قوي وإطلاق نشاطك التجاري بنجاح.",
-    descriptionEn: "All-in-one package to establish a strong digital presence and launch your brand.",
-    descriptionFr: "Le package complet pour établir une présence digitale forte."
-  },
-  {
-    id: "sol-auto",
-    slug: "automate-crm-operations",
-    nameAr: "أتمتة المبيعات والعملاء المحتملين",
-    nameEn: "Automate CRM & Lead Flow",
-    nameFr: "Automatisation CRM & Flux de Leads",
-    descriptionAr: "تحسين خدمة العملاء والمبيعات التلقائية باستخدام أدوات الذكاء الاصطناعي والربط الآلي.",
-    descriptionEn: "Enhance customer interactions and automate sales pipelines using custom WhatsApp integrations.",
-    descriptionFr: "Optimisez vos relations clients grâce aux automations intelligentes."
-  }
-]
-
 export default async function Home({ params: { locale } }: Props) {
   const isAr = locale === 'ar'
   const isFr = locale === 'fr'
@@ -194,21 +159,29 @@ export default async function Home({ params: { locale } }: Props) {
           </div>
         </div>
       )}
-      <Hero />
-      <Stats />
-      <AgencyStudio />
-      
-      {/* Featured Solutions (commercial targets) */}
-      <SolutionsGrid solutions={featuredSolutions} locale={locale} />
-      
-      {/* Featured Services (specific services) */}
-      <ServicesGrid services={featuredServices} locale={locale} />
-      
-      <WorkProcess />
-      <Portfolio />
-      <Team />
-      <Testimonials />
-      <FinalCTA />
+      {/* Section 1: Hero Premium */}
+      <HeroV2 />
+
+      {/* Section 2: Les Défis de Votre Entreprise & Notre Réponse */}
+      <ChallengesSection locale={locale} />
+
+      {/* Section 3: Nos 6 Pôles d'Expertise Digitale */}
+      <ExpertisesSection />
+
+      {/* Section 4: Notre Méthode en 4 Étapes */}
+      <MethodSection locale={locale} />
+
+      {/* Section 5: Nos Réalisations Concrètes (Portfolio Vérifié) */}
+      <ProjectsSection locale={locale} />
+
+      {/* Section 6: Accompagnement Sur Mesure (Sans Tarifs Publics) */}
+      <TiersSection locale={locale} />
+
+      {/* Section 7: Contact & CTA Final */}
+      <FinalCtaV2 />
+
+      {/* Floating WhatsApp Action for Instant Access */}
+      <HomeWhatsAppFloating />
     </main>
   )
 }

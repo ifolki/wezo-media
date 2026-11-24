@@ -1,10 +1,16 @@
+import type { Metadata } from 'next'
 import { Link } from "@/navigation"
 import { ArrowLeft, CheckCircle2, FileText, BarChart, Award, ShieldAlert, Cpu, ShoppingBag, Truck, LayoutDashboard, Layers, Share2, DollarSign } from 'lucide-react'
+import { generatePortfolioMetadata, PortfolioJsonLd } from '@/lib/seo/portfolio-metadata'
 
 interface Props {
   params: {
     locale: string
   }
+}
+
+export async function generateMetadata({ params: { locale } }: Props): Promise<Metadata> {
+  return generatePortfolioMetadata('mangeo-app', locale)
 }
 
 export default function MangeoAppCaseStudy({ params: { locale } }: Props) {
@@ -124,6 +130,7 @@ export default function MangeoAppCaseStudy({ params: { locale } }: Props) {
 
   return (
     <main className="min-h-screen pb-24 text-start bg-gradient-to-b from-[#0A0A0F] to-[#111118]">
+      <PortfolioJsonLd slug="mangeo-app" locale={locale} />
       {/* Header Banner */}
       <section className="relative py-24 bg-brand-secondary/30 overflow-hidden border-b border-white/5">
         <div className="container mx-auto px-4 space-y-6">

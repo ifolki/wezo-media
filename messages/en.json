@@ -629,5 +629,358 @@
       "q7": "Does every client receive the same strategy or standardized template?",
       "a7": "No, never. An e-commerce decor brand, a B2B corporate consultancy, and a private education facility have fundamentally different customer buying cycles and margin profiles. Every roadmap is built around your validated strengths, specific market bottlenecks, and financial goals."
     }
+  },
+  "meta_ads_service": {
+    "meta": {
+      "title": "Qualified Client Acquisition with Meta Ads | WEZO MEDIA",
+      "description": "Results-driven Facebook & Instagram ad campaigns: audience strategy, high-converting Reels & visuals, direct WhatsApp funnels, and continuous optimization."
+    },
+    "breadcrumbs": {
+      "home": "Home",
+      "services": "Services",
+      "marketing": "Digital Marketing",
+      "current": "Meta Ads Acquisition"
+    },
+    "hero": {
+      "badge": "Meta Ads & Lead Acquisition",
+      "title": "Attract qualified leads with Facebook & Instagram ad campaigns designed for your business.",
+      "subtitle": "From audience targeting to creative production and direct WhatsApp funnels: turn social visibility into genuine quote requests and sales opportunities.",
+      "cta_quote": "Request a Custom Quote",
+      "cta_packages": "View Service Tiers",
+      "reassurance": "Tailored partnership with no long-term lock-in • Independent, fully controlled media spend",
+      "pill_ads_manager": "Expert setup via Meta Ads Manager",
+      "pill_creatives": "Reels & visual formats tailored to Morocco",
+      "pill_funnel": "Direct WhatsApp or native lead forms",
+      "flow_step1_title": "Targeting & Audiences",
+      "flow_step1_desc": "Interests, radius targeting & lookalikes in Morocco",
+      "flow_step2_title": "Creatives & Reels",
+      "flow_step2_desc": "Tested copy & feed-optimized visual formats",
+      "flow_step3_title": "WhatsApp & Contact",
+      "flow_step3_desc": "Pre-filled conversation prompt & qualified routing",
+      "flow_footer": "Ad account remains under your direct ownership"
+    },
+    "problem_solution": {
+      "badge": "Diagnostic & Solution",
+      "title": "Why most social ads fail & how we engineer real commercial return",
+      "subtitle": "Many businesses spend budget without measurable ROI. We turn recurring friction points into conversion levers.",
+      "c1_problem_badge": "Common Friction",
+      "c1_problem_title": "The « Boost Post » button vs Ads Manager",
+      "c1_problem_desc": "The Boost button creates surface post engagement, but lacks conversion objective settings, creative A/B testing, and granular cost-per-lead steering.",
+      "c1_solution_badge": "WEZO Solution",
+      "c1_solution_title": "Full Ads Manager Architecture",
+      "c1_solution_desc": "Campaigns engineered inside Meta Ads Manager with strict lead conversion goals, refined audience exclusions, and cost-per-contact control.",
+      "c2_problem_badge": "Common Friction",
+      "c2_problem_title": "Ad fatigue & single creative",
+      "c2_problem_desc": "Running the same visual for weeks exhausts your audience and inflates click costs without bringing new qualified inquiries.",
+      "c2_solution_badge": "WEZO Solution",
+      "c2_solution_title": "Creative Studio & Short Reels",
+      "c2_solution_desc": "Continuous production of graphic variations and short-form video reels designed to stop the scroll and sustain audience responsiveness.",
+      "c3_problem_badge": "Common Friction",
+      "c3_problem_title": "Traffic lost without dedicated funnels",
+      "c3_problem_desc": "Directing paid clicks to an unfocused page or profile with no explicit call-to-action causes high drop-offs.",
+      "c3_solution_badge": "WEZO Solution",
+      "c3_solution_title": "WhatsApp & Instant Lead Funnels",
+      "c3_solution_desc": "Direct routing to WhatsApp Business with pre-filled conversation prompts or native Meta Lead forms for instant engagement."
+    },
+    "services_process": {
+      "badge": "Services & Methodology",
+      "title": "Deliverables & 4-Step Execution Framework",
+      "subtitle": "Clear visibility into our four core intervention pillars and our milestone-driven methodology.",
+      "card1_title": "1. Strategy & Account Setup",
+      "card1_desc": "Initial ad account audit, customer persona scoping, and technical architecture in Business Manager.",
+      "card1_toggle": "Contractual details & options",
+      "card1_details": "Setup of Meta Pixel and conversion events tailored to website technical feasibility and agreed scope. Definition of key messaging angles for the Moroccan market.",
+      "card2_title": "2. Creative Studio & Copywriting",
+      "card2_desc": "Graphic design of ad assets, persuasive copywriting, and short-form video reel production.",
+      "card2_toggle": "Contractual details & options",
+      "card2_details": "A/B testing of creative variants to optimize click-through rates. On-site video shooting or studio production available as custom quote options.",
+      "card3_title": "3. Conversion Journey & Funnels",
+      "card3_desc": "Setup of direct contact channels: Pre-filled WhatsApp Business prompts or native Meta Lead forms.",
+      "card3_toggle": "Contractual details & options",
+      "card3_details": "Contractual clarification: Live conversation handling on WhatsApp and sales qualification remain the client's internal responsibility (or available as a dedicated support module). Custom landing page available based on scope.",
+      "card4_title": "4. Management, Testing & Steering",
+      "card4_desc": "Weekly cost monitoring (CPA, CTR, leads), shutting down fatigued ads, and budget reallocation.",
+      "card4_toggle": "Contractual details & options",
+      "card4_details": "Transparent monthly performance report detailing media spend and inquiries generated, with ongoing strategic recommendations.",
+      "process_title": "Our compact 4-step execution workflow",
+      "step1_num": "01",
+      "step1_title": "Diagnostic & Scoping",
+      "step1_desc": "Reviewing your offer, target audience, and order values.",
+      "step2_num": "02",
+      "step2_title": "Creation & Setup",
+      "step2_desc": "Producing ad creatives and configuring the WhatsApp funnel.",
+      "step3_num": "03",
+      "step3_title": "Launch & A/B Testing",
+      "step3_desc": "Cautious rollout to validate audience responsiveness.",
+      "step4_num": "04",
+      "step4_title": "Optimization & Review",
+      "step4_desc": "Weekly budget adjustments and monthly performance milestones.",
+      "disclaimer_spend": "Spend transparency: Ad spend paid to Meta is strictly distinct from WEZO MEDIA agency management fees and is billed directly to your company card."
+    },
+    "packages": {
+      "badge": "Engagement Tiers",
+      "title": "Formulas tailored to your business maturity",
+      "subtitle": "Every business has unique needs. We provide tailored proposals with no generic public price lists after discussing your project.",
+      "budget_notice_title": "Important note regarding media ad spend",
+      "budget_notice_text": "Ad spend is paid directly by your business to Meta via your company card. As an indicative guideline, a media budget of 3,000 to 5,000 MAD per month generally provides sufficient volume to test and validate audiences in Morocco, varying by industry and scope. Agency fees strictly cover strategic expertise, creative production, and day-to-day management.",
+      "pkg1_name": "Starter & Local Visibility",
+      "pkg1_desc": "Ideal for businesses testing structured paid acquisition for the first time or revitalizing local demand.",
+      "pkg1_features": [
+        "1 primary campaign objective",
+        "2 to 4 monthly creative assets",
+        "Precise local or thematic audience targeting",
+        "WhatsApp Business or instant lead form funnel",
+        "Technical management & monthly report"
+      ],
+      "pkg1_cta": "Starter Quote",
+      "pkg2_name": "Growth & Qualified Lead Gen",
+      "pkg2_badge": "Recommended",
+      "pkg2_desc": "Designed for SMEs seeking consistent inbound inquiries and continuous creative testing.",
+      "pkg2_features": [
+        "2 strategic objectives (Cold Acquisition + Retargeting)",
+        "6 to 8 monthly assets (visuals + short reels)",
+        "Ongoing A/B testing of messaging and visuals",
+        "Conversion journey optimization",
+        "Bi-weekly milestone check-in & detailed report"
+      ],
+      "pkg2_cta": "Growth Quote",
+      "pkg3_name": "Performance & Custom Scale",
+      "pkg3_desc": "For established businesses managing higher volume, multiple segments, or custom technical setups.",
+      "pkg3_features": [
+        "Multi-campaign architecture & scaling",
+        "Sustained creative production & multi-format assets",
+        "Advanced tracking implementation on technical feasibility",
+        "CRM & landing page optimization advisory",
+        "Priority communication channel & frequent syncs"
+      ],
+      "pkg3_cta": "Custom Quote"
+    },
+    "proof_faq": {
+      "badge": "Case Studies & FAQ",
+      "title": "Verified Case Studies & Frequently Asked Questions",
+      "subtitle": "Real client engagements deployed in Morocco and direct, transparent answers to your questions.",
+      "cases_title": "Verified client achievements",
+      "c1_title": "Decoafrica",
+      "c1_category": "E-commerce & Home Decor",
+      "c1_context": "Moroccan home decor brand looking to scale online inquiries.",
+      "c1_scope": "Ad creative art direction, product Reels editing, and campaign setup for cold acquisition and catalog retargeting.",
+      "c2_title": "Crèche Btissam",
+      "c2_category": "Early Childhood Education",
+      "c2_context": "Preschool institution seeking to inform families in its immediate radius.",
+      "c2_scope": "Radius-targeted local campaigns around the facility, reassuring creative assets, and direct parent inquiry funnel.",
+      "c3_title": "Psychologist Hanae Kandri",
+      "c3_category": "Healthcare & Private Practice",
+      "c3_context": "Clinical practice seeking to structure its digital presence within strict medical ethics.",
+      "c3_scope": "Sober and reassuring messaging, educational awareness campaigns, and a discreet, confidential booking channel.",
+      "faq_title": "Frequently Asked Questions",
+      "q1": "Do you guarantee a specific number of sales or leads?",
+      "a1": "No, and no ethical agency can make such promises. Final sales outcomes depend on multiple external factors: your pricing, offer appeal, your sales team's responsiveness, and market competition. What we do guarantee is meticulous execution: sharp audience targeting, high-quality creatives, continuous testing, and transparent budget management.",
+      "q2": "How is the ad budget paid to Meta?",
+      "a2": "The media spend is paid directly by your company to Facebook/Meta using the credit card registered on your ad account. WEZO MEDIA fees strictly cover strategy, creative production, and campaign management. This ensures full financial transparency and control.",
+      "q3": "What starting monthly ad budget should we plan for?",
+      "a3": "As an indicative baseline, a media budget of 3,000 to 5,000 MAD per month in Morocco typically provides enough data to test multiple audiences and creatives. This amount is indicative and adjusts based on your geographic target, industry, and goals.",
+      "q4": "Do you handle answering inbound WhatsApp messages?",
+      "a4": "Our core responsibility is bringing qualified prospects into your WhatsApp chat with a clear introductory message. Closing sales and answering specific inquiries remains the role of your internal team who knows your business best.",
+      "q5": "How soon can we expect the first inquiries?",
+      "a5": "Once campaigns go live, initial inquiries can arrive within the first few days. However, the Meta algorithm generally requires a 2-to-4 week learning phase to stabilize costs and deliver consistent performance.",
+      "q6": "Are Meta Pixel and Conversions API always included?",
+      "a6": "Their implementation depends on your website infrastructure and the agreed quote scope. For campaigns driving leads directly to WhatsApp or Meta Instant Forms, tracking is natively handled within Meta.",
+      "q7": "Is there a long-term binding contract?",
+      "a7": "Our plans are flexible with no mandatory long-term lock-in. We recommend an initial 2-to-3 month period to allow sufficient algorithmic learning and creative optimization, with ongoing renewal based on your satisfaction."
+    },
+    "cta": {
+      "badge": "Take the Next Step",
+      "title": "Ready to turn social visibility into qualified quote requests?",
+      "subtitle": "Let's discuss your business, commercial targets, and determine the most cost-effective acquisition strategy for your market.",
+      "btn_quote": "Request a Free Quote",
+      "btn_whatsapp": "Chat on WhatsApp",
+      "reassurance_1": "Response within 24 business hours",
+      "reassurance_2": "Customized quote with zero obligation",
+      "reassurance_3": "Complimentary preliminary market review"
+    },
+    "whatsapp": {
+      "button_text": "Chat on WhatsApp"
+    }
+  },
+  "home_v2": {
+    "hero": {
+      "eyebrow": "YOUR DIGITAL GROWTH PARTNER",
+      "title": "Digital Communication Agency in Morocco",
+      "title_line1": "Digital Communication",
+      "title_line2": "Agency in Morocco",
+      "subtitle": "Strategy, creativity and digital solutions to help your business grow.",
+      "description": "WEZO MEDIA helps businesses in Morocco with their digital strategy, communication, advertising campaigns and online growth.",
+      "cta_primary": "Request a Quote",
+      "cta_secondary": "Explore our services",
+      "trust_row": "Strategy • Advertising • Web • Content • Automation",
+      "whatsapp_label": "Chat on WhatsApp",
+      "whatsapp_badge": "Direct Chat",
+      "badge_location": "Casablanca, Morocco",
+      "badge_trust": "Corporate B2B Solutions",
+      "ecosystem": {
+        "core_title": "WEZO CORE",
+        "core_badge": "GROWTH ENGINE",
+        "core_sub": "Digital Growth Engine",
+        "pillar_strategy": "Digital Strategy",
+        "pillar_strategy_sub": "Consulting & Growth",
+        "pillar_ads": "Advertising & Acquisition",
+        "pillar_ads_sub": "Meta & Google Ads",
+        "pillar_web": "Websites & E-Commerce",
+        "pillar_web_sub": "High Conversion",
+        "pillar_branding": "Branding & Content",
+        "pillar_branding_sub": "Visual Identity & Media",
+        "pillar_automation": "AI & Automation",
+        "pillar_automation_sub": "WhatsApp & CRM Workflows",
+        "pillar_analytics": "Analytics & Optimization",
+        "pillar_analytics_sub": "Performance & ROI"
+      }
+    },
+    "challenges": {
+      "badge": "YOUR CHALLENGES, OUR SOLUTIONS",
+      "title": "Your Challenges. Our Solutions.",
+      "subtitle": "We turn your digital obstacles into concrete actions to grow your business.",
+      "label_problem": "The issue:",
+      "label_solution": "WEZO solution:",
+      "c1_title": "Lack of Visibility",
+      "c1_problem": "Your online presence does not yet reflect the true value of your business.",
+      "c1_solution": "Brand identity & digital visibility.",
+      "c1_tag": "Authority & Reach",
+      "c2_title": "Ineffective Advertising",
+      "c2_problem": "Your campaigns generate clicks, but very few commercial opportunities.",
+      "c2_solution": "Advertising strategy & targeted acquisition.",
+      "c2_tag": "Acquisition & ROAS",
+      "c3_title": "Lost or Untracked Leads",
+      "c3_problem": "Sales inquiries arrive without sufficiently structured commercial follow-up.",
+      "c3_solution": "CRM, sales follow-up & automation.",
+      "c3_tag": "Conversion & Speed"
+    },
+    "expertises": {
+      "badge": "OUR 6 CORE PILLARS",
+      "title": "Our Digital Expertise Pillars",
+      "subtitle": "Integrated, coordinated solutions designed to build a solid brand and drive business growth in Morocco.",
+      "view_catalog": "View Full Catalog",
+      "explore_service": "Learn More",
+      "preselect_quote": "Dedicated Quote",
+      "cta_bottom_title": "Have a specific project in mind?",
+      "cta_bottom_subtitle": "Get a clear, transparent, and tailor-made commercial proposal for your business without obligation.",
+      "cta_bottom_btn": "Request a Custom Quote",
+      "items": {
+        "marketing": {
+          "title": "Digital Marketing & Advertising",
+          "category": "Growth & Acquisition",
+          "desc": "Digital strategy and Meta & Google Ads campaigns tailored to your goals to expand your visibility and commercial opportunities."
+        },
+        "web": {
+          "title": "Websites & E-Commerce",
+          "category": "Funnels & Conversion",
+          "desc": "Professional websites, landing pages, and online stores designed to present your business and drive conversion."
+        },
+        "video": {
+          "title": "Content Creation & Video",
+          "category": "Creative & Engagement",
+          "desc": "Commercial videos, Reels, and visual assets to showcase your brand and capture your audience's attention."
+        },
+        "branding": {
+          "title": "Branding & Visual Identity",
+          "category": "Corporate Branding",
+          "desc": "Brand identity, logos, and graphic assets to build a consistent and professional company image."
+        },
+        "automation": {
+          "title": "WhatsApp Automation & CRM",
+          "category": "Lead Management",
+          "desc": "Chat automation and sales follow-up workflows to improve responsiveness and reduce missed sales opportunities."
+        },
+        "production": {
+          "title": "Audiovisual Production",
+          "category": "Studio & Audio",
+          "desc": "Shoots organization, sound recording, voice-over, and audiovisual production tailored to your project requirements."
+        }
+      }
+    },
+    "method": {
+      "badge": "PROVEN METHODOLOGY",
+      "title": "Our 4-Step Working Methodology",
+      "subtitle": "From initial diagnosis to continuous optimization: a structured roadmap ensuring maximum impact and consistency.",
+      "steps": {
+        "step1": {
+          "num": "01",
+          "title": "Diagnosis & Audit",
+          "desc": "In-depth review of your business model, offerings, competitor landscape, and identifying critical communication gaps."
+        },
+        "step2": {
+          "num": "02",
+          "title": "Strategy & Roadmap",
+          "desc": "Clarifying value propositions, selecting high-yield acquisition channels, and planning an actionable roadmap."
+        },
+        "step3": {
+          "num": "03",
+          "title": "Execution & Launch",
+          "desc": "Engineering digital assets (web, video, design, campaigns) and deploying precision analytics tracking."
+        },
+        "step4": {
+          "num": "04",
+          "title": "Tracking & Optimization",
+          "desc": "Analyzing live performance data, iterating creative angles, and optimizing to maximize commercial return."
+        }
+      }
+    },
+    "realisations": {
+      "badge": "PROVEN WORK",
+      "title": "Recent Projects & Case Deliverables",
+      "subtitle": "A verified selection of digital interventions delivered for businesses and brands across Morocco.",
+      "view_all": "View Full Portfolio",
+      "view_project": "Explore Project"
+    },
+    "tiers": {
+      "badge": "TAILORED COLLABORATION",
+      "title": "Engagement Models Built for Your Business",
+      "subtitle": "We tailor our scope to your business stage, commercial targets, and available resources.",
+      "disclaimer": "Exact scope and deliverables are defined in a custom commercial proposal. Advertising budgets are paid directly to ad platforms (Meta, Google) and are strictly separate from agency management fees.",
+      "cta": "Request a Proposal",
+      "t1": {
+        "name": "Digital Foundation Launch",
+        "tag": "Startups & Launching Brands",
+        "desc": "Ideal for new businesses establishing a solid, professional, and trustworthy digital presence.",
+        "features": [
+          "Complete brand identity & visual guidelines",
+          "Modern high-speed corporate website or landing page",
+          "Official social media channels setup and branding",
+          "Direct WhatsApp contact pipeline integration",
+          "Clearly defined scope matching initial launch priorities"
+        ]
+      },
+      "t2": {
+        "name": "Monthly Marketing Partnership",
+        "tag": "Established Businesses",
+        "popular": "Most Requested",
+        "desc": "For established companies seeking continuous management of their brand visibility, creative assets, and paid acquisition.",
+        "features": [
+          "Paid ads management and continuous optimization (Meta / Google)",
+          "Regular commercial content creation (Reels & visual assets)",
+          "Ongoing A/B testing of messaging and creative hooks",
+          "Periodic review calls and transparent reporting",
+          "Ad spend managed directly with platforms separately from fees"
+        ]
+      },
+      "t3": {
+        "name": "Custom Digital Solutions",
+        "tag": "Enterprises & Complex Scopes",
+        "desc": "For organizations requiring custom web platforms, advanced CRM automations, or full-scale media productions.",
+        "features": [
+          "Bespoke technical specifications and scoped discovery",
+          "Custom web engineering and third-party API integrations",
+          "Advanced multi-step WhatsApp & CRM lead funnels",
+          "Full commercial video and audiovisual production",
+          "Dedicated strategic advisory and project coordination"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Let's talk about your next project.",
+      "subtitle": "Looking to elevate your digital presence, modernize your systems, or generate qualified commercial leads? Our team will analyze your needs and build a tailored action plan.",
+      "btn_primary": "Request a Tailored Proposal",
+      "btn_whatsapp": "Chat with Us on WhatsApp",
+      "reassurance": "Confidential project review • No initial commitment"
+    }
   }
 }

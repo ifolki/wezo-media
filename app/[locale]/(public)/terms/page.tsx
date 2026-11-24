@@ -25,11 +25,43 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
     ? 'Conditions générales d’utilisation du site et des prestations de services de l’agence digitale WEZO MEDIA au Maroc.'
     : 'Terms and conditions governing the use of WEZO MEDIA website and digital agency services in Morocco.'
 
+  const canonicalUrl = `https://www.wezomedia.ma/${locale}/terms`
+
   return {
-    title,
+    title: {
+      absolute: `${title} | WEZO MEDIA`,
+    },
     description,
     alternates: {
-      canonical: `https://www.wezomedia.ma/${locale}/terms`,
+      canonical: canonicalUrl,
+      languages: {
+        ar: 'https://www.wezomedia.ma/ar/terms',
+        fr: 'https://www.wezomedia.ma/fr/terms',
+        en: 'https://www.wezomedia.ma/en/terms',
+        'x-default': 'https://www.wezomedia.ma/ar/terms',
+      },
+    },
+    openGraph: {
+      title: `${title} | WEZO MEDIA`,
+      description,
+      url: canonicalUrl,
+      siteName: 'WEZO MEDIA',
+      locale: isAr ? 'ar_MA' : isFr ? 'fr_MA' : 'en_US',
+      type: 'website',
+      images: [
+        {
+          url: 'https://www.wezomedia.ma/assets/agency/office.jpg',
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | WEZO MEDIA`,
+      description,
+      images: ['https://www.wezomedia.ma/assets/agency/office.jpg'],
     },
   }
 }
@@ -37,6 +69,53 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
 export default function TermsPage({ params: { locale } }: Props) {
   const isAr = locale === 'ar'
   const isFr = locale === 'fr'
+
+  const title = isAr
+    ? 'الشروط والأحكام العامة للخدمات'
+    : isFr
+    ? 'Conditions Générales d’Utilisation et de Services'
+    : 'Terms & Conditions of Service'
+
+  const description = isAr
+    ? 'الشروط والأحكام العامة لاستخدام موقع وخدمات وكالة WEZO MEDIA للحلول الرقمية والتسويق والإنتاج الفني في المغرب.'
+    : isFr
+    ? 'Conditions générales d’utilisation du site et des prestations de services de l’agence digitale WEZO MEDIA au Maroc.'
+    : 'Terms and conditions governing the use of WEZO MEDIA website and digital agency services in Morocco.'
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: isAr ? 'الرئيسية' : isFr ? 'Accueil' : 'Home',
+        item: `https://www.wezomedia.ma/${locale}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: title,
+        item: `https://www.wezomedia.ma/${locale}/terms`,
+      },
+    ],
+  }
+
+  const webPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `https://www.wezomedia.ma/${locale}/terms#webpage`,
+    url: `https://www.wezomedia.ma/${locale}/terms`,
+    name: `${title} | WEZO MEDIA`,
+    description,
+    inLanguage: locale,
+    isPartOf: {
+      '@type': 'WebSite',
+      '@id': 'https://www.wezomedia.ma/#website',
+      name: 'WEZO MEDIA',
+      url: 'https://www.wezomedia.ma',
+    },
+  }
 
   const sections = isAr
     ? [
@@ -156,6 +235,14 @@ export default function TermsPage({ params: { locale } }: Props) {
 
   return (
     <main className="min-h-screen pb-24 bg-brand-dark text-start">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+      />
       <section className="py-20 bg-brand-secondary/30 border-b border-white/5">
         <div className="container-custom text-center space-y-6 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-xs font-black uppercase tracking-widest">

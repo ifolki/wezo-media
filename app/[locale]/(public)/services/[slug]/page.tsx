@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation'
 import { CheckCircle2, ArrowLeft, ArrowRight, AlertCircle, Layers } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/navigation'
-import { getStaticServiceDetails, staticServicesData } from '@/lib/config/services'
+import { siteConfig } from '@/lib/config/site'
+import { getStaticServiceDetails, staticServicesData, StaticWorkStep, StaticPackage } from '@/lib/config/services'
 import { getServiceBySlugWithHierarchy } from '@/lib/services-hierarchy'
 
 interface Props {
@@ -136,8 +137,77 @@ export default async function ServiceDetailsPage({ params: { locale, slug } }: P
 
   const ArrowIcon = isAr ? ArrowLeft : ArrowRight
 
+  const currentUrl = `https://www.wezomedia.ma/${locale}/services/${normalizedSlug}`
+  const serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${currentUrl}#service`,
+    name: serviceTitle,
+    description: serviceDesc,
+    serviceType: categoryName,
+    url: currentUrl,
+    provider: {
+      '@type': ['LocalBusiness', 'ProfessionalService'],
+      '@id': 'https://www.wezomedia.ma/#organization',
+      name: 'WEZO MEDIA',
+      url: 'https://www.wezomedia.ma',
+      logo: 'https://www.wezomedia.ma/assets/logo/logo-normal.png',
+      telephone: siteConfig.phoneInternational,
+      email: siteConfig.email,
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: 'Morocco',
+    },
+    hasOfferCatalog: deliverablesList.length > 0 ? {
+      '@type': 'OfferCatalog',
+      name: serviceTitle,
+      itemListElement: deliverablesList.map((item, idx) => ({
+        '@type': 'Offer',
+        position: idx + 1,
+        itemOffered: {
+          '@type': 'Service',
+          name: item,
+        },
+      })),
+    } : undefined,
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: isAr ? 'الرئيسية' : isFr ? 'Accueil' : 'Home',
+        item: `https://www.wezomedia.ma/${locale}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: isAr ? 'الخدمات' : isFr ? 'Services' : 'Services',
+        item: `https://www.wezomedia.ma/${locale}/services`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: serviceTitle,
+        item: currentUrl,
+      },
+    ],
+  }
+
   return (
     <main className="min-h-screen pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       {/* Hero */}
       <section className="relative py-28 overflow-hidden bg-brand-secondary/30 text-start">
         {dbOffline && (
@@ -311,7 +381,7 @@ export default async function ServiceDetailsPage({ params: { locale, slug } }: P
                   : 'Work Process and Execution Steps'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {staticDetails.workSteps.map((step: any, idx: number) => (
+              {staticDetails.workSteps.map((step: StaticWorkStep, idx: number) => (
                 <div
                   key={idx}
                   className="glass-card p-10 rounded-[2.5rem] border-white/5 space-y-6 relative overflow-hidden h-full"
@@ -349,7 +419,7 @@ export default async function ServiceDetailsPage({ params: { locale, slug } }: P
                   : 'Suggested Project Scopes'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center max-w-4xl mx-auto">
-              {staticDetails.packages.map((pack: any, idx: number) => {
+              {staticDetails.packages.map((pack: StaticPackage, idx: number) => {
                 const featuresList = getLocalized(
                   pack.featuresAr.join('||'),
                   pack.featuresEn.join('||'),

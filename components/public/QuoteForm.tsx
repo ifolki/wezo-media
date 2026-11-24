@@ -26,7 +26,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 import { siteConfig } from '@/lib/config/site'
-import { trackFormStart, trackLeadSubmit, trackWhatsAppClick } from '@/lib/analytics/gtag'
+import { trackFormStart, trackGenerateLead, trackWhatsAppClick } from '@/lib/analytics/gtag'
 
 export interface QuoteServiceItem {
   id: string
@@ -284,18 +284,22 @@ export default function QuoteForm({ services }: QuoteFormProps) {
 
       if (res.ok) {
         const data = await res.json()
-        setCreatedLead(data.lead)
-        setSubmitted(true)
+        if (data && data.success && data.lead && data.lead.id) {
+          setCreatedLead(data.lead)
+          setSubmitted(true)
 
-        trackLeadSubmit({
-          formId: 'quote_form',
-          serviceInterest: serviceName,
-          budgetTier: `${formData.budgetMin || 0}-${formData.budgetMax || 0}`,
-          pagePath: '/get-quote',
-          locale,
-        })
+          trackGenerateLead({
+            formId: 'quote_form',
+            serviceInterest: serviceName,
+            budgetTier: `${formData.budgetMin || 0}-${formData.budgetMax || 0}`,
+            pagePath: '/get-quote',
+            locale,
+          })
 
-        toast.success(isAr ? 'تم إرسال طلبك بنجاح!' : 'Your request has been sent successfully!')
+          toast.success(isAr ? 'تم إرسال طلبك بنجاح!' : 'Your request has been sent successfully!')
+        } else {
+          toast.error(data?.message || (isAr ? 'حدث خطأ أثناء معالجة الطلب' : 'An error occurred while processing your request'))
+        }
       } else {
         const errorData = await res.json()
         if (res.status === 503 || errorData.code === 'DATABASE_UNAVAILABLE') {
