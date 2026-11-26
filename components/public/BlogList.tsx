@@ -44,6 +44,13 @@ export default function BlogList() {
     return post.excerptEn
   }
 
+  const filteredPosts = posts.filter((post) => {
+    if (locale === 'ar') return Boolean(post.titleAr && post.titleAr.trim().length > 0 && post.contentAr && post.contentAr.trim().length > 0)
+    if (locale === 'fr') return Boolean(post.titleFr && post.titleFr.trim().length > 0 && post.contentFr && post.contentFr.trim().length > 0)
+    if (locale === 'en') return Boolean(post.titleEn && post.titleEn.trim().length > 0 && post.contentEn && post.contentEn.trim().length > 0)
+    return true
+  })
+
   if (!mounted) return null
   if (loading) {
     return (
@@ -54,7 +61,7 @@ export default function BlogList() {
     )
   }
 
-  if (posts.length === 0) {
+  if (filteredPosts.length === 0) {
     return (
       <div className="text-center py-20 glass-card rounded-[3rem] border-white/5">
         <p className="text-2xl font-bold text-text-muted">{t('no_posts')}</p>
@@ -64,7 +71,7 @@ export default function BlogList() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-      {posts.map((post, i) => (
+      {filteredPosts.map((post, i) => (
         <motion.div
           key={post.id}
           initial={{ opacity: 0, y: 30 }}
