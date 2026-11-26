@@ -4,6 +4,8 @@ import { portfolioProjects } from '@/lib/config/portfolio'
 import { staticServicesData } from '@/lib/config/services'
 import { staticSolutionsData } from '@/lib/config/solutions'
 
+export const dynamic = 'force-dynamic'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.wezomedia.ma'
   const locales = ['ar', 'fr', 'en']
