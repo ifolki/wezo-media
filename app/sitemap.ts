@@ -18,6 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/services/marketing',
     '/solutions',
     '/portfolio',
+    '/portfolio/videos',
     '/artists',
     '/blog',
     '/contact',

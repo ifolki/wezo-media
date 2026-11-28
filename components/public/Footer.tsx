@@ -129,12 +129,24 @@ export default function Footer() {
               {isAr ? 'الشركة' : isFr ? 'L’Agence' : 'Company'}
             </h4>
             <ul className="space-y-4">
-              {(['about', 'portfolio', 'services', 'artists', 'blog', 'contact', 'get_quote'] as const).map((item) => {
-                const route = item === 'get_quote' ? '/get-quote' : `/${item}`
+              {(['about', 'portfolio', 'showcase', 'services', 'artists', 'blog', 'contact', 'get_quote'] as const).map((item) => {
+                const route = item === 'get_quote' ? '/get-quote' : item === 'showcase' ? '/portfolio/videos' : `/${item}`
                 return (
                   <li key={item}>
-                    <Link href={route} className="text-text-muted hover:text-brand-orange transition-colors text-lg capitalize">
+                    <Link
+                      href={route}
+                      className={
+                        item === 'showcase'
+                          ? 'text-brand-orange hover:text-white transition-colors text-lg font-bold flex items-center gap-2'
+                          : 'text-text-muted hover:text-brand-orange transition-colors text-lg capitalize'
+                      }
+                    >
                       {t(item)}
+                      {item === 'showcase' && (
+                        <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-brand-orange/20 text-brand-orange border border-brand-orange/30">
+                          VIDEO
+                        </span>
+                      )}
                     </Link>
                   </li>
                 )

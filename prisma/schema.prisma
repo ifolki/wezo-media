@@ -355,3 +355,88 @@ enum LeadStatus {
   LOST
   ARCHIVED
 }
+
+// ==================== WEZO SHOWCASE (Video Portfolio) ====================
+
+model ShowcaseVideo {
+  id              String         @id @default(cuid())
+  slug            String         @unique
+  clientName      String
+  projectName     String?
+  projectSlug     String?
+  titleAr         String?
+  titleFr         String?
+  titleEn         String?
+  descAr          String?
+  descFr          String?
+  descEn          String?
+  provider        VideoProvider  @default(YOUTUBE)
+  videoUrl        String
+  videoId         String
+  thumbnailUrl    String?
+  customThumbnail String?
+  aspectRatio     VideoAspect    @default(VERTICAL_9_16)
+  order           Int            @default(0)
+  isFeatured      Boolean        @default(false)
+  status          VideoStatus    @default(DRAFT)
+  viewsCount      Int            @default(0)
+  completionDate  DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  // Relationships
+  categoryId      String?
+  category        VideoCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  sectorId        String?
+  sector          VideoSector?   @relation(fields: [sectorId], references: [id], onDelete: SetNull)
+
+  @@unique([provider, videoId])
+  @@index([status, order])
+  @@index([projectSlug])
+  @@index([categoryId])
+  @@index([sectorId])
+}
+
+model VideoCategory {
+  id        String          @id @default(cuid())
+  slug      String          @unique
+  nameAr    String
+  nameFr    String
+  nameEn    String
+  order     Int             @default(0)
+  isActive  Boolean         @default(true)
+  createdAt DateTime        @default(now())
+  videos    ShowcaseVideo[]
+}
+
+model VideoSector {
+  id        String          @id @default(cuid())
+  slug      String          @unique
+  nameAr    String
+  nameFr    String
+  nameEn    String
+  order     Int             @default(0)
+  isActive  Boolean         @default(true)
+  createdAt DateTime        @default(now())
+  videos    ShowcaseVideo[]
+}
+
+enum VideoProvider {
+  YOUTUBE
+  GOOGLE_DRIVE
+  EXTERNAL
+  BUNNY
+  VIMEO
+}
+
+enum VideoAspect {
+  VERTICAL_9_16
+  HORIZONTAL_16_9
+}
+
+enum VideoStatus {
+  DRAFT
+  PUBLISHED
+  HIDDEN
+}
+

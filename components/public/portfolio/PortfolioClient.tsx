@@ -120,6 +120,27 @@ export default function PortfolioClient() {
 
       <section className="py-16">
         <div className="container mx-auto px-4 text-center">
+          {/* WEZO SHOWCASE Video Banner */}
+          <div className="mb-14 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-brand-dark via-[#12131F] to-brand-dark border border-brand-orange/30 shadow-[0_12px_40px_rgba(255,107,43,0.1)] flex flex-col md:flex-row items-center justify-between gap-6 text-start">
+            <div className="space-y-2">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-brand-orange text-white">
+                NOUVEAU — WEZO SHOWCASE
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black text-white">
+                {isAr ? 'معرض الفيديوهات الإعلانية والسمعية البصرية' : isFr ? 'Découvrez notre Showcase de Vidéos Publicitaires' : 'Explore our Video Ads Showcase'}
+              </h2>
+              <p className="text-sm sm:text-base text-text-muted max-w-xl">
+                {isAr ? 'شاهد مقاطع 9:16 و 16:9 الإعلانية، فيديوهات UGC، والإنتاج الترويجي الموجه للحملات التسويقية في المغرب.' : isFr ? 'Explorez nos formats 9:16 et 16:9 : Reels Meta Ads, vidéos UGC, spots produits et productions audiovisuelles.' : 'Explore our 9:16 and 16:9 vertical reels, UGC ads, and audiovisual productions.'}
+              </p>
+            </div>
+            <Link href="/portfolio/videos" className="shrink-0 w-full md:w-auto">
+              <Button className="w-full md:w-auto gradient-brand text-white font-black px-7 py-6 rounded-2xl shadow-lg hover:shadow-brand-orange/30 transition-all flex items-center justify-center gap-2.5">
+                <Play className="w-4 h-4 fill-current" />
+                <span>{isAr ? 'مشاهدة المعرض' : isFr ? 'Ouvrir WEZO SHOWCASE' : 'Open WEZO SHOWCASE'}</span>
+              </Button>
+            </Link>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project) => {

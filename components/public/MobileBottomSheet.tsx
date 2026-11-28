@@ -6,7 +6,7 @@ import { Link } from '@/navigation'
 import { useTranslations, useLocale } from 'next-intl'
 import { useSession, signOut } from 'next-auth/react'
 import { 
-  X, Info, BookOpen, Mail, TrendingUp, 
+  X, Info, BookOpen, Mail, TrendingUp, Play,
   LogIn, LayoutDashboard, LogOut, Shield, FileText 
 } from 'lucide-react'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
@@ -176,6 +176,20 @@ export default function MobileBottomSheet({ isOpen, onClose, triggerRef }: Botto
               >
                 <TrendingUp className="w-5 h-5 text-brand-orange" />
                 <span>{isAr ? 'دراسات الحالة' : 'Case Studies'}</span>
+              </Link>
+
+              <Link
+                href="/portfolio/videos"
+                onClick={onClose}
+                className="col-span-2 flex items-center justify-between p-4 rounded-2xl border border-brand-orange/30 bg-brand-orange/10 hover:bg-brand-orange/20 transition-all font-bold text-sm text-start"
+              >
+                <div className="flex items-center gap-3">
+                  <Play className="w-4 h-4 text-brand-orange fill-current" />
+                  <span className="text-white font-black">{isAr ? 'معرض الفيديوهات (WEZO SHOWCASE)' : 'WEZO SHOWCASE — Vidéos'}</span>
+                </div>
+                <span className="text-[10px] uppercase font-black px-2 py-0.5 rounded-full bg-brand-orange text-white">
+                  9:16
+                </span>
               </Link>
             </div>
 
